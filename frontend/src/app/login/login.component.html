@@ -1,0 +1,5 @@
+<form (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
+    <input type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
+    <input type="password" name="contrasena" [(ngModel)]="usuario.contrasena" required>
+    <button type="submit">Enviar</button>
+</form>
