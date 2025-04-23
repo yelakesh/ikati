@@ -16,3 +16,5 @@ async function loginController(req, res) {
     res.status(500).json({ mensaje: 'Error del servidor' });
   }
 }
+
+module.exports = { loginController };
