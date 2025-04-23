@@ -1,5 +1,21 @@
-<form (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
-    <input type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
-    <input type="password" name="contrasena" [(ngModel)]="usuario.contrasena" required>
-    <button type="submit">Enviar</button>
-</form>
+<div class="container d-flex justify-content-center align-items-center mt-5">
+
+    <form class="w-100 rounded shadow bg-white p-4"
+            style="max-width: 300px;" (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
+
+            <h3 class="mb-4 text-center">Login</h3>
+
+        <div class="mb-3">
+            <label class="form-label" for="nombre">Nombre</label>
+            <input class="form-control" type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="contrasena">Contraseña</label>
+            <input class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena" required>
+
+        </div>
+        <button class="btn btn-primary mt-3 w-100" type="submit">Enviar</button>
+    </form>
+
+</div>
