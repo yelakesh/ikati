@@ -1,0 +1,102 @@
+<div class="container d-flex justify-content-center align-items-center mt-5">
+
+    <form class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;" #miFormulario="ngForm">
+
+        <table>
+            <tr>
+                <td>
+                    <label class="form-label" for="usuario">Usuario</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="usuario" [(ngModel)]="usuario.usuario" required>
+
+                </td>
+                <td>
+                    <button (click)="completarDatosUsuario()" *ngIf="modo !== 'registrar'">Buscar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="contrasena">Contraseña</label>
+
+                </td>
+                <td>
+                    <input class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena"
+                        required>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="form-label" for="nombre">Nombre</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="apellido1">Primer apellido</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="apellido1" [(ngModel)]="usuario.apellido1" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="apellido2">Segundo apellido</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="apellido2" [(ngModel)]="usuario.apellido2">
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="email">Email</label>
+                </td>
+                <td>
+                    <input class="form-control" type="email" name="email" [(ngModel)]="usuario.email" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="telefono">Telefono</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="telefono" [(ngModel)]="usuario.telefono" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="cp">Código postal</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="cp" [(ngModel)]="usuario.cp" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="direccion">Dirección</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="direccion" [(ngModel)]="usuario.direccion" required>
+
+                </td>
+            </tr>
+
+
+        </table>
+
+        <button class="btn btn-primary mt-3 w-100" *ngIf="modo === 'registrar'" onclick="registrar()">Registrar</button>
+        <button class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" onclick="modificar()">Modificar</button>
+        <button class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" onclick="eliminar()">Eliminar</button>
+
+    </form>
+
+</div>

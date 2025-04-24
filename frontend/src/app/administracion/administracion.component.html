@@ -1,1 +1,54 @@
-<p>administracion works!</p>
+<div class="container-fluid">
+    <div class="row">
+      <!-- Columna lateral -->
+      <div class="col-2 bg-light p-3 border-end">
+  
+        <div id="productos" class="mb-3">
+          <h5>Productos</h5>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('productos', 'registrar')">Añadir</button>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('productos', 'modificar')">Modificar</button>
+          <button class="btn btn-outline-danger btn-sm mb-1" (click)="mostrarFormulario('productos', 'eliminar')">Eliminar</button>
+        </div>
+  
+        <div id="usuario" class="mb-3">
+          <h5>Usuario</h5>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('usuario', 'registrar')">Añadir</button>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('usuario', 'modificar')">Modificar</button>
+          <button class="btn btn-outline-danger btn-sm mb-1" (click)="mostrarFormulario('usuario', 'eliminar')">Eliminar</button>
+        </div>
+  
+        <div id="administrador" class="mb-3">
+          <h5>Administrador</h5>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('admin', 'registrar')">Añadir</button>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('admin', 'modificar')">Modificar</button>
+          <button class="btn btn-outline-danger btn-sm mb-1" (click)="mostrarFormulario('admin', 'eliminar')">Eliminar</button>
+        </div>
+  
+        <div id="servicio" class="mb-3">
+          <h5>Servicio</h5>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('servicio', 'registrar')">Añadir</button>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('servicio', 'modificar')">Modificar</button>
+          <button class="btn btn-outline-danger btn-sm mb-1" (click)="mostrarFormulario('servicio', 'eliminar')">Eliminar</button>
+        </div>
+  
+        <div id="cupon" class="mb-3">
+          <h5>Cupon</h5>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('cupon', 'registrar')">Añadir</button>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('cupon', 'modificar')">Modificar</button>
+          <button class="btn btn-outline-danger btn-sm mb-1" (click)="mostrarFormulario('cupon', 'eliminar')">Eliminar</button>
+        </div>
+  
+      </div>
+  
+      <!-- Zona de formularios -->
+      <div class="col-9 p-3">
+        
+        <app-usuario-form *ngIf="formularioVisible === 'usuario'"[modo]="modo"></app-usuario-form>
+        <!--<app-producto-form *ngIf="formularioVisible === 'productos'" [modo]="modo"></app-producto-form>
+        <app-admin-form *ngIf="formularioVisible === 'admin'"[modo]="modo"></app-admin-form>
+        <app-servicio-form *ngIf="formularioVisible === 'servicio'"[modo]="modo"></app-servicio-form>
+        <app-cupon-form *ngIf="formularioVisible === 'cupon'"[modo]="modo"></app-cupon-form>-->
+      </div>
+    </div>
+  </div>
+  
