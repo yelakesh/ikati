@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { UsuarioService } from '../servicios/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario-form',
@@ -12,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class UsuarioFormComponent {
 
-  
+  constructor(private router: Router, private usuarioService: UsuarioService) {}
   usuario = {
     usuario:'',
     contrasena: '',
@@ -28,20 +30,26 @@ export class UsuarioFormComponent {
   @Input() modo: string = '';
 
   completarDatosUsuario() {
-    let nuevoUsuario={
-      usuario:'A',
-    contrasena: 'B',
-    nombre: 'C',
-    apellido1:'D',
-    apellido2:'E',
-    email:'F',
-    telefono:'G',
-    cp:'H',
-    direccion:'I'
+    
+    this.usuarioService.obtenerPorUsuario(this.usuario.usuario).subscribe({
+      next: (respuesta) => {
+        if (respuesta.mensaje === 'Usuario encontrado') {
+          this.usuario.nombre=respuesta.usuario.nombre
+          this.usuario.contrasena=respuesta.usuario.contrasena
+          this.usuario.apellido1=respuesta.usuario.apellido1
+          this.usuario.apellido2=respuesta.usuario.apellido2
+          this.usuario.email=respuesta.usuario.email
+          this.usuario.telefono=respuesta.usuario.telefono
+          this.usuario.cp=respuesta.usuario.cp
+          this.usuario.direccion=respuesta.usuario.direccion
 
-    }
 
-    this.usuario=nuevoUsuario
+        }
+      },
+      error: () => {
+        alert('Usuario no encontrado');
+      }
+    });
 
 }
   ngOnChanges(changes: SimpleChanges) {

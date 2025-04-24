@@ -13,4 +13,12 @@ export class UsuarioService {
   login(usuario: string, contrasena: string): Observable<any> {
     return this.http.post(this.apiUrl+"/login", { usuario, contrasena });
   }
+
+  obtenerPorUsuario(usuario: string): Observable<any>{
+    return this.http.post(this.apiUrl+"/obtenerPorUsuario", { usuario});
+
+  }
+
+
+
 }
