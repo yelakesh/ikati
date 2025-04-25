@@ -73,11 +73,11 @@ export class UsuarioFormComponent {
 
   registrar() {
     this.usuarioService.registrar(this.usuario).subscribe({
-      next: () => {
-        console.log('Usuario registrado:');
-        alert('Registro registrado');
+      next: (respuesta) => {
+        alert(respuesta.mensaje);
       },
       error: (err) => {
+        console.log(err)
         alert(err.error.mensaje);
       }
     });

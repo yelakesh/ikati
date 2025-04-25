@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   
   usuario = {
-    nombre: '',
+    usuario: '',
     contrasena: ''
   };
 
@@ -24,13 +24,16 @@ export class LoginComponent {
 
 comprobarLogin(){
 
-  this.usuarioService.login(this.usuario.nombre, this.usuario.contrasena).subscribe({
+  this.usuarioService.login(this.usuario.usuario, this.usuario.contrasena).subscribe({
     next: (respuesta) => {
-      if (respuesta.mensaje === 'Login correcto') {
-        document.cookie="id_usuario="+respuesta.id
+      if (respuesta.ok) {      
+        
+        console.log(respuesta)
+
+        sessionStorage.setItem('usuario', JSON.stringify(respuesta.usuario))
         this.router.navigate(['']);
       } else {
-        alert('Usuario o contraseña incorrectos');
+        alert(respuesta.mensaje);
       }
     },
     error: (err) => {

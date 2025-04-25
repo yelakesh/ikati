@@ -7,13 +7,13 @@ async function loginController(req, res) {
     const resultado = await UsuarioModel.login(usuario, contrasena);
     
     if (resultado.length === 0) {
-      return res.status(401).json({ mensaje: 'Usuario o contraseña incorrectos' });
+      return res.json({ ok: false, mensaje: 'Usuario o contraseña incorrectos', usuario:{}});
     }
 
-    res.json({ mensaje: 'Login correcto', id: resultado[0].id });
+    res.json({ ok: true, mensaje: 'Login correcto', usuario:resultado[0]});
   } catch (err) {
     console.error('Error en login:', err);
-    res.status(500).json({ mensaje: 'Error del servidor' });
+    res.status(500).json({ ok: false, mensaje: 'Error del servidor', usuario:{}});
   }
 }
 
@@ -23,30 +23,32 @@ async function obtenerPorUsuarioController(req, res) {
     const resultado = await UsuarioModel.obtenerPorUsuario(usuario);
     
     if (resultado.length === 0) {
-      return res.status(401).json({ mensaje: 'Usuario no encontrado' });
+      return res.status(401).json({ok:false, mensaje: 'Usuario no encontrado', usuario:{}});
     }
 
-    res.json({mensaje:"Usuario encontrado", usuario: resultado[0]});
+    res.json({ ok: true, mensaje:"Usuario encontrado", usuario: resultado[0]});
   } catch (err) {
     console.error('Error en la busqueda del usuario:', err);
-    res.status(500).json({ mensaje: 'Error del servidor' });
+    res.status(500).json({ ok: false, mensaje: 'Error del servidor', usuario:{} });
   }
 }
 
 async function registrarController(req, res) {
   try {
-    const resultado = await UsuarioModel.registrar(req.body);
+    await UsuarioModel.registrar(req.body);
 
-    if (!resultado.ok) {
-      return res.status(409).json({ mensaje: resultado.mensaje });
-    }
+    res.json({ ok: true, mensaje: 'Se ha realizado el registro con éxito', usuario:{} });    
 
-    res.status(201).json({ mensaje: 'Usuario registrado', id: resultado.insertId });
   } catch (err) {
-    console.error('Error en el registro del usuario:', err);
-    res.status(500).json({ mensaje: 'Error del servidor' });
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(401).json({ ok: false, mensaje: 'Usuario o email ya registrado', usuario:{} });
+      }
+      console.error('Error en el registro del usuario:', err);
+      res.status(500).json({ ok: false,mensaje: 'Error del servidor',usuario:{} });
+    }
+    
   }
-}
+
 
 
 module.exports = { loginController,obtenerPorUsuarioController,registrarController };
