@@ -44,7 +44,17 @@ async function registrarController(req, res) {
 
   } catch (err) {
     if (err.code === 'ER_DUP_ENTRY') {
-      return res.status(401).json({ ok: false, mensaje: 'Usuario o email ya registrado', usuario: {} });
+      if (err.sqlMessage.includes("email")) {
+        return res.status(401).json({ ok: false, mensaje: 'Email ya registrado', usuario: {} })
+      }
+      if (err.sqlMessage.includes("usuario")) {
+        return res.status(401).json({ ok: false, mensaje: 'Usuario ya registrado', usuario: {} })
+      }
+      if (err.sqlMessage.includes("telefono")) {
+        return res.status(401).json({ ok: false, mensaje: 'Teléfono ya registrado', usuario: {} })
+      }
+     
+      
     }
     console.error('Error en el registro del usuario:', err);
     res.status(500).json({ ok: false, mensaje: 'Error del servidor', usuario: {} });
