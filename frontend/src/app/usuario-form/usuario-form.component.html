@@ -93,9 +93,9 @@
 
         </table>
 
-        <button class="btn btn-primary mt-3 w-100" *ngIf="modo === 'registrar'" onclick="registrar()">Registrar</button>
-        <button class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" onclick="modificar()">Modificar</button>
-        <button class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" onclick="eliminar()">Eliminar</button>
+        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'registrar'" (click)="registrar()">Registrar</button>
+        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
+        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>
 
     </form>
 

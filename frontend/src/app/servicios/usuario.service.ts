@@ -19,6 +19,11 @@ export class UsuarioService {
 
   }
 
+  registrar(usuario: object): Observable<any>{
+    return this.http.post(this.apiUrl+"/registrar", usuario);
+
+  }
+
 
 
 }

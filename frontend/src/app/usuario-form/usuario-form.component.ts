@@ -7,41 +7,42 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario-form',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './usuario-form.component.html',
   styleUrl: './usuario-form.component.css'
 })
 export class UsuarioFormComponent {
 
-  constructor(private router: Router, private usuarioService: UsuarioService) {}
+
+  constructor(private router: Router, private usuarioService: UsuarioService) { }
   usuario = {
-    usuario:'',
+    usuario: '',
     contrasena: '',
     nombre: '',
-    apellido1:'',
-    apellido2:'',
-    email:'',
-    telefono:'',
-    cp:'',
-    direccion:''
+    apellido1: '',
+    apellido2: '',
+    email: '',
+    telefono: '',
+    cp: '',
+    direccion: ''
 
   };
   @Input() modo: string = '';
 
   completarDatosUsuario() {
-    
+
     this.usuarioService.obtenerPorUsuario(this.usuario.usuario).subscribe({
       next: (respuesta) => {
         if (respuesta.mensaje === 'Usuario encontrado') {
-          this.usuario.nombre=respuesta.usuario.nombre
-          this.usuario.contrasena=respuesta.usuario.contrasena
-          this.usuario.apellido1=respuesta.usuario.apellido1
-          this.usuario.apellido2=respuesta.usuario.apellido2
-          this.usuario.email=respuesta.usuario.email
-          this.usuario.telefono=respuesta.usuario.telefono
-          this.usuario.cp=respuesta.usuario.cp
-          this.usuario.direccion=respuesta.usuario.direccion
+          this.usuario.nombre = respuesta.usuario.nombre
+          this.usuario.contrasena = respuesta.usuario.contrasena
+          this.usuario.apellido1 = respuesta.usuario.apellido1
+          this.usuario.apellido2 = respuesta.usuario.apellido2
+          this.usuario.email = respuesta.usuario.email
+          this.usuario.telefono = respuesta.usuario.telefono
+          this.usuario.cp = respuesta.usuario.cp
+          this.usuario.direccion = respuesta.usuario.direccion
 
 
         }
@@ -51,24 +52,43 @@ export class UsuarioFormComponent {
       }
     });
 
-}
+  }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['modo']) {
       this.usuario = {
-        usuario:'',
+        usuario: '',
         contrasena: '',
         nombre: '',
-        apellido1:'',
-        apellido2:'',
-        email:'',
-        telefono:'',
-        cp:'',
-        direccion:''
-    
+        apellido1: '',
+        apellido2: '',
+        email: '',
+        telefono: '',
+        cp: '',
+        direccion: ''
+
       };
 
     }
   }
 
-  
+  registrar() {
+    this.usuarioService.registrar(this.usuario).subscribe({
+      next: (respuesta) => {
+        console.log('Usuario registrado:', respuesta);
+        alert('Registro completado');
+      },
+      error: (err) => {
+        alert(err.error.mensaje);
+      }
+    });
+  }
+
+  eliminar() {
+    throw new Error('Method not implemented.');
+  }
+  modificar() {
+    throw new Error('Method not implemented.');
+  }
+
+
 }

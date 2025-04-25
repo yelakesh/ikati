@@ -33,6 +33,20 @@ async function obtenerPorUsuarioController(req, res) {
   }
 }
 
+async function registrarController(req, res) {
+  try {
+    const resultado = await UsuarioModel.registrar(req.body);
+
+    if (!resultado.ok) {
+      return res.status(409).json({ mensaje: resultado.mensaje });
+    }
+
+    res.status(201).json({ mensaje: 'Usuario registrado', id: resultado.insertId });
+  } catch (err) {
+    console.error('Error en el registro del usuario:', err);
+    res.status(500).json({ mensaje: 'Error del servidor' });
+  }
+}
 
 
-module.exports = { loginController,obtenerPorUsuarioController };
+module.exports = { loginController,obtenerPorUsuarioController,registrarController };
