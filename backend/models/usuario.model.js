@@ -30,16 +30,14 @@ async function login(usuario, contrasena) {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   
     try {
-      const [resultado] = await db.query(sql, [
-        nombre, apellido1, apellido2, usuario, contrasena, email, telefono, cp, direccion
-      ]);
+      const resultado = await db.query(sql, [nombre, apellido1, apellido2, usuario, contrasena, email, telefono, cp, direccion]);
       return { ok: true, insertId: resultado.insertId };
     } catch (err) {
 
       if (err.code === 'ER_DUP_ENTRY') {
         return { ok: false, mensaje: 'Usuario o email ya registrado' };
       }
-  
+      console.log(err)
       throw err;
     }
   }
