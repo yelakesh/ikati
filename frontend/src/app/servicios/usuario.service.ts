@@ -6,31 +6,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuarioService {
-  
   private apiUrl = 'http://localhost:3000/api/usuarios';
 
   constructor(private http: HttpClient) {}
 
-  login(objUsuario: object): Observable<any> {
-    return this.http.post(this.apiUrl+"/login", objUsuario);
+  login(usuario: string, contrasena: string): Observable<any> {
+    return this.http.post(this.apiUrl+"/login", { usuario, contrasena });
   }
 
-  obtenerPorUsuario(objUsuario: object): Observable<any>{
-    return this.http.post(this.apiUrl+"/obtenerPorUsuario", objUsuario);
-
-  }
-
-  registrar(objUsuario: object): Observable<any>{
-    return this.http.post(this.apiUrl+"/registrar", objUsuario);
+  obtenerPorUsuario(usuario: string): Observable<any>{
+    return this.http.post(this.apiUrl+"/obtenerPorUsuario", { usuario});
 
   }
 
-  eliminarPorUsuario(objUsuario:object):Observable<any> {
-  return this.http.post(this.apiUrl+"/eliminarPorUsuario", objUsuario);
-}
+  registrar(usuario: object): Observable<any>{
+    return this.http.post(this.apiUrl+"/registrar", usuario);
 
-  modificarPorUsuario(objUsuario: object):Observable<any> {
-  return this.http.post(this.apiUrl+"/modificarPorUsuario", objUsuario);
-}
+  }
+
+
 
 }

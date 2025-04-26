@@ -18,9 +18,9 @@ async function login(usuario, contrasena) {
     return resultados;
   }
 
-  async function modificarPorUsuario({nombre, apellido1, apellido2,usuario, contrasena, email, telefono, cp, direccion}) {
-    const sql = 'UPDATE usuarios set nombre=?, apellido1=?, apellido2=?, contrasena=?, email=?, telefono=?, cp=?, direccion=? WHERE usuario=?';
-    const resultados = await db.query(sql, [nombre, apellido1, apellido2, contrasena, email, telefono, cp, direccion,usuario]);
+  async function modificarPorUsuario(usuario) {
+    const sql = 'SELECT * FROM usuarios WHERE usuario=?';
+    const resultados = await db.query(sql, [usuario]);
     return resultados;
   }
 
@@ -33,12 +33,10 @@ async function login(usuario, contrasena) {
        
   }
 
-
 module.exports = {
   login,
   obtenerPorUsuario,
   eliminarPorUsuario,
   modificarPorUsuario,
-  registrar,
-  eliminarPorUsuario
+  registrar
 };

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-04-2025 a las 04:57:39
+-- Tiempo de generación: 23-04-2025 a las 20:08:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `ikati`
+-- Base de datos: `tienda`
 --
 
 -- --------------------------------------------------------
@@ -109,19 +109,6 @@ CREATE TABLE `cupones` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `filtro`
---
-
-CREATE TABLE `filtro` (
-  `id` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
-  `filtro` varchar(100) NOT NULL,
-  `valor` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `imagenes`
 --
 
@@ -179,6 +166,19 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `miniatura`, `activo`, `
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `propiedades`
+--
+
+CREATE TABLE `propiedades` (
+  `id` int(11) NOT NULL,
+  `id_variante` int(11) NOT NULL,
+  `nombre` varchar(200) NOT NULL,
+  `valor` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `servicios`
 --
 
@@ -211,13 +211,6 @@ CREATE TABLE `usuarios` (
   `direccion` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nombre`, `apellido1`, `apellido2`, `usuario`, `contrasena`, `email`, `telefono`, `cp`, `direccion`) VALUES
-(41, 'Juan', 'Lopez', 'Herrero', 'JLH', '123', 'JLH@gmail.com', '666666666', '28050', 'General Margallo');
-
 -- --------------------------------------------------------
 
 --
@@ -227,10 +220,7 @@ INSERT INTO `usuarios` (`id`, `nombre`, `apellido1`, `apellido2`, `usuario`, `co
 CREATE TABLE `variantes` (
   `id` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
-  `precio` decimal(8,2) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `nombre_variacion` varchar(100) NOT NULL,
-  `valor_variacion` varchar(100) NOT NULL
+  `precio` decimal(8,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -279,13 +269,6 @@ ALTER TABLE `cupones`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `filtro`
---
-ALTER TABLE `filtro`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_producto` (`id_producto`);
-
---
 -- Indices de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
@@ -298,6 +281,13 @@ ALTER TABLE `imagenes`
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
+-- Indices de la tabla `propiedades`
+--
+ALTER TABLE `propiedades`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_variante` (`id_variante`);
 
 --
 -- Indices de la tabla `servicios`
@@ -344,12 +334,6 @@ ALTER TABLE `cupones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `filtro`
---
-ALTER TABLE `filtro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
@@ -362,6 +346,12 @@ ALTER TABLE `productos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `propiedades`
+--
+ALTER TABLE `propiedades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
@@ -371,7 +361,7 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `variantes`
@@ -411,16 +401,16 @@ ALTER TABLE `compra_producto`
   ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `filtro`
---
-ALTER TABLE `filtro`
-  ADD CONSTRAINT `filtro_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
-
---
 -- Filtros para la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
   ADD CONSTRAINT `imagenes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `propiedades`
+--
+ALTER TABLE `propiedades`
+  ADD CONSTRAINT `propiedades_ibfk_1` FOREIGN KEY (`id_variante`) REFERENCES `variantes` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `variantes`

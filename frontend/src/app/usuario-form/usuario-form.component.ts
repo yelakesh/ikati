@@ -31,16 +31,8 @@ export class UsuarioFormComponent {
   @Input() modo: string = '';
 
   completarDatosUsuario() {
-    this.usuario.nombre = ""
-    this.usuario.contrasena = ""
-    this.usuario.apellido1 = ""
-    this.usuario.apellido2 = ""
-    this.usuario.email = ""
-    this.usuario.telefono = ""
-    this.usuario.cp = ""
-    this.usuario.direccion = ""
 
-    this.usuarioService.obtenerPorUsuario(this.usuario).subscribe({
+    this.usuarioService.obtenerPorUsuario(this.usuario.usuario).subscribe({
       next: (respuesta) => {
         if (respuesta.mensaje === 'Usuario encontrado') {
           this.usuario.nombre = respuesta.usuario.nombre
@@ -82,37 +74,20 @@ export class UsuarioFormComponent {
   registrar() {
     this.usuarioService.registrar(this.usuario).subscribe({
       next: (respuesta) => {
-        alert(respuesta.mensaje)
-      },
-      error: (err) => {
-        console.log(err)
-        alert(err.error.mensaje)
-      }
-    })
-  }
-
-  eliminar() {
-    this.usuarioService.eliminarPorUsuario(this.usuario).subscribe({
-      next: (respuesta) => {
         alert(respuesta.mensaje);
       },
       error: (err) => {
         console.log(err)
-        alert(err.error.mensaje)
+        alert(err.error.mensaje);
       }
-    })
+    });
+  }
 
+  eliminar() {
+    throw new Error('Method not implemented.');
   }
   modificar() {
-    this.usuarioService.modificarPorUsuario(this.usuario).subscribe({
-      next: (respuesta) => {
-        alert(respuesta.mensaje)
-      },
-      error: (err) => {
-        console.log(err)
-        alert(err.error.mensaje)
-      }
-    })
+    throw new Error('Method not implemented.');
   }
 
 
