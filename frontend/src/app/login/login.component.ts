@@ -24,7 +24,7 @@ export class LoginComponent {
 
 comprobarLogin(){
 
-  this.usuarioService.login(this.usuario.usuario, this.usuario.contrasena).subscribe({
+  this.usuarioService.login(this.usuario).subscribe({
     next: (respuesta) => {
       if (respuesta.ok) {      
         
