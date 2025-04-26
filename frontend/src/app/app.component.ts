@@ -5,7 +5,7 @@ import { AdministracionComponent } from "./administracion/administracion.compone
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AdministracionComponent],
+  imports: [RouterOutlet, AdministracionComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

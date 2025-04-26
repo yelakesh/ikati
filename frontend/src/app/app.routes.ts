@@ -6,6 +6,6 @@ import { AdministracionComponent } from './administracion/administracion.compone
 export const routes: Routes = [
     
     {path:"login", component:LoginComponent},
-    {path:"administracion", component:AdministracionComponent}
+    {path:"", component:AdministracionComponent}
 
 ];
