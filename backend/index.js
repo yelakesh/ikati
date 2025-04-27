@@ -7,9 +7,11 @@ app.use(cors());
 app.use(express.json()); 
 
 const usuarioRoutes = require('./routes/usuario.routes');
+const cuponesRoutes= require('./routes/cupon.routes');
 
 
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/cupones', cuponesRoutes);
 
 
 app.listen(puerto, () => {

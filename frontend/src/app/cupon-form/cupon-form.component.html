@@ -1,1 +1,97 @@
-<p>cupon-form works!</p>
+<div class="container d-flex justify-content-center align-items-center mt-5">
+
+    <form class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;" #miFormulario="ngForm">
+
+        <table>
+            <tr>
+                <td>
+                    <label class="form-label" for="codigo">Código</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="codigo" [(ngModel)]="cupon.codigo" required>
+
+                </td>
+                <td>
+                    <!--<button (click)="completarDatosUsuario()" *ngIf="modo !== 'registrar'">Buscar</button>-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <label class="form-label">¿Activado?</label>
+                </td>
+                <td>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="activo"
+                      id="activoSi"
+                      [value]="1"
+                      [(ngModel)]="cupon.activo"
+                      required
+                    >
+                    <label class="form-check-label" for="activoSi">Sí</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="activo"
+                      id="activoNo"
+                      [value]="0"
+                      [(ngModel)]="cupon.activo"
+                      required
+                    >
+                    <label class="form-check-label" for="activoNo">No</label>
+                  </div>
+                </td>
+              </tr>
+              
+
+            <tr>
+                <td>
+                    <label class="form-label" for="descuento">Descuento</label>
+                </td>
+                <td>
+                    <input class="form-control" type="number" name="descuento" [(ngModel)]="cupon.descuento" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="tipoDto">Tipo de descuento</label>
+                </td>
+                <td>
+                    <select name="tipoDto" class="form-control" [(ngModel)]="cupon.tipo_descuento" required>
+                        <option [ngValue]="''" disabled selected>Selecciona opción</option>
+                        <option *ngFor="let tipo of tiposDescuento" [ngValue]="tipo.valor">{{tipo.texto}}
+
+                        </option>
+                    </select>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="fechaFin">Fecha Fin</label>
+                </td>
+                <td>
+                    <input class="form-control" type="date" name="fechaFin" [(ngModel)]="cupon.fecha_expiracion">
+
+                </td>
+            </tr>
+            
+
+
+        </table>
+
+        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'nuevoCupon'"
+            (click)="nuevoCupon()">Nuevo Cupón</button>
+        <!--<button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'"
+            (click)="modificar()">Modificar</button>
+        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'"
+            (click)="eliminar()">Eliminar</button>-->
+
+    </form>
+
+</div>

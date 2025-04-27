@@ -33,7 +33,7 @@
   
         <div id="cupon" class="mb-3">
           <h5>Cupon</h5>
-          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('cupon', 'registrar')">Añadir</button>
+          <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('cupon', 'nuevoCupon')">Añadir</button>
           <button class="btn btn-outline-primary btn-sm me-1 mb-1" (click)="mostrarFormulario('cupon', 'modificar')">Modificar</button>
           <button class="btn btn-outline-danger btn-sm mb-1" (click)="mostrarFormulario('cupon', 'eliminar')">Eliminar</button>
         </div>
@@ -44,10 +44,11 @@
       <div class="col-9 p-3">
         
         <app-usuario-form *ngIf="formularioVisible === 'usuario'"[modo]="modo"></app-usuario-form>
+        <app-cupon-form *ngIf="formularioVisible === 'cupon'"[modo]="modo"></app-cupon-form>
         <!--<app-producto-form *ngIf="formularioVisible === 'productos'" [modo]="modo"></app-producto-form>
         <app-admin-form *ngIf="formularioVisible === 'admin'"[modo]="modo"></app-admin-form>
         <app-servicio-form *ngIf="formularioVisible === 'servicio'"[modo]="modo"></app-servicio-form>
-        <app-cupon-form *ngIf="formularioVisible === 'cupon'"[modo]="modo"></app-cupon-form>-->
+        -->
       </div>
     </div>
   </div>
