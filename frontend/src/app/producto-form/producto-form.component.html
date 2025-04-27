@@ -1,1 +1,200 @@
-<p>producto-form works!</p>
+<div class="container d-flex justify-content-center align-items-center mt-5">
+
+    <form class="w-100 rounded shadow bg-white p-4" style="max-width:fit-content;" #miFormulario="ngForm">
+
+        <table>
+            <tr>
+                <td>
+                    <label class="form-label" for="producto">Producto</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="nombre" [(ngModel)]="producto.nombre" required>
+
+                </td>
+                <td>
+                    <!--<button (click)="completarDatosProducto()" *ngIf="modo !== 'registrar'">Buscar</button>-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="descripcion">Descripcion(HTML)</label>
+
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="descripcion" [(ngModel)]="producto.descripcion"
+                        required>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="form-label" for="miniatura">Miniatura</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="miniatura" [(ngModel)]="producto.miniatura" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="animal">Animal</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="animal" [(ngModel)]="producto.animal" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="marca">Marca</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="marca" [(ngModel)]="producto.marca">
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="tipo">Tipo de producto</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="tipo" [(ngModel)]="producto.tipo" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="descuento">Descuento</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="descuento" [(ngModel)]="producto.descuento" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="valoracion">Valoración</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="valoracion" [(ngModel)]="producto.valoracion"
+                        required>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>Variantes</h3>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="form-label" for="nombre_variacion">Distinción (peso, talla...)</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="nombre_variacion"
+                        [(ngModel)]="nombre_variacion" required>
+
+                </td>
+            </tr>
+
+            <tr *ngFor="let v of variantes; let i = index">
+                <td>
+                    <label class="form-label" for="valor_variacion">Valor</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="valor_variacion{{i}}"
+                        [(ngModel)]="v.valor_variacion" required>
+                </td>
+
+                <td>
+                    <label class="form-label" for="precio">Precio</label>
+                </td>
+                <td>
+                    <input class="form-control" type="number" name="precio{{i}}" [(ngModel)]="v.precio" required>
+                </td>
+
+                <td>
+                    <label class="form-label" for="stock">Stock</label>
+                </td>
+                <td>
+                    <input class="form-control" type="number" name="stock{{i}}" [(ngModel)]="v.stock" required>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="eliminarVariante(i)">Eliminar</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="nuevaVariante()">Añadir filtro</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h3>Filtros</h3>
+                </td>
+            </tr>
+
+            <tr *ngFor="let f of filtros; let i = index">
+                <td>
+                    <label class="form-label" for="filtro">Filtro</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="filtro{{i}}" [(ngModel)]="f.filtro" required>
+
+                </td>
+
+                <td>
+                    <label class="form-label" for="valor">Valor</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="valor{{i}}" [(ngModel)]="f.valor" required>
+
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="eliminarFiltro(i)">Eliminar</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="nuevoFiltro()">Añadir filtro</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>Imagenes</h3>
+                </td>
+            </tr>
+
+            <tr *ngFor="let img of imagenes; let i = index">
+                <td>
+                    <label class="form-label" for="url">URL</label>
+                </td>
+                <td colspan="4">
+                    <input class="form-control" type="text" name="url{{i}}" [(ngModel)]="img.url" required>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="eliminarImagen(i)">Eliminar</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="nuevaImagen()">Añadir imagen</button>
+                </td>
+            </tr>
+
+
+
+        </table>
+        <!--<button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'registrar'" (click)="registrar()">Registrar</button>
+        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
+        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>-->
+
+    </form>
+
+</div>
