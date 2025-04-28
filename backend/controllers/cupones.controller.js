@@ -24,7 +24,5 @@ async function nuevoCuponController(req, res) {
         mensaje: 'Error del servidor',
         cupon:{}
     })
-
-    module.exports = { nuevoCuponController };
-
 }
+module.exports = { nuevoCuponController };
