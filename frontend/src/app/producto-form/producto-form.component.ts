@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { UsuarioService } from '../servicios/usuario.service';
 import { Router } from '@angular/router';
+import { ProductoService } from '../servicios/producto.service'
 
 
 @Component({
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class ProductoFormComponent {
 
-  constructor(private router: Router, private usuarioService: UsuarioService) { }
+  constructor(private router: Router, private productoService: ProductoService) { }
 
   producto = {
     nombre: '',
@@ -25,19 +25,19 @@ export class ProductoFormComponent {
     marca: '',
     tipo: '',
     descuento: '',
-    valoracion: '',
+    valoracion: ''
 
   }
 
-  nombre_variacion=''
+  nombre_variacion = ''
 
   variantes = [
     {
-    valor_variacion: '',
-    precio: '',
-    stock: ''
-  }
-]
+      valor_variacion: '',
+      precio: '',
+      stock: ''
+    }
+  ]
 
 
   imagenes = [{
@@ -60,14 +60,14 @@ export class ProductoFormComponent {
   }
 
   nuevaImagen() {
-    this.imagenes.push({ url: ''});
+    this.imagenes.push({ url: '' });
   }
 
   eliminarImagen(i: number) {
-    this.imagenes.splice(i,1)
-      }
+    this.imagenes.splice(i, 1)
+  }
   nuevaVariante() {
-    this.variantes.push( {
+    this.variantes.push({
       valor_variacion: '',
       precio: '',
       stock: ''
@@ -75,99 +75,103 @@ export class ProductoFormComponent {
   }
 
   eliminarVariante(i: number) {
-    this.variantes.splice(i,1)
-      }
+    this.variantes.splice(i, 1)
+  }
 
 
 
 
   @Input() modo: string = '';
 
-  /*
-    completarDatosProducto() {
-      this.usuario.nombre = ""
-      this.usuario.contrasena = ""
-      this.usuario.apellido1 = ""
-      this.usuario.apellido2 = ""
-      this.usuario.email = ""
-      this.usuario.telefono = ""
-      this.usuario.cp = ""
-      this.usuario.direccion = ""
-  
-      this.usuarioService.obtenerPorUsuario(this.usuario).subscribe({
-        next: (respuesta) => {
-          if (respuesta.mensaje === 'Usuario encontrado') {
-            this.usuario.nombre = respuesta.usuario.nombre
-            this.usuario.contrasena = respuesta.usuario.contrasena
-            this.usuario.apellido1 = respuesta.usuario.apellido1
-            this.usuario.apellido2 = respuesta.usuario.apellido2
-            this.usuario.email = respuesta.usuario.email
-            this.usuario.telefono = respuesta.usuario.telefono
-            this.usuario.cp = respuesta.usuario.cp
-            this.usuario.direccion = respuesta.usuario.direccion
-  
-  
-          }
-        },
-        error: () => {
-          alert('Usuario no encontrado');
+
+  completarDatosProducto() {
+    this.producto.descripcion = '',
+      this.producto.miniatura = '',
+      this.producto.animal = '',
+      this.producto.marca = '',
+      this.producto.tipo = '',
+      this.producto.descuento = '',
+      this.producto.valoracion = ''
+
+    this.productoService.obtenerProductoCompleto(this.producto).subscribe({
+      next: (respuesta) => {
+        if (respuesta.ok) {
+          this.producto.descripcion = respuesta.producto.descripcion,
+            this.producto.miniatura = respuesta.producto.miniatura,
+            this.producto.animal = respuesta.producto.animal,
+            this.producto.marca = respuesta.producto.marca,
+            this.producto.tipo = respuesta.producto.tipo,
+            this.producto.descuento = respuesta.producto.descuento,
+            this.producto.valoracion = respuesta.producto.valoracion
+
+          this.nombre_variacion = respuesta.nombre_variacion
+          this.variantes = respuesta.variantes
+          this.filtros = respuesta.filtros
+          this.imagenes = respuesta.imagenes
+
         }
-      });
-  
-    }
-    ngOnChanges(changes: SimpleChanges) {
-      if (changes['modo']) {
-        this.usuario = {
-          usuario: '',
-          contrasena: '',
-          nombre: '',
-          apellido1: '',
-          apellido2: '',
-          email: '',
-          telefono: '',
-          cp: '',
-          direccion: ''
-  
-        };
-  
+      },
+      error: () => {
+        alert('Producto no encontrado');
       }
+    })
+
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['modo']) {
+      this.producto = {
+        nombre: '',
+        descripcion: '',
+        miniatura: '',
+        animal: '',
+        marca: '',
+        tipo: '',
+        descuento: '',
+        valoracion: ''
+
+      };
+
     }
-  
-    registrar() {
-      this.usuarioService.registrar(this.usuario).subscribe({
-        next: (respuesta) => {
-          alert(respuesta.mensaje)
-        },
-        error: (err) => {
-          console.log(err)
-          alert(err.error.mensaje)
-        }
-      })
-    }
-  
-    eliminar() {
-      this.usuarioService.eliminarPorUsuario(this.usuario).subscribe({
-        next: (respuesta) => {
-          alert(respuesta.mensaje);
-        },
-        error: (err) => {
-          console.log(err)
-          alert(err.error.mensaje)
-        }
-      })
-  
-    }
-    modificar() {
-      this.usuarioService.modificarPorUsuario(this.usuario).subscribe({
-        next: (respuesta) => {
-          alert(respuesta.mensaje)
-        },
-        error: (err) => {
-          console.log(err)
-          alert(err.error.mensaje)
-        }
-      })
-    }
-  */
+  }
+
+  registrarProductoCompleto() {
+
+    let objProducto = Object.assign(this.producto,{nombre_variacion:this.nombre_variacion}, { filtros: this.filtros }, { variantes: this.variantes }, { imagenes: this.imagenes })
+
+    this.productoService.registrarProductoCompleto(objProducto).subscribe({
+      next: (respuesta) => {
+        alert(respuesta.mensaje)
+      },
+      error: (err) => {
+        console.log(err)
+        alert(err.error.mensaje)
+      }
+    })
+  }
+
+  /*eliminar() {
+    this.usuarioService.eliminarPorUsuario(this.usuario).subscribe({
+      next: (respuesta) => {
+        alert(respuesta.mensaje);
+      },
+      error: (err) => {
+        console.log(err)
+        alert(err.error.mensaje)
+      }
+    })
+ 
+  }
+  modificar() {
+    this.usuarioService.modificarPorUsuario(this.usuario).subscribe({
+      next: (respuesta) => {
+        alert(respuesta.mensaje)
+      },
+      error: (err) => {
+        console.log(err)
+        alert(err.error.mensaje)
+      }
+    })
+  }
+*/
 
 }
