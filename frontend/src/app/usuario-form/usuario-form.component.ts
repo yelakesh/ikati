@@ -42,7 +42,7 @@ export class UsuarioFormComponent {
 
     this.usuarioService.obtenerPorUsuario(this.usuario).subscribe({
       next: (respuesta) => {
-        if (respuesta.mensaje === 'Usuario encontrado') {
+        if (respuesta.ok) {
           this.usuario.nombre = respuesta.usuario.nombre
           this.usuario.contrasena = respuesta.usuario.contrasena
           this.usuario.apellido1 = respuesta.usuario.apellido1

@@ -83,7 +83,7 @@ async function modificarPorUsuarioController(req, res) {
   try {
     const resultado = await UsuarioModel.modificarPorUsuario(objUsuario);
     if (resultado.affectedRows == 0) {
-      return res.status(404).json({ ok: true, mensaje: 'Usuario no encontrado', usuario: {} })
+      return res.status(404).json({ ok: false, mensaje: 'Usuario no encontrado', usuario: {} })
     }
     res.json({ ok: true, mensaje: 'Se ha realizado la modificación con éxito', usuario: {} });
 

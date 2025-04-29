@@ -12,7 +12,7 @@
 
                 </td>
                 <td>
-                    <!--<button (click)="completarDatosUsuario()" *ngIf="modo !== 'registrar'">Buscar</button>-->
+                    <button (click)="completarDatosCupon()" *ngIf="modo !== 'registrar'">Buscar</button>
                 </td>
             </tr>
             <tr>
@@ -85,12 +85,12 @@
 
         </table>
 
-        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'nuevoCupon'"
+        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'"
             (click)="nuevoCupon()">Nuevo Cupón</button>
-        <!--<button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'"
+        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'"
             (click)="modificar()">Modificar</button>
         <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'"
-            (click)="eliminar()">Eliminar</button>-->
+            (click)="eliminar()">Eliminar</button>
 
     </form>
 

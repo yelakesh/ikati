@@ -14,4 +14,16 @@ export class CuponService {
     crearCupon(objCupon: object): Observable<any>{
         return this.http.post(this.apiUrl+"/nuevoCupon",objCupon)
     }
+
+    modificarPorCodigo(objCupon: object): Observable<any>{
+      return this.http.post(this.apiUrl+"/modificarPorCodigo", objCupon)
+    }
+
+    obtenerPorCodigo(objCupon:object): Observable<any>{
+      return this.http.post(this.apiUrl+'/obtenerPorCodigo', objCupon)
+    }
+
+    eliminarPorCodigo(objCupon:object): Observable<any>{
+      return this.http.post(this.apiUrl+'/eliminarPorCodigo', objCupon)
+    }
 }
