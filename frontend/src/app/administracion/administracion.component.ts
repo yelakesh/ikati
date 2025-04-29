@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { UsuarioFormComponent } from '../usuario-form/usuario-form.component';
 import { CuponFormComponent } from '../cupon-form/cupon-form.component';
+import { ServicioFormComponent} from '../servicio-form/servicio-form.component';
 import { ProductoFormComponent } from '../producto-form/producto-form.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-administracion',
-  imports: [UsuarioFormComponent,CommonModule, CuponFormComponent,ProductoFormComponent],
+  imports: [UsuarioFormComponent,CommonModule, CuponFormComponent,ServicioFormComponent, ProductoFormComponent],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'
 })

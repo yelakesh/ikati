@@ -13,6 +13,14 @@ $danger:       #F28482; // Coral rosado (Botones)
 $light:        #F6F1EB; // Beige claro (fondo)
 $dark:         #2C6E7F; // Azul petróleo (también como dark)
 
+$font-family-heading: 'Poppins', Arial, sans-serif;// Fuente para títulos
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family-heading;
+  }
+
+$font-family-base: 'Nunito', Arial, sans-serif; //Fuente de Ikati
+
 
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/bootstrap";

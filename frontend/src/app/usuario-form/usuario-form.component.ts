@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { UsuarioService } from '../servicios/usuario.service';
+import { UsuarioService } from '../services/usuario.service';
 import { Router } from '@angular/router';
 
 @Component({

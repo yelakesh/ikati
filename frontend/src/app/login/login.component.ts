@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UsuarioService } from '../servicios/usuario.service';
+import { UsuarioService } from '../services/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 

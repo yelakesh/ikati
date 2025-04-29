@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ProductoService } from '../servicios/producto.service'
+import { ProductoService } from '../services/producto.service'
 
 
 @Component({

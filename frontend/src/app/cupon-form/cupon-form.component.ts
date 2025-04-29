@@ -2,7 +2,7 @@
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CuponService } from '../servicios/cupon.service';
+import { CuponService } from '../services/cupon.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, SimpleChanges } from '@angular/core';
 
@@ -34,7 +34,6 @@ export class CuponFormComponent {
     this.cupon.activo = 0
     this.cupon.descuento = 0
     this.cupon.tipo_descuento = ""
-    console.log(this.cupon.fecha_expiracion)
     this.cupon.fecha_expiracion = ''
 
 
@@ -48,7 +47,6 @@ export class CuponFormComponent {
           this.cupon.tipo_descuento = respuesta.cupon.tipo_descuento
           this.cupon.fecha_expiracion = respuesta.cupon.fecha_expiracion
 
-          console.log(respuesta.cupon.fecha_expiracion)
 
 
         }

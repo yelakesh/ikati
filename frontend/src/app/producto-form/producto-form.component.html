@@ -12,7 +12,7 @@
 
                 </td>
                 <td>
-                    <button (click)="completarDatosProducto()" *ngIf="modo !== 'registrar'">Buscar</button>
+                    <button class="btn btn-secondary"  (click)="completarDatosProducto()" *ngIf="modo !== 'registrar'">Buscar</button>
                 </td>
             </tr>
             <tr>
@@ -122,7 +122,7 @@
                     <input class="form-control" type="number" name="stock{{i}}" [(ngModel)]="v.stock" required>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="eliminarVariante(i)">Eliminar</button>
+                    <button type="button" class="btn btn-danger text-light mt-3 w-100" (click)="eliminarVariante(i)">Eliminar</button>
                 </td>
 
             </tr>
@@ -155,13 +155,13 @@
 
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="eliminarFiltro(i)">Eliminar</button>
+                    <button type="button" class="btn btn-danger text-light mt-3 w-100" (click)="eliminarFiltro(i)">Eliminar</button>
                 </td>
 
             </tr>
             <tr>
                 <td>
-                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="nuevoFiltro()">Añadir filtro</button>
+                    <button type="button" class="btn text-light btn-primary mt-3 w-100" (click)="nuevoFiltro()">Añadir filtro</button>
                 </td>
             </tr>
             <tr>
@@ -178,20 +178,20 @@
                     <input class="form-control" type="text" name="url{{i}}" [(ngModel)]="img.url" required>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="eliminarImagen(i)">Eliminar</button>
+                    <button type="button" class="btn btn-danger text-light mt-3 w-100" (click)="eliminarImagen(i)">Eliminar</button>
                 </td>
 
             </tr>
             <tr>
                 <td>
-                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="nuevaImagen()">Añadir imagen</button>
+                    <button type="button" class="btn text-light btn-primary mt-3 w-100" (click)="nuevaImagen()">Añadir imagen</button>
                 </td>
             </tr>
 
 
 
         </table>
-        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
+        <button type="button" class="btn btn-outline-danger mt-3 w-100" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
         <!--<button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
         <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>-->
 

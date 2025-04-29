@@ -1,1 +1,83 @@
-<p>servicio-form works!</p>
+<div class="container d-flex justify-content-center align-items-center mt-5">
+
+    <form class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;" #miFormulario="ngForm">
+
+        <h1 class="text-center text-primary mb-1">Servicio</h1>
+        <p class="text-center " *ngIf="modo === 'registrar'">Añade un servicio:</p>
+        <p class="text-center" *ngIf="modo === 'modificar'">Modifica un servicio:</p>
+        <p class="text-center" *ngIf="modo === 'eliminar'">Elimina un servicio:</p>
+
+        <table>
+            <tr>
+                <td>
+                    <label class="form-label" for="codigo">Nombre</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="codigo" [(ngModel)]="servicio.nombre" required>
+
+                </td>
+                <td>
+                    <button class="btn btn-secondary"  (click)="completarDatosServicio()" *ngIf="modo !== 'registrar'">Buscar</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="form-label" for="tipo">Tipo</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="tipo" [(ngModel)]="servicio.tipo" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="latitud">Latitud</label>
+                </td>
+                <td>
+                    <input class="form-control" type="number" name="latitud" [(ngModel)]="servicio.latitud" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="longitud">Longitud</label>
+                </td>
+                <td>
+                    <input class="form-control" type="number" name="longitud" [(ngModel)]="servicio.longitud" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="direccion">Dirección</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="direccion" [(ngModel)]="servicio.direccion" required>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="form-label" for="web">Web</label>
+                </td>
+                <td>
+                    <input class="form-control" type="text" name="web" [(ngModel)]="servicio.web" required>
+
+                </td>
+            </tr>
+
+
+
+        </table>
+
+        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'"
+            (click)="nuevoServicio()">Nuevo Servicio</button>
+        <!--<button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'"
+            (click)="modificar()">Modificar</button>
+        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'"
+            (click)="eliminar()">Eliminar</button>-->
+
+    </form>
+
+</div>
