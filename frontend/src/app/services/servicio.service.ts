@@ -7,23 +7,24 @@ import { Observable } from 'rxjs';
 })
 export class servicioService {
 
-    private apiUrl = "http://localhost:3000/api/servicio";
+  private apiUrl = "http://localhost:3000/api/servicio";
 
-    constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) { }
 
-    crearServicio(objServicio: object): Observable<any>{
-        return this.http.post(this.apiUrl+"/nuevoServicio",objServicio)
-    }
+  crearServicio(objServicio: object): Observable<any> {
+    return this.http.post(this.apiUrl + "/nuevoServicio", objServicio)
+  }
+  modificarPorNombre(objServicio: object): Observable<any> {
+    return this.http.post(this.apiUrl + "/modificarPorNombre", objServicio)
+  }
+  obtenerPorNombre(objServicio: object): Observable<any> {
+    return this.http.post(this.apiUrl + "/obtenerPorNombre", objServicio)
+  }
+  eliminarPorNombre(objServicio:object): Observable<any>{
+    return this.http.post(this.apiUrl+'/eliminarPorNombre', objServicio)
 
-    /*modificarPorCodigo(objServicio: object): Observable<any>{
-      return this.http.post(this.apiUrl+"/modificarPorCodigo", objServicio)
-    }
+  
 
-    obtenerPorCodigo(objServicio:object): Observable<any>{
-      return this.http.post(this.apiUrl+'/obtenerPorCodigo', objServicio)
-    }
-
-    eliminarPorCodigo(objServicio:object): Observable<any>{
-      return this.http.post(this.apiUrl+'/eliminarPorCodigo', objServicio)
-    }*/
+  
+  }
 }

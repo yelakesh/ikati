@@ -2,7 +2,10 @@
 
     <form class="w-100 rounded shadow bg-white p-4" style="max-width:fit-content;" #miFormulario="ngForm">
 
+        <h3 class="text-center text-primary mb-3">Añadir Producto</h3>
         <table>
+
+            
             <tr>
                 <td>
                     <label class="form-label" for="producto">Producto</label>
@@ -191,7 +194,7 @@
 
 
         </table>
-        <button type="button" class="btn btn-outline-danger mt-3 w-100" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
         <!--<button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
         <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>-->
 

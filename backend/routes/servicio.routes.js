@@ -4,10 +4,12 @@ const router = express.Router();
 const servicioController = require('../controllers/servicio.controller');
 
 router.post('/nuevoServicio', servicioController.nuevoServicioController);
-/*
-router.post('/modificarPorCodigo', cuponesController.modificarPorCodigoController);
-router.post('/obtenerPorCodigo', cuponesController.obtenerPorCodigoController);
+router.post('/modificarPorNombre', servicioController.modificarPorNombreController);
+router.post('/obtenerPorNombre', servicioController.obtenerPorNombreController);
+router.post('/eliminarPorNombre', servicioController.eliminarPorNombreController);
 
-router.post('/eliminarPorCodigo', cuponesController.eliminarPorCodigoController);*/
+
+
+
 
 module.exports = router;

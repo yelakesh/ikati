@@ -3,7 +3,7 @@
     <form class="w-100 rounded shadow bg-white p-4"
             style="max-width: 300px;" (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
 
-            <h3 class="mb-4 text-center">Login</h3>
+            <h3 class=" text-primary mb-4 text-center fw-bolder">Login</h3>
 
         <div class="mb-3">
             <label class="form-label" for="usuario">Usuario</label>
@@ -15,7 +15,7 @@
             <input class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena" required>
 
         </div>
-        <button class="btn btn-primary mt-3 w-100" type="submit">Enviar</button>
+        <button class="text-light btn btn-danger mt-3 w-100" type="submit">Enviar</button>
     </form>
 
 </div>

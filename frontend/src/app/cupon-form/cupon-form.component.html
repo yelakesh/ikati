@@ -2,11 +2,11 @@
 
     <form class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;" #miFormulario="ngForm">
 
-        <h1 class="text-center text-primary mb-1">Cupón</h1>
+        <h3 class="text-center text-primary mb-1">Cupón</h3>
         <p class="text-center " *ngIf="modo === 'registrar'">Añade un cupón:</p>
         <p class="text-center" *ngIf="modo === 'modificar'">Modifica un cupón:</p>
         <p class="text-center" *ngIf="modo === 'eliminar'">Elimina un cupón:</p>
-        
+
         <table>
             <tr>
                 <td>
@@ -17,7 +17,7 @@
 
                 </td>
                 <td>
-                    <button class="btn btn-secondary"  (click)="completarDatosCupon()" *ngIf="modo !== 'registrar'">Buscar</button>
+                    <button class="btn btn-secondary shadow"  (click)="completarDatosCupon()" *ngIf="modo !== 'registrar'">Buscar</button>
                 </td>
             </tr>
             <tr>
@@ -90,11 +90,11 @@
 
         </table>
 
-        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'"
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'"
             (click)="nuevoCupon()">Nuevo Cupón</button>
-        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'"
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'"
             (click)="modificar()">Modificar</button>
-        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'"
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'"
             (click)="eliminar()">Eliminar</button>
 
     </form>

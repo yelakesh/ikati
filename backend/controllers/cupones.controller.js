@@ -69,7 +69,7 @@ async function modificarPorCodigoController(req,res){
         const resultado = await CuponModel.obtenerPorCodigo(objCupon.codigo);
     
         if (resultado.length === 0) {
-          return res.status(401).json({ ok: false, mensaje: 'Cupón no encontrado', cupon: {} });
+          return res.status(404).json({ ok: false, mensaje: 'Cupón no encontrado', cupon: {} });
         }
     
         res.json({ ok: true, mensaje: "Cupón encontrado", cupon: resultado[0] });

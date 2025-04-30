@@ -2,7 +2,7 @@
 
     <form class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;" #miFormulario="ngForm">
 
-        <h1 class="text-center text-primary mb-1">Usuario</h1>
+        <h3 class="text-center text-primary mb-1">Usuario</h3>
         <p class="text-center " *ngIf="modo === 'registrar'">Añade un usuario:</p>
         <p class="text-center" *ngIf="modo === 'modificar'">Modifica un usuario:</p>
         <p class="text-center" *ngIf="modo === 'eliminar'">Elimina un usuario:</p>
@@ -98,9 +98,9 @@
 
         </table>
 
-        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'" (click)="registrar()">Registrar</button>
-        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
-        <button type="button" class="btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'" (click)="registrar()">Registrar</button>
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>
 
     </form>
 

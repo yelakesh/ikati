@@ -13,13 +13,31 @@ $danger:       #F28482; // Coral rosado (Botones)
 $light:        #F6F1EB; // Beige claro (fondo)
 $dark:         #2C6E7F; // Azul petróleo (también como dark)
 
+//TITULOS
 $font-family-heading: 'Poppins', Arial, sans-serif;// Fuente para títulos
 
 h1, h2, h3, h4, h5, h6 {
     font-family: $font-family-heading;
   }
-
+//FUENTE PARA TODA LA WEB
 $font-family-base: 'Nunito', Arial, sans-serif; //Fuente de Ikati
+
+//ANIMACIONES BOTONES
+.grow-on-hover {
+    transition: transform 0.2s ease-in-out;
+    /* Opcional: para suavizar el cambio de tamaño */
+  }
+  
+  .grow-on-hover:hover {
+    transform: scale(1.02);
+    
+    /* Ajusta el valor para el tamaño deseado */
+  }
+
+  .btn-pressed:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12) inset;
+  }
 
 
 @import "../../node_modules/bootstrap/scss/variables";
