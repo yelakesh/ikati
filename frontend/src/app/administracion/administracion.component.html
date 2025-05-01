@@ -63,7 +63,7 @@
         <h5>Administrador</h5>
         <button class="btn btn-light btn-sm me-1 mb-1" (click)="mostrarFormulario('admin', 'registrar')">Añadir</button>
         <button class="btn btn-light btn-sm me-1 mb-1"
-          (click)="mostrarFormulario('admin', 'modificar')">Modificar</button>
+          (click)="mostrarFormulario('admin', 'modificar')">Cambiar Contraseña</button>
         <button class="btn btn-danger btn-sm mb-1" (click)="mostrarFormulario('admin', 'eliminar')">Eliminar</button>
       </div>
 
@@ -93,9 +93,9 @@
       <app-cupon-form *ngIf="formularioVisible === 'cupon'" [modo]="modo"></app-cupon-form>
       <app-producto-form *ngIf="formularioVisible === 'productos'" [modo]="modo"></app-producto-form>
       <app-servicio-form *ngIf="formularioVisible === 'servicio'" [modo]="modo"></app-servicio-form>
-      <!--<app-admin-form *ngIf="formularioVisible === 'admin'"[modo]="modo"></app-admin-form>
+      <app-admin-form *ngIf="formularioVisible === 'admin'"[modo]="modo"></app-admin-form>
         
-        -->
+        
     </div>
   </div>
 </div>

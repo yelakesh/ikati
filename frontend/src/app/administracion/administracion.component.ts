@@ -5,11 +5,12 @@ import { ServicioFormComponent} from '../servicio-form/servicio-form.component';
 import { ProductoFormComponent } from '../producto-form/producto-form.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { AdminFormComponent } from '../admin-form/admin-form.component';
 
 
 @Component({
   selector: 'app-administracion',
-  imports: [UsuarioFormComponent,CommonModule, CuponFormComponent,ServicioFormComponent, ProductoFormComponent, RouterLink],
+  imports: [AdminFormComponent, UsuarioFormComponent,CommonModule, CuponFormComponent,ServicioFormComponent, ProductoFormComponent, RouterLink],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'
 })
