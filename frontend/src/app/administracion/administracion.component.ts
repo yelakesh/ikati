@@ -4,10 +4,12 @@ import { CuponFormComponent } from '../cupon-form/cupon-form.component';
 import { ServicioFormComponent} from '../servicio-form/servicio-form.component';
 import { ProductoFormComponent } from '../producto-form/producto-form.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-administracion',
-  imports: [UsuarioFormComponent,CommonModule, CuponFormComponent,ServicioFormComponent, ProductoFormComponent],
+  imports: [UsuarioFormComponent,CommonModule, CuponFormComponent,ServicioFormComponent, ProductoFormComponent, RouterLink],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'
 })
