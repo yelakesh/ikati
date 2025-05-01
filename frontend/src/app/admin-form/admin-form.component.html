@@ -1,11 +1,12 @@
 <div class="container d-flex justify-content-center align-items-center mt-5">
 
-    <form *ngIf="modo === 'registrar'" class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;" #miFormulario="ngForm">
+    <form *ngIf="modo === 'registrar'" class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;"
+        #miFormulario="ngForm">
 
         <h3 class="text-center text-primary mb-1">Admin</h3>
-        <p class="text-center " >Añade un administrador:</p>
-        
-        
+        <p class="text-center ">Añade un administrador:</p>
+
+
         <table>
             <tr>
                 <td>
@@ -15,8 +16,7 @@
                     <input class="form-control" type="text" name="usuario" [(ngModel)]="admin.usuario" required>
 
                 </td>
-                <td>
-                </td>
+
             </tr>
             <tr>
                 <td>
@@ -29,33 +29,48 @@
                 </td>
             </tr>
 
-            
+
 
 
         </table>
 
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'" (click)="crearAdmin()">Registrar</button>
-        <!--<button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>-->
+        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'"
+            (click)="crearAdmin()">Registrar</button>
+        
+
 
     </form>
 
     <form *ngIf="modo === 'modificar'" class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;">
         <h3 class="text-center text-primary ">Cambiar contraseña</h3>
-        
+
         <div class="mb-3">
-          <label class="form-label" for="usuario">Usuario</label>
-          <input class="form-control" type="text" name="usuario" [(ngModel)]="admin.usuario" required>
+            <label class="form-label" for="usuario">Usuario</label>
+            <input class="form-control" type="text" name="usuario" [(ngModel)]="admin.usuario" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="passActual">Contraseña actual</label>
-          <input class="form-control" type="password" name="passActual" [(ngModel)]="admin.antigua" required>
+            <label class="form-label" for="passActual">Contraseña actual</label>
+            <input class="form-control" type="password" name="passActual" [(ngModel)]="admin.antigua" required>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="passNueva">Nueva contraseña</label>
-          <input class="form-control" type="password" name="passNueva" [(ngModel)]="admin.nueva" required>
+            <label class="form-label" for="passNueva">Nueva contraseña</label>
+            <input class="form-control" type="password" name="passNueva" [(ngModel)]="admin.nueva" required>
         </div>
-        <button type="button" class="btn btn-danger text-light shadow mt-3 w-100" (click)="cambiarPassword()">Cambiar contraseña</button>
-      </form>
+        <button type="button" class="btn btn-danger text-light shadow mt-3 w-100" (click)="cambiarPassword()">Cambiar
+            contraseña</button>
+    </form>
+
+    <form *ngIf="modo === 'eliminar'" class="w-100 rounded shadow bg-white p-4" style="max-width: 300px;">
+        <h3 class="text-center text-primary ">Eliminar admin</h3>
+        <p class="text-center" >Introduce el usuario del admin a eliminar</p>
+
+        <div class="mb-3">
+            <label class="form-label" for="usuario">Usuario</label>
+            <input class="form-control" type="text" name="usuario" [(ngModel)]="admin.usuario" required>
+        </div>
+
+        <button type="button" class="btn btn-danger text-light shadow mt-3 w-100" (click)="eliminarAdministrador()">Eliminar
+            </button>
+    </form>
 
 </div>

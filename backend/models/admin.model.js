@@ -12,8 +12,10 @@ async function loginAdmin(usuario, contrasena) {
     return resultados;
   }
 
-  async function eliminarPorUsuario(usuario) {
-    const sql = 'DELETE FROM usuarios WHERE usuario=?';
+
+
+  async function eliminarAdmin(usuario) {
+    const sql = 'DELETE FROM administradores WHERE usuario=?';
     const resultados = await db.query(sql, [usuario]);
     return resultados;
   }
@@ -37,8 +39,7 @@ async function loginAdmin(usuario, contrasena) {
 module.exports = {
   loginAdmin,
   comprobarPass,
-  eliminarPorUsuario,
+  eliminarAdmin,
   cambiarPass,
   crearAdmin,
-  
 };

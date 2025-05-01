@@ -69,12 +69,12 @@ async function crearAdminController(req, res) {
 
 }
 
-async function eliminarPoradminController(req, res) {
+async function eliminarAdminController(req, res) {
   const objAdmin = req.body
   try {
-    const resultado = await adminModel.eliminarPoradmin(objAdmin.admin);
+    const resultado = await adminModel.eliminarAdmin(objAdmin.usuario);
     if (resultado.affectedRows == 0) {
-      return res.status(404).json({ ok: true, mensaje: 'admin no encontrado', admin: {} })
+      return res.status(404).json({ ok: true, mensaje: 'Admin no encontrado', admin: {} })
     }
 
     res.json({ ok: true, mensaje: 'El admin se ha eliminado con éxito', admin: {} })
@@ -85,23 +85,6 @@ async function eliminarPoradminController(req, res) {
   }
 }
 
-async function modificarPoradminController(req, res) {
-  const objAdmin = req.body
-  try {
-    const resultado = await adminModel.modificarPoradmin(objAdmin);
-    if (resultado.affectedRows == 0) {
-      return res.status(404).json({ ok: false, mensaje: 'admin no encontrado', admin: {} })
-    }
-    res.json({ ok: true, mensaje: 'Se ha realizado la modificación con éxito', admin: {} });
 
-  } catch (err) {
-    if (err.code === 'ER_DUP_ENTRY') {
-      return res.status(401).json({ ok: false, mensaje: 'Email ya registrado', admin: {} });
-    }
-    console.error('Error en la modificación del admin:', err);
-    res.status(500).json({ ok: false, mensaje: 'Error del servidor', admin: {} });
-  }
 
-}
-
-module.exports = { loginController, comprobarPassController, crearAdminController, eliminarPoradminController, modificarPoradminController };
+module.exports = { loginController, comprobarPassController, crearAdminController, eliminarAdminController};

@@ -15,6 +15,7 @@ export class adminService {
     return this.http.post(this.apiUrl+"/login", objAdmin);
   }
 
+
   cambiarPass(objAdmin: object): Observable<any>{
     return this.http.post(this.apiUrl+"/cambiarPass", objAdmin);
 
@@ -25,12 +26,10 @@ export class adminService {
 
   }
 
-  eliminarPorUsuario(objAdmin:object):Observable<any> {
-  return this.http.post(this.apiUrl+"/eliminarPorUsuario", objAdmin);
+  eliminarAdmin(objAdmin:object):Observable<any> {
+  return this.http.post(this.apiUrl+"/eliminarAdmin", objAdmin);
 }
 
-  modificarPorUsuario(objAdmin: object):Observable<any> {
-  return this.http.post(this.apiUrl+"/modificarPorUsuario", objAdmin);
-}
+
 
 }

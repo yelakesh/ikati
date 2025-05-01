@@ -35,7 +35,31 @@ export class AdminFormComponent {
       }
     })
   }
+
+
+
+  eliminarAdministrador() {
+    if (window.confirm('¿Estás seguro que quieres eliminar a '+this.admin.usuario+'?')) {
+      this.adminService.eliminarAdmin(this.admin).subscribe({
+        next: (respuesta) => {
+          alert(respuesta.mensaje);
+        },
+        error: (err) => {
+          console.log(err)
+          alert(err.error.mensaje)
+        }
+      })
+    }
+    
+
+  }
   cambiarPassword() {
+
+    if (this.admin.antigua === this.admin.nueva) {
+      alert('La nueva contraseña no puede ser igual a la antigua');
+      return;
+    }
+
     this.adminService.cambiarPass(this.admin).subscribe({
       next: (respuesta) => {
         alert(respuesta.mensaje)
