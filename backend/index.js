@@ -10,12 +10,14 @@ const usuarioRoutes = require('./routes/usuario.routes');
 const cuponesRoutes= require('./routes/cupon.routes');
 const productosRoutes=require('./routes/producto.routes')
 const servicioRoutes=require('./routes/servicio.routes')
+const adminRoutes=require('./routes/admin.routes')
 
 
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/cupones', cuponesRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/servicio', servicioRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.listen(puerto, () => {
   console.log("Servidor corriendo en http://localhost:"+puerto);
