@@ -27,35 +27,55 @@ async function obtenerImagenesPorIdProducto(id_producto) {
 }
 
 async function registrarProducto(objProducto) {
-    const sql = `INSERT INTO productos 
-      (nombre, descripcion, miniatura, activo, animal, marca, tipo, descuento, precio, valoracion) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    const resultados = await db.query(sql, [objProducto.nombre, objProducto.descripcion, objProducto.miniatura, objProducto.activo, objProducto.animal, objProducto.marca, objProducto.tipo, objProducto.descuento, objProducto.precio, objProducto.valoracion]);
-    return resultados
+  const sql = `INSERT INTO productos 
+      (nombre, descripcion, activo, animal, marca, tipo, descuento, precio, valoracion) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const resultados = await db.query(sql, [
+    objProducto.nombre,
+    objProducto.descripcion,
+    objProducto.activo,
+    objProducto.animal,
+    objProducto.marca,
+    objProducto.tipo,
+    objProducto.descuento,
+    objProducto.precio,
+    objProducto.valoracion,
+  ]);
+  return resultados;
 }
 
-async function registrarFiltro( id_producto, {filtro, valor }) {
-    const sql = `INSERT INTO filtros 
+async function registrarFiltro(id_producto, { filtro, valor }) {
+  const sql = `INSERT INTO filtros 
       (id_producto,filtro,valor) 
       VALUES (?, ?, ?)`;
-    const resultados = await db.query(sql, [id_producto, filtro, valor]);
-    return resultados
+  const resultados = await db.query(sql, [id_producto, filtro, valor]);
+  return resultados;
 }
 
-async function registrarVariante( id_producto,nombre_variacion, {precio, stock, valor_variacion }) {
-    const sql = `INSERT INTO variantes 
+async function registrarVariante(
+  id_producto,
+  nombre_variacion,
+  { precio, stock, valor_variacion }
+) {
+  const sql = `INSERT INTO variantes 
       (id_producto,precio,stock,nombre_variacion,valor_variacion) 
       VALUES (?, ?, ?, ?, ?)`;
-    const resultados = await db.query(sql, [id_producto, precio, stock, nombre_variacion, valor_variacion]);
-    return resultados
+  const resultados = await db.query(sql, [
+    id_producto,
+    precio,
+    stock,
+    nombre_variacion,
+    valor_variacion,
+  ]);
+  return resultados;
 }
 
-async function registrarImagen(id_producto,{ url }) {
-    const sql = `INSERT INTO imagenes 
+async function registrarImagen(id_producto, url) {
+  const sql = `INSERT INTO imagenes 
       (id_producto,url) 
       VALUES (?, ?)`;
-    const resultados = await db.query(sql, [id_producto, url]);
-    return resultados
+  const resultados = await db.query(sql, [id_producto, url]);
+  return resultados;
 }
 
 /*

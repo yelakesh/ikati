@@ -18,7 +18,10 @@ app.use('/api/cupones', cuponesRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/servicio', servicioRoutes);
 app.use('/api/admin', adminRoutes);
-
+app.use(
+  "/imagenes/productos",
+  express.static("frontend/public/imagenes/productos")
+);
 app.listen(puerto, () => {
   console.log("Servidor corriendo en http://localhost:"+puerto);
 });
