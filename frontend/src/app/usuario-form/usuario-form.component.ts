@@ -25,7 +25,8 @@ export class UsuarioFormComponent {
     email: '',
     telefono: '',
     cp: '',
-    direccion: ''
+    direccion: '',
+    rol: ''
 
   };
   @Input() modo: string = '';
@@ -72,8 +73,8 @@ export class UsuarioFormComponent {
         email: '',
         telefono: '',
         cp: '',
-        direccion: ''
-
+        direccion: '',
+        rol: ''
       };
 
     }

@@ -19,13 +19,12 @@ export class LoginComponent {
   
   usuario = {
     usuario: '',
-    contrasena: ''
+    contrasena: '',
+    rol:''
+
   };
 
-  admin = {
-    usuario:'',
-    contrasena:''
-  }
+
 
   constructor(private router:Router,private usuarioService: UsuarioService, private adminService: adminService) {}
 

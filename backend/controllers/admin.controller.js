@@ -9,13 +9,13 @@ async function loginController(req, res) {
     const resultado = await adminModel.loginAdmin(objAdmin.usuario, objAdmin.contrasena);
 
     if (resultado.length === 0) {
-      return res.json({ ok: false, mensaje: 'Usuario o contraseña incorrectos', admin: {} });
+      return res.json({ ok: false, mensaje: 'Usuario o contraseña incorrectos', usuario: {} });
     }
 
-    res.json({ ok: true, mensaje: 'Login correcto', admin: resultado[0] });
+    res.json({ ok: true, mensaje: 'Login correcto', usuario: {usuario: objAdmin.usuario, contrasena: objAdmin.contrasena, rol: 'admin'} });
   } catch (err) {
     console.error('Error en login:', err);
-    res.status(500).json({ ok: false, mensaje: 'Error del servidor', admin: {} });
+    res.status(500).json({ ok: false, mensaje: 'Error del servidor', usuario: {} });
   }
 }
 
