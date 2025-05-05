@@ -20,4 +20,11 @@ export class ProductoService {
   registrarProductoCompleto(formData: object): Observable<any> {
     return this.http.post(this.apiUrl + '/registrarProductoCompleto', formData);
   }
+  modificarProducto(formData: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/modificarProducto', formData);
+  }
+
+  eliminarProducto(producto: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/eliminarProducto', producto);
+  }
 }

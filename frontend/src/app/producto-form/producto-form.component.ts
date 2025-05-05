@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  Input,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -126,18 +120,25 @@ export class ProductoFormComponent {
           this.filtros = respuesta.filtros;
 
           for (const imagen of respuesta.imagenes) {
-            fetch('http://localhost:4200/imagenes/productos/' + imagen.url)
-              .then((response) => response.blob())
-              .then(async (blob) => {
-                const file = new File([blob], imagen.url, {
-                  type: blob.type,
+            if (imagen.url) {
+              fetch('http://localhost:4200/imagenes/productos/' + imagen.url)
+                .then((response) => response.blob())
+                .then(async (blob) => {
+                  const file = new File([blob], imagen.url, {
+                    type: blob.type,
+                  });
+                  this.imagenes.push({
+                    file: file,
+                    base64: '',
+                  });
+                  await this.aBase64(file, this.imagenes.length - 1);
                 });
-                this.imagenes.push({
-                  file: file,
-                  base64: '',
-                });
-                await this.aBase64(file, this.imagenes.length - 1);
+            } else {
+              this.imagenes.push({
+                file: null,
+                base64: '',
               });
+            }
           }
         }
       },
@@ -158,6 +159,7 @@ export class ProductoFormComponent {
         descuento: 0,
         valoracion: 0,
       };
+      this.nombre_variacion = '';
       this.variantes = [
         {
           valor_variacion: '',
@@ -220,5 +222,42 @@ export class ProductoFormComponent {
     };
 
     lector.readAsDataURL(img);
+  }
+
+  modificarProducto() {
+    const formData = new FormData();
+
+    formData.append('producto', JSON.stringify(this.producto));
+    formData.append('nombre_variacion', this.nombre_variacion);
+    formData.append('filtros', JSON.stringify(this.filtros));
+    formData.append('variantes', JSON.stringify(this.variantes));
+
+    this.imagenes.forEach((img) => {
+      if (img.file) {
+        formData.append('imagenes', img.file);
+      }
+    });
+
+    this.productoService.modificarProducto(formData).subscribe({
+      next: (respuesta) => {
+        alert(respuesta.mensaje);
+      },
+      error: (err) => {
+        console.log(err);
+        alert(err.error.mensaje);
+      },
+    });
+  }
+
+  eliminarProducto() {
+    this.productoService.eliminarProducto(this.producto).subscribe({
+      next: (respuesta) => {
+        alert(respuesta.mensaje);
+      },
+      error: (err) => {
+        console.log(err);
+        alert(err.error.mensaje);
+      },
+    });
   }
 }

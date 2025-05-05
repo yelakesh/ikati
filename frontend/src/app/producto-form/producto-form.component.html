@@ -200,8 +200,8 @@
                     <label class="form-label" for="img">Imagen</label>
                 </td>
                 <td colspan="4">
-                    <input class="form-control" type="file" accept="image/*" name="img{{i}}" *ngIf="imagenes[i]?.file === null"  (change)="guardarImagen($event,i)" required>
-                    <img *ngIf="imagenes[i].base64" [src]="imagenes[i].base64" style="width: 100px;">
+                    <input class="form-control" type="file" accept="image/*" name="img{{i}}" *ngIf="imagenes[i]?.file === null || imagenes[i]?.file?.name==''"  (change)="guardarImagen($event,i)" required>
+                    <img *ngIf="imagenes[i].base64!=''" [src]="imagenes[i].base64" style="width: 100px;">
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger text-light  w-100" (click)="eliminarImagen(i)">Eliminar</button>
@@ -218,8 +218,8 @@
 
         </table>
         <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
-        <!--<button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
-        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>-->
+        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" (click)="modificarProducto()">Modificar</button>
+        <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" (click)="eliminarProducto()">Eliminar</button>
 
     </form>
 

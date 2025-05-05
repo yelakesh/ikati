@@ -1,29 +1,28 @@
-const db = require('../database');
-
-
+const db = require("../database");
 
 async function obtenerProductoPorNombre(nombre) {
-    const sql = 'SELECT * FROM productos WHERE nombre=?';
-    const resultados = await db.query(sql, [nombre]);
-    return resultados;
+  const sql = "SELECT * FROM productos WHERE nombre=?";
+  const resultados = await db.query(sql, [nombre]);
+  return resultados;
 }
 
 async function obtenerFiltrosPorIdProducto(id_producto) {
-    const sql = 'SELECT filtro,valor FROM filtros WHERE id_producto=?';
-    const resultados = await db.query(sql, [id_producto]);
-    return resultados;
+  const sql = "SELECT filtro,valor FROM filtros WHERE id_producto=?";
+  const resultados = await db.query(sql, [id_producto]);
+  return resultados;
 }
 
 async function obtenerVariantesPorIdProducto(id_producto) {
-    const sql = 'SELECT nombre_variacion,valor_variacion,precio,stock FROM variantes WHERE id_producto=?';
-    const resultados = await db.query(sql, [id_producto]);
-    return resultados;
+  const sql =
+    "SELECT nombre_variacion,valor_variacion,precio,stock FROM variantes WHERE id_producto=?";
+  const resultados = await db.query(sql, [id_producto]);
+  return resultados;
 }
 
 async function obtenerImagenesPorIdProducto(id_producto) {
-    const sql = 'SELECT url FROM imagenes WHERE id_producto=?';
-    const resultados = await db.query(sql, [id_producto]);
-    return resultados;
+  const sql = "SELECT url FROM imagenes WHERE id_producto=?";
+  const resultados = await db.query(sql, [id_producto]);
+  return resultados;
 }
 
 async function registrarProducto(objProducto) {
@@ -78,30 +77,67 @@ async function registrarImagen(id_producto, url) {
   return resultados;
 }
 
-/*
-
-async function eliminarPorUsuario(usuario) {
-  const sql = 'DELETE FROM usuarios WHERE usuario=?';
-  const resultados = await db.query(sql, [usuario]);
+async function obtenerImagenesPorIdProducto(id_producto) {
+  const sql = `SELECT * FROM imagenes where id_producto=?`;
+  const resultados = await db.query(sql, [id_producto]);
   return resultados;
 }
 
-async function modificarPorUsuario({nombre, apellido1, apellido2,usuario, contrasena, email, telefono, cp, direccion}) {
-  const sql = 'UPDATE usuarios set nombre=?, apellido1=?, apellido2=?, contrasena=?, email=?, telefono=?, cp=?, direccion=? WHERE usuario=?';
-  const resultados = await db.query(sql, [nombre, apellido1, apellido2, contrasena, email, telefono, cp, direccion,usuario]);
+async function modificarProducto(objProducto) {
+  const sql = `UPDATE productos set
+      descripcion=?, activo=?, animal=?, marca=?, tipo=?, descuento=?, precio=?, valoracion=?
+      WHERE nombre=?`;
+  const resultados = await db.query(sql, [
+    objProducto.descripcion,
+    objProducto.activo,
+    objProducto.animal,
+    objProducto.marca,
+    objProducto.tipo,
+    objProducto.descuento,
+    objProducto.precio,
+    objProducto.valoracion,
+    objProducto.nombre,
+  ]);
+
   return resultados;
 }
 
+async function eliminarFiltros(id_producto) {
+  const sql = "DELETE FROM filtros WHERE id_producto=?";
+  const resultados = await db.query(sql, [id_producto]);
+  return resultados;
+}
 
+async function eliminarVariantes(id_producto) {
+  const sql = "DELETE FROM variantes WHERE id_producto=?";
+  const resultados = await db.query(sql, [id_producto]);
+  return resultados;
+}
 
-*/
+async function eliminarImagenes(id_producto) {
+  const sql = "DELETE FROM imagenes WHERE id_producto=?";
+  const resultados = await db.query(sql, [id_producto]);
+  return resultados;
+}
+
+async function eliminarProducto(nombre) {
+  const sql = "DELETE FROM productos WHERE nombre=?";
+  const resultados = await db.query(sql, [nombre]);
+  return resultados;
+}
+
 module.exports = {
-    obtenerProductoPorNombre,
-    obtenerFiltrosPorIdProducto,
-    obtenerImagenesPorIdProducto,
-    obtenerVariantesPorIdProducto,
-    registrarFiltro,
-    registrarImagen,
-    registrarProducto,
-    registrarVariante
+  obtenerProductoPorNombre,
+  obtenerFiltrosPorIdProducto,
+  obtenerImagenesPorIdProducto,
+  obtenerVariantesPorIdProducto,
+  registrarFiltro,
+  registrarImagen,
+  registrarProducto,
+  registrarVariante,
+  modificarProducto,
+  eliminarFiltros,
+  eliminarVariantes,
+  eliminarImagenes,
+  eliminarProducto,
 };

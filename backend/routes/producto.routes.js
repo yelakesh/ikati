@@ -27,4 +27,12 @@ router.post(
   productoController.registrarProductoCompletoController
 );
 
+router.post(
+  "/modificarProducto",
+  upload.array("imagenes"),
+  productoController.modificarProductoController
+);
+
+router.post("/eliminarProducto", productoController.eliminarProductoController);
+
 module.exports = router;
