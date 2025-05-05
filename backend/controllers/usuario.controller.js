@@ -11,6 +11,7 @@ async function loginController(req, res) {
       return res.json({ ok: false, mensaje: 'Usuario o contraseña incorrectos', usuario: {} });
     }
 
+    resultado[0].rol = 'user'
     res.json({ ok: true, mensaje: 'Login correcto', usuario: resultado[0] });
   } catch (err) {
     console.error('Error en login:', err);

@@ -5,6 +5,7 @@ import { UsuarioService } from '../services/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
+import { adminService} from "../services/admin.service";
 
 @Component({
   selector: 'app-login',
@@ -18,10 +19,15 @@ export class LoginComponent {
   
   usuario = {
     usuario: '',
-    contrasena: ''
+    contrasena: '',
+    rol:''
+
   };
 
-  constructor(private router:Router,private usuarioService: UsuarioService) {}
+
+
+  constructor(private router:Router,private usuarioService: UsuarioService, private adminService: adminService) {}
+
 
 comprobarLogin(){
 
@@ -33,6 +39,30 @@ comprobarLogin(){
 
         sessionStorage.setItem('usuario', JSON.stringify(respuesta.usuario))
         this.router.navigate(['']);
+      } else {
+        alert(respuesta.mensaje);
+      }
+    },
+    error: (err) => {
+      console.error('Error en login:', err);
+      alert('Hubo un error en el servidor');
+    }
+  });
+
+}
+comprobarLoginAdmin(){
+
+  this.adminService.login(this.usuario).subscribe({
+    next: (respuesta) => {
+      if (respuesta.ok) {      
+        
+        console.log(respuesta)
+
+        sessionStorage.setItem('usuario', JSON.stringify(respuesta.usuario))
+        alert("Bienvenido "+this.usuario.usuario)
+          this.router.navigate(['administracion']);
+        
+        
       } else {
         alert(respuesta.mensaje);
       }
