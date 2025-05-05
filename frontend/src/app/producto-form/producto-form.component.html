@@ -1,4 +1,4 @@
-<div class="container d-flex justify-content-center align-items-center mt-5">
+<div class="container d-flex justify-content-center align-items-center mt-4 mb-4">
 
     <form class="w-100 rounded shadow bg-white p-4" style="max-width:fit-content;" #miFormulario="ngForm">
 
@@ -108,10 +108,11 @@
             </tr>
 
             <tr>
-                <td>
-                    <h3>Variantes</h3>
-                </td>
-            </tr>
+                <td colspan="6"><hr class="hr" /></td>
+              </tr>
+              <tr>
+                <td colspan="6"><h3 class="text-body-tertiary">Variantes</h3></td>
+              </tr>
 
             <tr>
                 <td>
@@ -147,21 +148,24 @@
                     <input class="form-control" type="number" name="stock{{i}}" [(ngModel)]="v.stock" required>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger text-light  w-100" (click)="eliminarVariante(i)">Eliminar</button>
+                    <button type="button" class="btn px-4 rounded-pill btn-danger text-light  w-100" (click)="eliminarVariante(i)">Eliminar</button>
                 </td>
 
             </tr>
             <tr>
                 <td>
-                    <button type="button" class="btn btn-primary mt-3 w-100" (click)="nuevaVariante()">Añadir filtro</button>
+                    <button type="button" class="btn rounded-pill btn-primary px-4 mt-3 w-100" (click)="nuevaVariante()">Añadir filtro</button>
                 </td>
             </tr>
 
             <tr>
-                <td>
-                    <h3>Filtros</h3>
-                </td>
-            </tr>
+                <td colspan="6"><hr class="hr" /></td>
+              </tr>
+              <tr>
+                <td colspan="6"><h3 class="text-body-tertiary">Filtros</h3></td>
+              </tr>
+
+            <tr>
 
             <tr *ngFor="let f of filtros; let i = index">
                 <td>
@@ -180,20 +184,23 @@
 
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger text-light w-100" (click)="eliminarFiltro(i)">Eliminar</button>
+                    <button type="button" class="btn btn-danger px-4 rounded-pill text-light w-100" (click)="eliminarFiltro(i)">Eliminar</button>
                 </td>
 
             </tr>
             <tr>
                 <td>
-                    <button type="button" class="btn text-light btn-primary mt-3 w-100" (click)="nuevoFiltro()">Añadir filtro</button>
+                    <button type="button" class="btn rounded-pill px-4 text-light btn-primary mt-3 w-100" (click)="nuevoFiltro()">Añadir filtro</button>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <h3>Imagenes</h3>
-                </td>
-            </tr>
+                <td colspan="6"><hr class="hr" /></td>
+              </tr>
+              <tr>
+                <td colspan="6"><h3 class="text-body-tertiary">Imágenes</h3></td>
+              </tr>
+
+            <tr>
 
             <tr *ngFor="let img of imagenes; let i = index">
                 <td>
@@ -204,22 +211,25 @@
                     <img *ngIf="imagenes[i].base64" [src]="imagenes[i].base64" style="width: 100px;">
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger text-light  w-100" (click)="eliminarImagen(i)">Eliminar</button>
+                    <button type="button" class="btn px-4 btn-danger rounded-pill text-light px-4 w-100" (click)="eliminarImagen(i)">Eliminar</button>
                 </td>
 
             </tr>
             <tr>
                 <td>
-                    <button type="button" class="btn text-light btn-primary mt-3 w-100" (click)="nuevaImagen()">Añadir imagen</button>
+                    <button type="button" class="btn text-light rounded-pill btn-primary mt-3 w-100" (click)="nuevaImagen()">Añadir imagen</button>
                 </td>
             </tr>
 
 
 
         </table>
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
+        <div class="text-center">
+            <button type="button" class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
         <!--<button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
         <button type="button" class="btn btn-primary mt-3 w-100" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>-->
+        </div>
+        
 
     </form>
 

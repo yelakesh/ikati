@@ -6,10 +6,10 @@ async function loginController(req, res) {
   const objAdmin = req.body
   try {
 
-    const resultado = await adminModel.login(objAdmin.admin, objAdmin.contrasena);
+    const resultado = await adminModel.loginAdmin(objAdmin.usuario, objAdmin.contrasena);
 
     if (resultado.length === 0) {
-      return res.json({ ok: false, mensaje: 'admin o contraseña incorrectos', admin: {} });
+      return res.json({ ok: false, mensaje: 'Usuario o contraseña incorrectos', admin: {} });
     }
 
     res.json({ ok: true, mensaje: 'Login correcto', admin: resultado[0] });
