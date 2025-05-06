@@ -52,6 +52,17 @@ $font-family-base: 'Nunito', Arial, sans-serif; //Fuente de Ikati
   color: #F6F1EB !important;*/
 }
 
+nav[aria-label="breadcrumb"] {
+  margin: 10px 0;
+  padding: 0 15px;
+}
+
+.breadcrumb {
+  background-color: #f8f9fa;
+  padding: 8px 15px;
+  border-radius: 4px;
+}
+
 
 
 @import "../../node_modules/bootstrap/scss/variables";

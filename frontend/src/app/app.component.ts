@@ -4,12 +4,14 @@ import { LoginComponent } from "./login/login.component";
 import { AdministracionComponent } from "./administracion/administracion.component";
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { ServiciosComponent } from './pages/servicios/servicios.component';
+
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AdministracionComponent, LoginComponent, RouterModule,HomeComponent],
+  imports: [RouterOutlet, AdministracionComponent, LoginComponent, RouterModule,HomeComponent, ServiciosComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
