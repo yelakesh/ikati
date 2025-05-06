@@ -4,6 +4,7 @@ import { AdministracionComponent } from './administracion/administracion.compone
 import { HomeComponent } from './pages/home/home.component';
 import { adminGuard } from './guards/admin.guard';
 import { ServiciosComponent } from "./pages/servicios/servicios.component";
+import { OfertasComponent } from "./pages/ofertas/ofertas.component";
 
 
 export const routes: Routes = [
@@ -12,6 +13,7 @@ export const routes: Routes = [
     {path:"login", component:LoginComponent},
     {path:"administracion", component:AdministracionComponent, canActivate:[adminGuard]},
     {path:"home", component:HomeComponent, data: { breadcrumb: 'Inicio' }},
-    {path:"servicios", component:ServiciosComponent, data: { breadcrumb: 'Servicios' }}
+    {path:"servicios", component:ServiciosComponent, data: { breadcrumb: 'Servicios' }},
+    {path:"ofertas", component:OfertasComponent, data: { breadcrumb: 'Ofertas' }}
 
 ];

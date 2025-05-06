@@ -43,6 +43,9 @@ $font-family-base: 'Nunito', Arial, sans-serif; //Fuente de Ikati
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12) inset;
 }
 
+
+
+//ESTILOS DROPDOWN DEL MENU NAVEGACION
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus {
  background-color: var(--bs-info-bg-subtle) !important;
@@ -51,7 +54,21 @@ $font-family-base: 'Nunito', Arial, sans-serif; //Fuente de Ikati
   /*background-color: $info !important;
   color: #F6F1EB !important;*/
 }
+//Aparece desplegable sin tener que clickar
+@media (min-width: 992px) { /* Solo en escritorio */
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; /* Corrige el salto visual */
+  }
+  .dropdown-toggle::after {
+    /* Opcional: mantiene el caret activo en hover */
+    transform: rotate(180deg);
+  }
+}
 
+
+
+//ESTILOS PARA EL BREADCRUMB
 nav[aria-label="breadcrumb"] {
   margin: 10px 0;
   padding: 0 15px;
@@ -61,6 +78,17 @@ nav[aria-label="breadcrumb"] {
   background-color: #f8f9fa;
   padding: 8px 15px;
   border-radius: 4px;
+}
+.breadcrumb-item a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+
+.sticky-below {
+  position: sticky;
+  top: 8rem; /* Ajusta este valor al alto real de la navbar superior */
+  z-index: 1030; /* Asegúrate de que esté por encima del contenido */
 }
 
 

@@ -4,7 +4,7 @@ import { RouterLink } from "@angular/router";
 import { RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
+
 
 interface Breadcrumb {
   label: string;
@@ -20,7 +20,7 @@ interface Breadcrumb {
 export class BreadcrumbComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     // Obtén la ruta actual inmediatamente cuando el componente se inicia
@@ -29,14 +29,14 @@ export class BreadcrumbComponent implements OnInit {
     
     // Construye el breadcrumb basado en la URL actual
     this.breadcrumbs = this.buildBreadCrumbFromUrl(currentUrl);
-    this.cdr.detectChanges();
+    
     
     // También suscríbete a cambios futuros en la ruta
     this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))
     .subscribe(() => {
       this.breadcrumbs = this.buildBreadCrumbFromUrl(this.router.url);
-      this.cdr.detectChanges();
+      
     });
   }
   
@@ -66,7 +66,7 @@ export class BreadcrumbComponent implements OnInit {
     const breadcrumbMap: {[key: string]: string} = {
       'home': 'Inicio',
       'servicios': 'Servicios',
-      // Añade más mapeos según necesites
+      'ofertas' : 'Ofertas'
     };
     return breadcrumbMap[segment] || segment;
   }
