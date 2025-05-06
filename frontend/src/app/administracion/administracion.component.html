@@ -3,31 +3,19 @@
   <div class="container-fluid py-3">
     <div class="position-relative" style="height: 8rem;">
       <!-- Logo a la izquierda -->
-      <img
-        src="imagenes/logo/ikatilogo3.png"
-        alt="logo"
-        style="height: 8rem; position: absolute; left: 0; top: 50%; transform: translateY(-50%);"
-      />
-  
+      <img src="imagenes/logo/ikatilogo3.png" alt="logo"
+        style="height: 8rem; position: absolute; left: 0; top: 50%; transform: translateY(-50%);" />
+
       <!-- Texto centrado -->
-      <div
-        class="position-absolute top-50 start-50 translate-middle text-center"
-        style="width: 100%;"
-      >
+      <div class="position-absolute top-50 start-50 translate-middle text-center" style="width: 100%;">
         <h2 class="display-6 text-primary fw-bolder mb-0">
           Panel Admin
         </h2>
       </div>
-  
+
       <!-- Botón a la derecha -->
-      <div
-        class="position-absolute top-50 end-0 translate-middle-y"
-        style="right: 0;"
-      >
-        <button
-          class="btn btn-outline-primary"
-          routerLink="/home"
-        >
+      <div class="position-absolute top-50 end-0 translate-middle-y" style="right: 0;">
+        <button class="btn btn-outline-primary" routerLink="/home">
           Ir a Home
         </button>
       </div>
@@ -62,8 +50,8 @@
       <div id="administrador" class="mb-3">
         <h5>Administrador</h5>
         <button class="btn btn-light btn-sm me-1 mb-1" (click)="mostrarFormulario('admin', 'registrar')">Añadir</button>
-        <button class="btn btn-light btn-sm me-1 mb-1"
-          (click)="mostrarFormulario('admin', 'modificar')">Cambiar Contraseña</button>
+        <button class="btn btn-light btn-sm me-1 mb-1" (click)="mostrarFormulario('admin', 'modificar')">Cambiar
+          Contraseña</button>
         <button class="btn btn-danger btn-sm mb-1" (click)="mostrarFormulario('admin', 'eliminar')">Eliminar</button>
       </div>
 
@@ -89,13 +77,14 @@
     <!-- Zona de formularios -->
     <div class="w-75 form-control bg-secondary">
 
-      <app-usuario-form *ngIf="formularioVisible === 'usuario'" [modo]="modo"></app-usuario-form>
+      <app-usuario-form *ngIf="formularioVisible === 'usuario'" [modo]="modo" [origen]="'admin'">
+      </app-usuario-form>
       <app-cupon-form *ngIf="formularioVisible === 'cupon'" [modo]="modo"></app-cupon-form>
       <app-producto-form *ngIf="formularioVisible === 'productos'" [modo]="modo"></app-producto-form>
       <app-servicio-form *ngIf="formularioVisible === 'servicio'" [modo]="modo"></app-servicio-form>
-      <app-admin-form *ngIf="formularioVisible === 'admin'"[modo]="modo"></app-admin-form>
-        
-        
+      <app-admin-form *ngIf="formularioVisible === 'admin'" [modo]="modo"></app-admin-form>
+
+
     </div>
   </div>
 </div>

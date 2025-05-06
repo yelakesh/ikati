@@ -1,9 +1,13 @@
-<div class="container d-flex justify-content-center align-items-center mt-5">
+<app-header/>
+<div class=" d-flex justify-content-start ms-5 py-3">
+    <app-breadcrumb></app-breadcrumb>
+</div>
+<div class="container d-flex justify-content-center align-items-center ">
 
     <form class="w-100 rounded shadow bg-white p-4"
             style="max-width: 300px;" (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
 
-            <h3 class=" text-primary mb-4 text-center fw-bolder">Login</h3>
+            <h3 class=" text-primary mb-5 text-center fw-bolder">Iniciar Sesión</h3>
 
         <div class="mb-3">
             <label class="form-label" for="usuario">Usuario</label>
@@ -15,6 +19,9 @@
             <input class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena" required>
 
         </div>
+
+        <button class="btn btn-link text-decoration-none text-center mt-1 mb-5" routerLink="/registro" >No tengo cuenta. Registrarme</button>
+        
         <button class="text-light btn btn-danger mt-3 w-100" type="submit">Enviar</button>
     </form>
 
@@ -22,4 +29,8 @@
 <div class="text-center">
     <button class="btn btn-link" (click)="comprobarLoginAdmin()">Login Admin</button>
     <button class="btn btn-link" routerLink="/home">Ir a Home</button>
+
+    
 </div>
+
+<div class="mb-5"></div>

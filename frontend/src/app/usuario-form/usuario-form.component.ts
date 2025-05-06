@@ -30,6 +30,7 @@ export class UsuarioFormComponent {
 
   };
   @Input() modo: string = '';
+  @Input() origen: 'admin' | 'registro' = 'registro'; 
 
   completarDatosUsuario() {
     this.usuario.nombre = ""
@@ -83,7 +84,14 @@ export class UsuarioFormComponent {
   registrar() {
     this.usuarioService.registrar(this.usuario).subscribe({
       next: (respuesta) => {
-        alert(respuesta.mensaje)
+        if (this.origen === 'registro') {
+          // Redirige a la página de éxito solo si es registro público
+          this.router.navigate(['/registro-exito']);
+        } else {
+          // Si es desde admin, puedes emitir un evento, mostrar un mensaje, etc.
+          // Aquí solo mostramos un alert como ejemplo
+          alert(respuesta.mensaje);
+        }
       },
       error: (err) => {
         console.log(err)

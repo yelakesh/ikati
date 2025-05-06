@@ -6,11 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { adminService} from "../services/admin.service";
+import { HeaderComponent } from '../components/header/header.component';
+import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, RouterLink],
+  imports: [CommonModule, FormsModule, HttpClientModule, RouterLink, BreadcrumbComponent, HeaderComponent],
   providers: [ HttpClientModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

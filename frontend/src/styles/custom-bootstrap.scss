@@ -61,10 +61,27 @@ $font-family-base: 'Nunito', Arial, sans-serif; //Fuente de Ikati
     margin-top: 0; /* Corrige el salto visual */
   }
   .dropdown-toggle::after {
-    /* Opcional: mantiene el caret activo en hover */
-    transform: rotate(180deg);
+    display: none;
   }
 }
+
+/* Efecto hover sutil para los botones del menú de navegación */
+.nav .nav-link,
+.navbar-nav .nav-link {
+  transition: background-color 0.2s, color 0.2s;
+  border-radius: 0.2rem;
+  
+}
+
+/* Cambia el color de fondo y/o texto al pasar el ratón */
+.bg-primary .nav-link:hover,
+.bg-primary .nav-link:focus {
+  background-color: rgba(255,255,255,0.12); /* Fondo blanco semitransparente */
+  color: #F4B860 !important; /* Amarillo suave, puedes cambiarlo */
+  text-decoration: none;
+}
+
+
 
 
 

@@ -66,7 +66,8 @@ export class BreadcrumbComponent implements OnInit {
     const breadcrumbMap: {[key: string]: string} = {
       'home': 'Inicio',
       'servicios': 'Servicios',
-      'ofertas' : 'Ofertas'
+      'ofertas' : 'Ofertas',
+      'registro': 'Registro'
     };
     return breadcrumbMap[segment] || segment;
   }
