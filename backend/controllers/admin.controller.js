@@ -12,7 +12,8 @@ async function loginController(req, res) {
       return res.json({ ok: false, mensaje: 'Usuario o contraseña incorrectos', usuario: {} });
     }
 
-    res.json({ ok: true, mensaje: 'Login correcto', usuario: {usuario: objAdmin.usuario, contrasena: objAdmin.contrasena, rol: 'admin'} });
+    resultado[0].rol="admin"
+    res.json({ ok: true, mensaje: 'Login correcto', usuario: resultado[0]});
   } catch (err) {
     console.error('Error en login:', err);
     res.status(500).json({ ok: false, mensaje: 'Error del servidor', usuario: {} });

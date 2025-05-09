@@ -96,16 +96,23 @@ nav[aria-label="breadcrumb"] {
   padding: 8px 15px;
   border-radius: 4px;
 }
-.breadcrumb-item a {
+.subrayadobien a, button {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+
 
 
 .sticky-below {
   position: sticky;
   top: 8rem; /* Ajusta este valor al alto real de la navbar superior */
   z-index: 1030; /* Asegúrate de que esté por encima del contenido */
+}
+
+.carousel-item img {
+  object-fit: contain;
+  height: 300px;
+  width: 300%;
 }
 
 

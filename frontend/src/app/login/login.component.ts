@@ -5,7 +5,7 @@ import { UsuarioService } from '../services/usuario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
-import { adminService} from "../services/admin.service";
+import { adminService } from "../services/admin.service";
 import { HeaderComponent } from '../components/header/header.component';
 import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
 
@@ -13,67 +13,68 @@ import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule, RouterLink, BreadcrumbComponent, HeaderComponent],
-  providers: [ HttpClientModule],
+  providers: [HttpClientModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  
+
   usuario = {
     usuario: '',
     contrasena: '',
-    rol:''
+    rol: ''
 
   };
 
 
 
-  constructor(private router:Router,private usuarioService: UsuarioService, private adminService: adminService) {}
+  constructor(private router: Router, private usuarioService: UsuarioService, private adminService: adminService) { }
 
 
-comprobarLogin(){
+  comprobarLogin() {
 
-  this.usuarioService.login(this.usuario).subscribe({
-    next: (respuesta) => {
-      if (respuesta.ok) {      
-        
-        console.log(respuesta)
+    this.usuarioService.login(this.usuario).subscribe({
+      next: (respuesta) => {
+        if (respuesta.ok) {
 
-        sessionStorage.setItem('usuario', JSON.stringify(respuesta.usuario))
-        this.router.navigate(['']);
-      } else {
-        alert(respuesta.mensaje);
+          console.log(respuesta)
+
+          this.usuarioService.setUsuario(respuesta.usuario);
+          alert(respuesta.mensaje);
+          this.router.navigate(['home']);
+        } else {
+          alert(respuesta.mensaje);
+        }
+      },
+      error: (err) => {
+        console.error('Error en login:', err);
+        alert('Hubo un error en el servidor');
       }
-    },
-    error: (err) => {
-      console.error('Error en login:', err);
-      alert('Hubo un error en el servidor');
-    }
-  });
+    });
 
-}
-comprobarLoginAdmin(){
+  }
+  comprobarLoginAdmin() {
 
-  this.adminService.login(this.usuario).subscribe({
-    next: (respuesta) => {
-      if (respuesta.ok) {      
-        
-        console.log(respuesta)
+    this.adminService.login(this.usuario).subscribe({
+      next: (respuesta) => {
+        if (respuesta.ok) {
 
-        sessionStorage.setItem('usuario', JSON.stringify(respuesta.usuario))
-        alert("Bienvenido "+this.usuario.usuario)
+          console.log(respuesta)
+
+          sessionStorage.setItem('usuario', JSON.stringify(respuesta.usuario))
+          alert("Bienvenido " + this.usuario.usuario)
           this.router.navigate(['administracion']);
-        
-        
-      } else {
-        alert(respuesta.mensaje);
-      }
-    },
-    error: (err) => {
-      console.error('Error en login:', err);
-      alert('Hubo un error en el servidor');
-    }
-  });
 
-}
+
+        } else {
+          alert(respuesta.mensaje);
+        }
+      },
+      error: (err) => {
+        console.error('Error en login:', err);
+        alert('Hubo un error en el servidor');
+      }
+    });
+
+  }
 }

@@ -1,7 +1,7 @@
 const db = require('../database');
 
 async function loginAdmin(usuario, contrasena) {
-    const sql = 'SELECT * FROM administradores WHERE usuario=? AND contrasena=?';
+    const sql = 'SELECT usuario FROM administradores WHERE usuario=? AND contrasena=?';
     const resultados = await db.query(sql, [usuario, contrasena]);
     return resultados;
   }

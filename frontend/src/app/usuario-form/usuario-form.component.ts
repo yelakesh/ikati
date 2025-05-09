@@ -88,8 +88,7 @@ export class UsuarioFormComponent {
           // Redirige a la página de éxito solo si es registro público
           this.router.navigate(['/registro-exito']);
         } else {
-          // Si es desde admin, puedes emitir un evento, mostrar un mensaje, etc.
-          // Aquí solo mostramos un alert como ejemplo
+         
           alert(respuesta.mensaje);
         }
       },

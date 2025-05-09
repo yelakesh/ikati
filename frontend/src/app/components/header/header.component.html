@@ -13,11 +13,11 @@
 
 
 <!-- Navbar principal -->
-<nav class=" navbar bg-body-secondary shadow-sm sticky-top sticky-below-2 py-0" style="z-index: 1040;">
+<nav class=" navbar bg-body-secondary sticky-top sticky-below-2 py-0" style="z-index: 1040;">
   <div class=" container d-flex align-items-center py-0 justify-content-between">
 
 
-    
+
     <!-- Logo -->
     <a class="navbar-brand py-0" routerLink="/home">
       <img src="imagenes/logo/ikatilogo3.png" alt="logo" height="128px">
@@ -28,13 +28,39 @@
 
 
     <!-- Acceso usuario a la derecha -->
-    <div class="d-flex align-items-center">
-            <img src="imagenes/cabeceraweb/iniciarsesion.png" height="20" alt="login">
-      <button class="btn btn-link" routerLink="/login">
-        Identifícate
-      </button>
+
+    <div *ngIf="(usuario | async) as usuario; else noUsuario" class="d-flex align-items-center">
+
+      <div class="d-flex align-items-center">
+        
+        <div class="dropdown" (mouseenter)="open=true" (mouseleave)="open=false">
+          <img src="imagenes/cabeceraweb/iniciarsesion.png" height="20" alt="Mi Perfil">
+          <button class="btn btn-link dropdown-toggle text-decoration-none" [class.show]="open" [attr.aria-expanded]="open">
+            Hola {{ usuario.nombre }}
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" [class.show]="open">
+            <a class="dropdown-item" routerLink="/perfil">Mi Perfil</a>
+            <a class="dropdown-item" routerLink="/pedidos">Mis Pedidos</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item text-danger"  (click)="logOut()">Cerrar Sesión</button>
+          </div>
+         
+        </div>
+
+      </div>
     </div>
+
+    <!-- Si hay usuario -->
+    <ng-template #noUsuario>
+      <div class="d-flex align-items-center">
+        <img src="imagenes/cabeceraweb/iniciarsesion.png" height="20" alt="login">
+        <button class="btn btn-link text-decoration-none" routerLink="/login">
+          Identifícate
+        </button>
+      </div>
+    </ng-template>
   </div>
+
 </nav>
 
 <nav class="bg-primary sticky-below shadow-sm border-bottom">
@@ -77,7 +103,8 @@
 
     </ul>
     <form class="d-flex align-items-end ms-auto" style="width: 400px; max-width: 50%;">
-      <input class="form-control rounded-start-pill border-end-0" type="search" placeholder="Busca tu producto..." aria-label="Buscar">
+      <input class="form-control rounded-start-pill border-end-0" type="search" placeholder="Busca tu producto..."
+        aria-label="Buscar">
       <button class="btn btn-info rounded-end-pill border-0" type="submit">
         <img src="imagenes/cabeceraweb/lupa.png" alt="buscar" height="25px">
       </button>
