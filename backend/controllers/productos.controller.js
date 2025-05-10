@@ -82,6 +82,23 @@ async function obtenerProductoCompletoController(req, res) {
   }
 }
 
+async function obtenerNombresController(req, res) {
+  try {
+    let nombres = await ProductoModel.obtenerNombres();
+
+    res.json({
+      ok: true,
+      mensaje: "Productos encontrados",
+      nombres,
+    });
+  } catch (err) {
+    console.error("Error en la busqueda de productos:", err);
+    return res
+      .status(500)
+      .json({ ok: false, mensaje: "Error del servidor", producto: {} });
+  }
+}
+
 async function registrarProductoCompletoController(req, res) {
   const objProducto = req.body;
 
@@ -276,7 +293,7 @@ async function eliminarProductoController(req, res) {
         .status(401)
         .json({ ok: false, mensaje: "Producto no encontrado", producto: {} });
     }
-    await ProductoModel.eliminarImagenes(id_producto);
+    await ProductoModel.eliminarImagenes(producto.id_producto);
     await ProductoModel.eliminarProducto(producto.nombre);
   } catch (err) {
     console.error("Error en la busqueda del producto:", err);
@@ -291,4 +308,5 @@ export {
   registrarProductoCompletoController,
   modificarProductoController,
   eliminarProductoController,
+  obtenerNombresController,
 };

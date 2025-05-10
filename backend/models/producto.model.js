@@ -83,6 +83,12 @@ async function obtenerImagenesPorIdProducto(id_producto) {
   return resultados;
 }
 
+async function obtenerNombres() {
+  const sql = `SELECT nombre FROM productos`;
+  const resultados = await db.query(sql);
+  return resultados;
+}
+
 async function modificarProducto(objProducto) {
   const sql = `UPDATE productos set
       descripcion=?, activo=?, animal=?, marca=?, tipo=?, descuento=?, precio=?, valoracion=?
@@ -140,4 +146,5 @@ module.exports = {
   eliminarVariantes,
   eliminarImagenes,
   eliminarProducto,
+  obtenerNombres,
 };

@@ -1,237 +1,406 @@
-<div class="container d-flex justify-content-center align-items-center mt-4 mb-4">
+<div
+  class="container d-flex justify-content-center align-items-center mt-4 mb-4"
+>
+  <form
+    class="w-100 rounded shadow bg-white p-4"
+    style="max-width: fit-content"
+    #miFormulario="ngForm"
+  >
+    <h3 class="text-center text-primary mb-3" *ngIf="modo == 'registrar'">
+      Añadir Producto
+    </h3>
+    <h3 class="text-center text-primary mb-3" *ngIf="modo == 'modificar'">
+      Modificar Producto
+    </h3>
+    <h3 class="text-center text-primary mb-3" *ngIf="modo == 'eliminar'">
+      Eliminar Producto
+    </h3>
+    <table>
+      <tr *ngIf="modo == 'registrar'">
+        <td>
+          <label class="form-label" for="producto">Producto</label>
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            type="sele"
+            name="nombre"
+            [(ngModel)]="producto.nombre"
+            required
+          />
+        </td>
+      </tr>
+      <tr *ngIf="modo != 'registrar'">
+        <td>Producto</td>
+        <td colspan="4">
+          <mat-form-field class="w-100">
+            <mat-label>Nombre</mat-label>
+            <input
+              name="nombre"
+              type="text"
+              placeholder="Selecciona producto"
+              matInput
+              [matAutocomplete]="auto"
+              [(ngModel)]="producto.nombre"
+              (ngModelChange)="filtrarNombres()"
+            />
+            <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
+              @for (nombre of nombresFiltrados; track nombre) {
+              <mat-option (click)="completarDatosProducto()" [value]="nombre">{{ nombre }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="descripcion">Descripcion(HTML)</label>
+        </td>
+        <td colspan="4">
+          <textarea
+            class="form-control"
+            type="text"
+            name="descripcion"
+            [(ngModel)]="producto.descripcion"
+            rows="6"
+            required
+          >
+          </textarea>
+        </td>
+      </tr>
 
-    <form class="w-100 rounded shadow bg-white p-4" style="max-width:fit-content;" #miFormulario="ngForm">
+      <tr>
+        <td>
+          <label class="form-label">¿Activado?</label>
+        </td>
+        <td>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="activo"
+              id="activoSi"
+              [value]="1"
+              [(ngModel)]="producto.activo"
+              required
+            />
+            <label class="form-check-label" for="activoSi">Sí</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="activo"
+              id="activoNo"
+              [value]="0"
+              [(ngModel)]="producto.activo"
+              required
+            />
+            <label class="form-check-label" for="activoNo">No</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="animal">Animal</label>
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            type="text"
+            name="animal"
+            [(ngModel)]="producto.animal"
+            required
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="marca">Marca</label>
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            type="text"
+            name="marca"
+            [(ngModel)]="producto.marca"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="tipo">Tipo de producto</label>
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            type="text"
+            name="tipo"
+            [(ngModel)]="producto.tipo"
+            required
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="descuento">Descuento</label>
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            step="0.1"
+            type="number"
+            name="descuento"
+            [(ngModel)]="producto.descuento"
+            required
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="valoracion">Valoración</label>
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            step="0.1"
+            type="number"
+            name="valoracion"
+            value=""
+            (input)="validarInput($event)"
+            [(ngModel)]="producto.valoracion"
+            required
+          />
+        </td>
+      </tr>
 
-        <h3 class="text-center text-primary mb-3">Añadir Producto</h3>
-        <table>
+      <tr>
+        <td colspan="6"><hr class="hr" /></td>
+      </tr>
+      <tr>
+        <td colspan="6"><h3 class="text-body-tertiary">Variantes</h3></td>
+      </tr>
 
-            
-            <tr>
-                <td>
-                    <label class="form-label" for="producto">Producto</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" type="text" name="nombre" [(ngModel)]="producto.nombre" required>
+      <tr>
+        <td>
+          <label class="form-label" for="nombre_variacion"
+            >Distinción (peso, talla...)</label
+          >
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            type="text"
+            name="nombre_variacion"
+            [(ngModel)]="nombre_variacion"
+            required
+          />
+        </td>
+      </tr>
 
-                </td>
-                <td>
-                    <button class="btn btn-secondary"  (click)="completarDatosProducto()" *ngIf="modo !== 'registrar'">Buscar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="descripcion">Descripcion(HTML)</label>
+      <tr *ngFor="let v of variantes; let i = index">
+        <td>
+          <label class="form-label" for="valor_variacion">Valor</label>
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            name="valor_variacion{{ i }}"
+            [(ngModel)]="v.valor_variacion"
+            required
+          />
+        </td>
 
-                </td>
-                <td colspan="4">
-                    <textarea class="form-control" type="text" name="descripcion" [(ngModel)]="producto.descripcion"
-                       rows="6" required>
-                    </textarea>
-                </td>
-            </tr>
+        <td>
+          <label class="form-label" for="precio">Precio</label>
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="number"
+            name="precio{{ i }}"
+            [(ngModel)]="v.precio"
+            required
+          />
+        </td>
 
-            <tr>
-                <td>
-                  <label class="form-label">¿Activado?</label>
-                </td>
-                <td>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="activo"
-                      id="activoSi"
-                      [value]="1"
-                      [(ngModel)]="producto.activo"
-                      required
-                    >
-                    <label class="form-check-label" for="activoSi">Sí</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="activo"
-                      id="activoNo"
-                      [value]="0"
-                      [(ngModel)]="producto.activo"
-                      required
-                    >
-                    <label class="form-check-label" for="activoNo">No</label>
-                  </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="animal">Animal</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" type="text" name="animal" [(ngModel)]="producto.animal" required>
+        <td>
+          <label class="form-label" for="stock">Stock</label>
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="number"
+            name="stock{{ i }}"
+            [(ngModel)]="v.stock"
+            required
+          />
+        </td>
+        <td>
+          <button
+            *ngIf="modo != 'eliminar'"
+            type="button"
+            class="btn px-4 rounded-pill btn-danger text-light w-100"
+            (click)="eliminarVariante(i)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button
+            *ngIf="modo != 'eliminar'"
+            type="button"
+            class="btn rounded-pill btn-primary px-4 mt-3 w-100"
+            (click)="nuevaVariante()"
+          >
+            Añadir variante
+          </button>
+        </td>
+      </tr>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="marca">Marca</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" type="text" name="marca" [(ngModel)]="producto.marca">
+      <tr>
+        <td colspan="6"><hr class="hr" /></td>
+      </tr>
+      <tr>
+        <td colspan="6"><h3 class="text-body-tertiary">Filtros</h3></td>
+      </tr>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="tipo">Tipo de producto</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" type="text" name="tipo" [(ngModel)]="producto.tipo" required>
+      <tr></tr>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="descuento">Descuento</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" step="0.1" type="number" name="descuento" [(ngModel)]="producto.descuento" required>
+      <tr *ngFor="let f of filtros; let i = index">
+        <td>
+          <label class="form-label" for="filtro">Filtro</label>
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            name="filtro{{ i }}"
+            [(ngModel)]="f.filtro"
+            required
+          />
+        </td>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="valoracion">Valoración</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" step="0.1" type="number" name="valoracion" [(ngModel)]="producto.valoracion"
-                        required>
+        <td>
+          <label class="form-label" for="valor">Valor</label>
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            name="valor{{ i }}"
+            [(ngModel)]="f.valor"
+            required
+          />
+        </td>
+        <td>
+          <button
+            *ngIf="modo != 'eliminar'"
+            type="button"
+            class="btn btn-danger px-4 rounded-pill text-light w-100"
+            (click)="eliminarFiltro(i)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button
+            *ngIf="modo != 'eliminar'"
+            type="button"
+            class="btn rounded-pill px-4 text-light btn-primary mt-3 w-100"
+            (click)="nuevoFiltro()"
+          >
+            Añadir filtro
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6"><hr class="hr" /></td>
+      </tr>
+      <tr>
+        <td colspan="6"><h3 class="text-body-tertiary">Imágenes</h3></td>
+      </tr>
 
-                </td>
-            </tr>
+      <tr></tr>
 
-            <tr>
-                <td colspan="6"><hr class="hr" /></td>
-              </tr>
-              <tr>
-                <td colspan="6"><h3 class="text-body-tertiary">Variantes</h3></td>
-              </tr>
-
-            <tr>
-                <td>
-                    <label class="form-label" for="nombre_variacion">Distinción (peso, talla...)</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" type="text" name="nombre_variacion"
-                        [(ngModel)]="nombre_variacion" required>
-
-                </td>
-            </tr>
-
-            <tr *ngFor="let v of variantes; let i = index">
-                <td>
-                    <label class="form-label" for="valor_variacion">Valor</label>
-                </td>
-                <td>
-                    <input class="form-control" type="text" name="valor_variacion{{i}}"
-                        [(ngModel)]="v.valor_variacion" required>
-                </td>
-
-                <td>
-                    <label class="form-label" for="precio">Precio</label>
-                </td>
-                <td>
-                    <input class="form-control" type="number" name="precio{{i}}" [(ngModel)]="v.precio" required>
-                </td>
-
-                <td>
-                    <label class="form-label" for="stock">Stock</label>
-                </td>
-                <td>
-                    <input class="form-control" type="number" name="stock{{i}}" [(ngModel)]="v.stock" required>
-                </td>
-                <td>
-                    <button type="button" class="btn px-4 rounded-pill btn-danger text-light  w-100" (click)="eliminarVariante(i)">Eliminar</button>
-                </td>
-
-            </tr>
-            <tr>
-                <td>
-                    <button type="button" class="btn rounded-pill btn-primary px-4 mt-3 w-100" (click)="nuevaVariante()">Añadir filtro</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="6"><hr class="hr" /></td>
-              </tr>
-              <tr>
-                <td colspan="6"><h3 class="text-body-tertiary">Filtros</h3></td>
-              </tr>
-
-            <tr>
-
-            <tr *ngFor="let f of filtros; let i = index">
-                <td>
-                    <label class="form-label" for="filtro">Filtro</label>
-                </td>
-                <td>
-                    <input class="form-control" type="text" name="filtro{{i}}" [(ngModel)]="f.filtro" required>
-
-                </td>
-
-                <td>
-                    <label class="form-label" for="valor">Valor</label>
-                </td>
-                <td>
-                    <input class="form-control" type="text" name="valor{{i}}" [(ngModel)]="f.valor" required>
-
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger px-4 rounded-pill text-light w-100" (click)="eliminarFiltro(i)">Eliminar</button>
-                </td>
-
-            </tr>
-            <tr>
-                <td>
-                    <button type="button" class="btn rounded-pill px-4 text-light btn-primary mt-3 w-100" (click)="nuevoFiltro()">Añadir filtro</button>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="6"><hr class="hr" /></td>
-              </tr>
-              <tr>
-                <td colspan="6"><h3 class="text-body-tertiary">Imágenes</h3></td>
-              </tr>
-
-            <tr>
-
-            <tr *ngFor="let img of imagenes; let i = index">
-                <td>
-                    <label class="form-label" for="img">Imagen</label>
-                </td>
-                <td colspan="4">
-                    <input class="form-control" type="file" accept="image/*" name="img{{i}}" *ngIf="imagenes[i]?.file === null || imagenes[i]?.file?.name==''"  (change)="guardarImagen($event,i)" required>
-                    <img *ngIf="imagenes[i].base64!=''" [src]="imagenes[i].base64" style="width: 100px;">
-                </td>
-                <td>
-                    <button type="button" class="btn px-4 btn-danger rounded-pill text-light px-4 w-100" (click)="eliminarImagen(i)">Eliminar</button>
-                </td>
-
-            </tr>
-            <tr>
-                <td>
-                    <button type="button" class="btn text-light rounded-pill btn-primary mt-3 w-100" (click)="nuevaImagen()">Añadir imagen</button>
-                </td>
-            </tr>
-
-
-
-        </table>
-        <div class="text-center">
-            <button type="button" class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4" *ngIf="modo === 'registrar'" (click)="registrarProductoCompleto()">Registrar</button>
-            <button type="button" class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4" *ngIf="modo === 'modificar'" (click)="modificarProducto()">Modificar</button>
-            <button type="button" class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4" *ngIf="modo === 'eliminar'" (click)="eliminarProducto()">Eliminar</button>
-        </div>
-        
-
-    </form>
-
+      <tr *ngFor="let img of imagenes; let i = index">
+        <td>
+          <label class="form-label" for="img" *ngIf="imagenes.length > 1"
+            >Imagen</label
+          >
+        </td>
+        <td colspan="4">
+          <input
+            class="form-control"
+            type="file"
+            accept="image/*"
+            name="img{{ i }}"
+            *ngIf="
+              (imagenes[i]?.file === null || imagenes[i]?.file?.name == '') &&
+              modo != 'eliminar'
+            "
+            (change)="guardarImagen($event, i)"
+          />
+          <img
+            *ngIf="imagenes[i].base64 != ''"
+            [src]="imagenes[i].base64"
+            style="width: 100px"
+          />
+        </td>
+        <td>
+          <button
+            *ngIf="modo != 'eliminar'"
+            type="button"
+            class="btn px-4 btn-danger rounded-pill text-light px-4 w-100"
+            (click)="eliminarImagen(i)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button
+            *ngIf="modo != 'eliminar'"
+            type="button"
+            class="btn text-light rounded-pill btn-primary mt-3 w-100"
+            (click)="nuevaImagen()"
+          >
+            Añadir imagen
+          </button>
+        </td>
+      </tr>
+    </table>
+    <div class="text-center">
+      <button
+        type="button"
+        class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4"
+        *ngIf="modo === 'registrar'"
+        (click)="registrarProductoCompleto()"
+      >
+        Registrar
+      </button>
+      <button
+        type="button"
+        class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4"
+        *ngIf="modo === 'modificar'"
+        (click)="modificarProducto()"
+      >
+        Modificar
+      </button>
+      <button
+        type="button"
+        class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4"
+        *ngIf="modo === 'eliminar'"
+        (click)="eliminarProducto()"
+      >
+        Eliminar
+      </button>
+    </div>
+  </form>
 </div>

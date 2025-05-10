@@ -17,6 +17,10 @@ export class ProductoService {
     );
   }
 
+  obtenerNombres(): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerNombres', '');
+  }
+
   registrarProductoCompleto(formData: object): Observable<any> {
     return this.http.post(this.apiUrl + '/registrarProductoCompleto', formData);
   }

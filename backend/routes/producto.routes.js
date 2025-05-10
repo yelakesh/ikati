@@ -35,4 +35,6 @@ router.post(
 
 router.post("/eliminarProducto", productoController.eliminarProductoController);
 
+router.post("/obtenerNombres", productoController.obtenerNombresController);
+
 module.exports = router;
