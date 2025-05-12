@@ -264,16 +264,7 @@ async function eliminarImagenes(id_producto) {
     id_producto
   );
   imagenes.forEach((imagen) => {
-    const ruta = path.join(
-      __dirname,
-      "..",
-      "..",
-      "frontend",
-      "public",
-      "imagenes",
-      "productos",
-      imagen.url
-    );
+    const ruta = path.join(__dirname, "..", "imagenesProductos", imagen.url);
     fs.unlink(ruta, (err) => {
       if (err) {
         console.error("Error al eliminar archivo:", err);
@@ -295,6 +286,11 @@ async function eliminarProductoController(req, res) {
     }
     await ProductoModel.eliminarImagenes(producto.id_producto);
     await ProductoModel.eliminarProducto(producto.nombre);
+    return res.status(200).json({
+      ok: true,
+      mensaje: "Producto eliminado con éxito",
+      producto: {},
+    });
   } catch (err) {
     console.error("Error en la busqueda del producto:", err);
     return res

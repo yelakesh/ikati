@@ -33,8 +33,7 @@
       <tr *ngIf="modo != 'registrar'">
         <td>Producto</td>
         <td colspan="4">
-          <mat-form-field class="w-100">
-            <mat-label>Nombre</mat-label>
+          <mat-form-field class="w-100 form-control">
             <input
               name="nombre"
               type="text"
@@ -46,7 +45,7 @@
             />
             <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
               @for (nombre of nombresFiltrados; track nombre) {
-              <mat-option (click)="completarDatosProducto()" [value]="nombre">{{ nombre }}</mat-option>
+              <mat-option (click)="completarDatos()" [value]="nombre">{{ nombre }}</mat-option>
               }
             </mat-autocomplete>
           </mat-form-field>
@@ -58,12 +57,12 @@
         </td>
         <td colspan="4">
           <textarea
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="descripcion"
             [(ngModel)]="producto.descripcion"
             rows="6"
-            required
           >
           </textarea>
         </td>
@@ -76,25 +75,27 @@
         <td>
           <div class="form-check form-check-inline">
             <input
+              [disabled]="modo=='eliminar'"
               class="form-check-input"
               type="radio"
               name="activo"
               id="activoSi"
               [value]="1"
               [(ngModel)]="producto.activo"
-              required
+              
             />
             <label class="form-check-label" for="activoSi">Sí</label>
           </div>
           <div class="form-check form-check-inline">
             <input
+              [disabled]="modo=='eliminar'"
               class="form-check-input"
               type="radio"
               name="activo"
               id="activoNo"
               [value]="0"
               [(ngModel)]="producto.activo"
-              required
+              
             />
             <label class="form-check-label" for="activoNo">No</label>
           </div>
@@ -106,6 +107,7 @@
         </td>
         <td colspan="4">
           <input
+            [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="animal"
@@ -120,6 +122,7 @@
         </td>
         <td colspan="4">
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="marca"
@@ -133,6 +136,7 @@
         </td>
         <td colspan="4">
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="tipo"
@@ -143,15 +147,17 @@
       </tr>
       <tr>
         <td>
-          <label class="form-label" for="descuento">Descuento</label>
+          <label class="form-label" for="descuento">Descuento (%)</label>
         </td>
         <td colspan="4">
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             step="0.1"
             type="number"
             name="descuento"
             [(ngModel)]="producto.descuento"
+            (keydown)="validarInput($event,'1')"
             required
           />
         </td>
@@ -162,12 +168,13 @@
         </td>
         <td colspan="4">
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
-            step="0.1"
+            step="0,1"
             type="number"
             name="valoracion"
             value=""
-            (input)="validarInput($event)"
+            (keydown)="validarInput($event,'1')"
             [(ngModel)]="producto.valoracion"
             required
           />
@@ -189,6 +196,7 @@
         </td>
         <td colspan="4">
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="nombre_variacion"
@@ -204,6 +212,7 @@
         </td>
         <td>
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="valor_variacion{{ i }}"
@@ -217,10 +226,13 @@
         </td>
         <td>
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="number"
+            step="0,01"
             name="precio{{ i }}"
             [(ngModel)]="v.precio"
+            (keydown)="validarInput($event,'2')"
             required
           />
         </td>
@@ -230,10 +242,12 @@
         </td>
         <td>
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="number"
             name="stock{{ i }}"
             [(ngModel)]="v.stock"
+            (keydown)="validarInput($event,'0')"
             required
           />
         </td>
@@ -276,11 +290,12 @@
         </td>
         <td>
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="filtro{{ i }}"
             [(ngModel)]="f.filtro"
-            required
+            
           />
         </td>
 
@@ -289,11 +304,12 @@
         </td>
         <td>
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
             name="valor{{ i }}"
             [(ngModel)]="f.valor"
-            required
+            
           />
         </td>
         <td>
@@ -336,6 +352,7 @@
         </td>
         <td colspan="4">
           <input
+          [disabled]="modo=='eliminar'"
             class="form-control"
             type="file"
             accept="image/*"
@@ -381,7 +398,7 @@
         type="button"
         class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4"
         *ngIf="modo === 'registrar'"
-        (click)="registrarProductoCompleto()"
+        (click)="registrar()"
       >
         Registrar
       </button>
@@ -389,7 +406,7 @@
         type="button"
         class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4"
         *ngIf="modo === 'modificar'"
-        (click)="modificarProducto()"
+        (click)="modificar()"
       >
         Modificar
       </button>
@@ -397,7 +414,7 @@
         type="button"
         class="grow-on-hover btn btn-danger shadow rounded-pill btn-lg w-25 text-light px-4 mt-5 mb-4"
         *ngIf="modo === 'eliminar'"
-        (click)="eliminarProducto()"
+        (click)="eliminar()"
       >
         Eliminar
       </button>

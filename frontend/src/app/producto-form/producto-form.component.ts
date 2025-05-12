@@ -2,16 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { ProductoService } from '../services/producto.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-producto-form',
@@ -25,17 +20,15 @@ import { of } from 'rxjs';
     MatInputModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    AsyncPipe,
   ],
   templateUrl: './producto-form.component.html',
   styleUrl: './producto-form.component.css',
 })
 export class ProductoFormComponent {
-  constructor(
-    private router: Router,
-    private productoService: ProductoService
-  ) {}
+  constructor(private productoService: ProductoService) {}
+
   @Input() modo: string = '';
+  soloLectura = this.modo == 'eliminar' ? true : false;
 
   producto = {
     nombre: '',
@@ -50,35 +43,38 @@ export class ProductoFormComponent {
 
   nombre_variacion = '';
 
-  variantes = [
-    {
-      valor_variacion: '',
-      precio: 0,
-      stock: 0,
-    },
-  ];
+  variantes = [{ valor_variacion: '', precio: 0, stock: 0 }];
 
-  filtros = [
-    {
-      filtro: '',
-      valor: '',
-    },
-  ];
-  imagenes = [
-    {
-      file: null as null | File,
-      base64: '',
-    },
-  ];
+  filtros = [{ filtro: '', valor: '' }];
 
-  nombres: string[] = [];
+  imagenes = [{ file: null as null | File, base64: '' }];
+
+  nombresSelect: string[] = [];
   nombresFiltrados: string[] = [];
 
-  filteredOptions!: Observable<string[]>;
+  animalesSelect: string[] = [];
+  animalesFiltrados: string[] = [];
+
+  marcasSelect: string[] = [];
+  marcasFiltradas: string[] = [];
+
+  tiposSelect: string[] = [];
+  tiposFiltrados: string[] = [];
+
+  variantesSelect: string[] = [];
+  variantesFiltrados: string[] = [];
+
+  filtrosSelect: string[] = [];
+  filtrosFiltrados: string[] = [];
 
   async ngOnInit(): Promise<void> {
-    await this.cargarSelect();
-    console.log(this.nombres);
+    await this.cargarNombres();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['modo']) {
+      this.vaciarInputs();
+    }
   }
 
   nuevoFiltro() {
@@ -109,7 +105,7 @@ export class ProductoFormComponent {
     this.imagenes.splice(i, 1);
   }
 
-  completarDatosProducto() {
+  completarDatos() {
     (this.producto.descripcion = ''),
       (this.producto.activo = 1),
       (this.producto.animal = ''),
@@ -150,7 +146,7 @@ export class ProductoFormComponent {
 
             for (const imagen of respuesta.imagenes) {
               if (imagen.url) {
-                fetch('http://localhost:4200/imagenes/productos/' + imagen.url)
+                fetch('http://localhost:3000/imagenesProductos/' + imagen.url)
                   .then((response) => response.blob())
                   .then(async (blob) => {
                     const file = new File([blob], imagen.url, {
@@ -178,11 +174,6 @@ export class ProductoFormComponent {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['modo']) {
-      this.vaciarInputs();
-    }
-  }
   vaciarInputs() {
     this.producto = {
       nombre: '',
@@ -212,31 +203,44 @@ export class ProductoFormComponent {
     this.imagenes = [{ file: null, base64: '' }];
   }
 
-  registrarProductoCompleto() {
-    const formData = new FormData();
+  async registrar() {
+    if (this.formularioValido()) {
+      const formData = new FormData();
 
-    formData.append('producto', JSON.stringify(this.producto));
-    formData.append('nombre_variacion', this.nombre_variacion);
-    formData.append('filtros', JSON.stringify(this.filtros));
-    formData.append('variantes', JSON.stringify(this.variantes));
+      formData.append('producto', JSON.stringify(this.producto));
+      formData.append('nombre_variacion', this.nombre_variacion);
+      formData.append('filtros', JSON.stringify(this.filtros));
+      formData.append('variantes', JSON.stringify(this.variantes));
 
-    this.imagenes.forEach((img) => {
-      if (img.file) {
-        formData.append('imagenes', img.file);
+      this.imagenes.forEach((img) => {
+        if (img.file) {
+          formData.append('imagenes', img.file);
+        }
+      });
+
+      this.productoService.registrarProductoCompleto(formData).subscribe({
+        next: (respuesta) => {
+          alert(respuesta.mensaje);
+        },
+        error: (err) => {
+          console.log(err);
+          alert(err.error.mensaje);
+        },
+      });
+
+      await this.cargarNombres();
+    }
+  }
+  formularioValido() {
+    const inputs = document.getElementsByTagName('input');
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].required && inputs[i].value == '') {
+        alert('Debe rellenar todos los campos obligatorios');
+        inputs[i].focus();
+        return false;
       }
-    });
-
-    this.productoService.registrarProductoCompleto(formData).subscribe({
-      next: (respuesta) => {
-        alert(respuesta.mensaje);
-      },
-      error: (err) => {
-        console.log(err);
-        alert(err.error.mensaje);
-      },
-    });
-
-    this.cargarSelect();
+    }
+    return true;
   }
 
   async guardarImagen(event: any, i: number) {
@@ -260,7 +264,7 @@ export class ProductoFormComponent {
     lector.readAsDataURL(img);
   }
 
-  modificarProducto() {
+  modificar() {
     const formData = new FormData();
 
     formData.append('producto', JSON.stringify(this.producto));
@@ -285,28 +289,27 @@ export class ProductoFormComponent {
     });
   }
 
-  eliminarProducto() {
+  eliminar() {
     this.productoService.eliminarProducto(this.producto).subscribe({
       next: (respuesta) => {
         alert(respuesta.mensaje);
+        this.vaciarInputs();
       },
       error: (err) => {
         console.log(err);
         alert(err.error.mensaje);
       },
     });
-    this.cargarSelect;
+    this.cargarNombres;
   }
 
-  async cargarSelect() {
-    this.nombres = [];
+  async cargarNombres() {
+    this.nombresSelect = [];
     this.productoService.obtenerNombres().subscribe({
       next: (respuesta) => {
-        console.log(respuesta);
-
         if (respuesta.ok) {
           respuesta.nombres.forEach((n: { nombre: string }) => {
-            this.nombres.push(n.nombre);
+            this.nombresSelect.push(n.nombre);
           });
         }
       },
@@ -314,19 +317,57 @@ export class ProductoFormComponent {
         alert('Cupón no encontrado');
       },
     });
-    this.nombresFiltrados = this.nombres;
+    this.nombresFiltrados = this.nombresSelect;
   }
 
   filtrarNombres() {
     if (this.producto.nombre == '') {
       this.vaciarInputs();
     }
-    this.nombresFiltrados = this.nombres.filter((f) =>
+    this.nombresFiltrados = this.nombresSelect.filter((f) =>
       f.toLowerCase().includes(this.producto.nombre.toLowerCase())
     );
   }
 
-  validarInput(event: any) {
-    console.log(event);
+  validarInput(event: any, tipo: string) {
+    let valor = event.target.value + '';
+    let tecla = event.key;
+    let patron;
+
+    switch (tipo) {
+      case '0':
+        patron = new RegExp(/^\d+$/);
+
+        if (!patron.test(valor + tecla) && tecla.length === 1) {
+          event.preventDefault();
+        } else if (valor == '0') {
+          event.target.value = '';
+        }
+
+        break;
+
+      case '1':
+        patron = new RegExp(/^\d+\.?\d?$/);
+
+        if (!patron.test(valor + tecla) && tecla.length === 1 && tecla != '.') {
+          event.preventDefault();
+        } else if (valor === '0' && tecla != '.') {
+          event.target.value = '';
+        }
+        break;
+
+      case '2':
+        patron = new RegExp(/^\d+\.?\d{0,2}$/);
+        if (!patron.test(valor + tecla) && tecla.length === 1 && tecla != '.') {
+          event.preventDefault();
+        } else if (valor === '0' && tecla != '.') {
+          event.target.value = '';
+        }
+
+        break;
+
+      default:
+        break;
+    }
   }
 }
