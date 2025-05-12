@@ -66,7 +66,7 @@
 
         <div class="mb-3">
             <label class="form-label" for="usuario">Usuario</label>
-            <input class="form-control" type="text" name="usuario" [(ngModel)]="admin.usuario" required>
+            <input [disabled]="true" class="form-control" type="text" name="usuario" [(ngModel)]="admin.usuario" required>
         </div>
 
         <button type="button" class="btn btn-danger text-light shadow mt-3 w-100" (click)="eliminarAdministrador()">Eliminar

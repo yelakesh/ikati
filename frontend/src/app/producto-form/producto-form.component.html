@@ -103,7 +103,7 @@
       </tr>
       <tr>
         <td>
-          <label class="form-label" for="animal">Animal</label>
+          <label class="form-label" for="animal">Animal*</label>
         </td>
         <td colspan="4">
           <input
@@ -118,7 +118,7 @@
       </tr>
       <tr>
         <td>
-          <label class="form-label" for="marca">Marca</label>
+          <label class="form-label" for="marca">Marca*</label>
         </td>
         <td colspan="4">
           <input
@@ -127,12 +127,13 @@
             type="text"
             name="marca"
             [(ngModel)]="producto.marca"
+            required
           />
         </td>
       </tr>
       <tr>
         <td>
-          <label class="form-label" for="tipo">Tipo de producto</label>
+          <label class="form-label" for="tipo">Tipo de producto*</label>
         </td>
         <td colspan="4">
           <input
@@ -158,13 +159,13 @@
             name="descuento"
             [(ngModel)]="producto.descuento"
             (keydown)="validarInput($event,'1')"
-            required
+            
           />
         </td>
       </tr>
       <tr>
         <td>
-          <label class="form-label" for="valoracion">Valoración</label>
+          <label class="form-label" for="valoracion">Valoración*</label>
         </td>
         <td colspan="4">
           <input
@@ -191,7 +192,7 @@
       <tr>
         <td>
           <label class="form-label" for="nombre_variacion"
-            >Distinción (peso, talla...)</label
+            >Distinción (peso, talla...)*</label
           >
         </td>
         <td colspan="4">
@@ -208,7 +209,7 @@
 
       <tr *ngFor="let v of variantes; let i = index">
         <td>
-          <label class="form-label" for="valor_variacion">Valor</label>
+          <label class="form-label" for="valor_variacion">Valor*</label>
         </td>
         <td>
           <input
@@ -222,7 +223,7 @@
         </td>
 
         <td>
-          <label class="form-label" for="precio">Precio</label>
+          <label class="form-label" for="precio">Precio*</label>
         </td>
         <td>
           <input
@@ -238,7 +239,7 @@
         </td>
 
         <td>
-          <label class="form-label" for="stock">Stock</label>
+          <label class="form-label" for="stock">Stock*</label>
         </td>
         <td>
           <input

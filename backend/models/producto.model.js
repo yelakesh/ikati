@@ -27,8 +27,8 @@ async function obtenerImagenesPorIdProducto(id_producto) {
 
 async function registrarProducto(objProducto) {
   const sql = `INSERT INTO productos 
-      (nombre, descripcion, activo, animal, marca, tipo, descuento, precio, valoracion) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      (nombre, descripcion, activo, animal, marca, tipo, descuento, valoracion) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const resultados = await db.query(sql, [
     objProducto.nombre,
     objProducto.descripcion,
@@ -37,7 +37,6 @@ async function registrarProducto(objProducto) {
     objProducto.marca,
     objProducto.tipo,
     objProducto.descuento,
-    objProducto.precio,
     objProducto.valoracion,
   ]);
   return resultados;

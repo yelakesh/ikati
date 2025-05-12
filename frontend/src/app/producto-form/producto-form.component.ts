@@ -221,6 +221,7 @@ export class ProductoFormComponent {
       this.productoService.registrarProductoCompleto(formData).subscribe({
         next: (respuesta) => {
           alert(respuesta.mensaje);
+          this.cargarNombres();
         },
         error: (err) => {
           console.log(err);
@@ -228,7 +229,7 @@ export class ProductoFormComponent {
         },
       });
 
-      await this.cargarNombres();
+      
     }
   }
   formularioValido() {
@@ -294,13 +295,14 @@ export class ProductoFormComponent {
       next: (respuesta) => {
         alert(respuesta.mensaje);
         this.vaciarInputs();
+        this.cargarNombres();
       },
       error: (err) => {
         console.log(err);
         alert(err.error.mensaje);
       },
     });
-    this.cargarNombres;
+    
   }
 
   async cargarNombres() {

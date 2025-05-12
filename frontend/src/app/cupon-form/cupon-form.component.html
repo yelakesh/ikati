@@ -1,102 +1,162 @@
-<div class="container d-flex justify-content-center align-items-center mt-4 mb-4">
+<div
+  class="container d-flex justify-content-center align-items-center mt-4 mb-4"
+>
+  <form
+    class="w-100 rounded shadow bg-white p-4"
+    style="max-width: 400px"
+    #miFormulario="ngForm"
+  >
+    <h3 class="text-center text-primary mb-1">Cupón</h3>
+    <p class="text-center" *ngIf="modo === 'registrar'">Añade un cupón:</p>
+    <p class="text-center" *ngIf="modo === 'modificar'">Modifica un cupón:</p>
+    <p class="text-center" *ngIf="modo === 'eliminar'">Elimina un cupón:</p>
 
-    <form class="w-100 rounded shadow bg-white p-4" style="max-width: 400px;" #miFormulario="ngForm">
+    <table>
+      <tr *ngIf="modo == 'registrar'">
+        <td>
+          <label class="form-label" for="codigo">Código</label>
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            name="codigo"
+            [(ngModel)]="cupon.codigo"
+            required
+          />
+        </td>
+      </tr>
+      <tr *ngIf="modo != 'registrar'">
+        <td>Codigo</td>
+        <td colspan="4">
+          <mat-form-field class="w-100 form-control">
+            <input
+              name="nombre"
+              type="text"
+              placeholder="Selecciona cupón"
+              matInput
+              [matAutocomplete]="auto"
+              [(ngModel)]="cupon.codigo"
+              (ngModelChange)="filtrarCupones()"
+            />
+            <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
+              @for (cupon of cuponesFiltrados; track cupon) {
+              <mat-option (click)="completarDatos()" [value]="cupon.codigo">{{ cupon.codigo }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label">¿Activado?</label>
+        </td>
+        <td>
+          <div class="form-check form-check-inline">
+            <input
+              [disabled]="modo == 'eliminar'"
+              class="form-check-input"
+              type="radio"
+              name="activo"
+              id="activoSi"
+              [value]="1"
+              [(ngModel)]="cupon.activo"
+              required
+            />
+            <label class="form-check-label" for="activoSi">Sí</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              [disabled]="modo == 'eliminar'"
+              class="form-check-input"
+              type="radio"
+              name="activo"
+              id="activoNo"
+              [value]="0"
+              [(ngModel)]="cupon.activo"
+              required
+            />
+            <label class="form-check-label" for="activoNo">No</label>
+          </div>
+        </td>
+      </tr>
 
-        <h3 class="text-center text-primary mb-1">Cupón</h3>
-        <p class="text-center " *ngIf="modo === 'registrar'">Añade un cupón:</p>
-        <p class="text-center" *ngIf="modo === 'modificar'">Modifica un cupón:</p>
-        <p class="text-center" *ngIf="modo === 'eliminar'">Elimina un cupón:</p>
+      <tr>
+        <td>
+          <label class="form-label" for="descuento">Descuento</label>
+        </td>
+        <td>
+          <input
+            [disabled]="modo == 'eliminar'"
+            class="form-control"
+            type="number"
+            name="descuento"
+            [(ngModel)]="cupon.descuento"
+            (keydown)="validarInput($event,'2')"
+            required
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="tipoDto">Tipo de descuento</label>
+        </td>
+        <td>
+          <select
+            id=selectDTO
+            [disabled]="modo == 'eliminar'"
+            name="tipoDto"
+            class="form-control"
+            [(ngModel)]="cupon.tipo_descuento"
+            required
+          >
+            <option [ngValue]="''" disabled selected>Selecciona opción</option>
+            <option *ngFor="let tipo of tiposDescuento" [ngValue]="tipo.valor">
+              {{ tipo.texto }}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="form-label" for="fechaFin">Fecha Fin</label>
+        </td>
+        <td>
+          <input
+            id="fechaFin"
+            [disabled]="modo == 'eliminar'"
+            class="form-control"
+            type="date"
+            name="fechaFin"
+            [(ngModel)]="cupon.fecha_expiracion"
+          />
+        </td>
+      </tr>
+    </table>
 
-        <table>
-            <tr>
-                <td>
-                    <label class="form-label" for="codigo">Código</label>
-                </td>
-                <td>
-                    <input class="form-control" type="text" name="codigo" [(ngModel)]="cupon.codigo" required>
-
-                </td>
-                <td>
-                    <button class="btn btn-secondary shadow"  (click)="completarDatosCupon()" *ngIf="modo !== 'registrar'">Buscar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                  <label class="form-label">¿Activado?</label>
-                </td>
-                <td>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="activo"
-                      id="activoSi"
-                      [value]="1"
-                      [(ngModel)]="cupon.activo"
-                      required
-                    >
-                    <label class="form-check-label" for="activoSi">Sí</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="activo"
-                      id="activoNo"
-                      [value]="0"
-                      [(ngModel)]="cupon.activo"
-                      required
-                    >
-                    <label class="form-check-label" for="activoNo">No</label>
-                  </div>
-                </td>
-              </tr>
-              
-
-            <tr>
-                <td>
-                    <label class="form-label" for="descuento">Descuento</label>
-                </td>
-                <td>
-                    <input class="form-control" type="number" name="descuento" [(ngModel)]="cupon.descuento" required>
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="tipoDto">Tipo de descuento</label>
-                </td>
-                <td>
-                    <select name="tipoDto" class="form-control" [(ngModel)]="cupon.tipo_descuento" required>
-                        <option [ngValue]="''" disabled selected>Selecciona opción</option>
-                        <option *ngFor="let tipo of tiposDescuento" [ngValue]="tipo.valor">{{tipo.texto}}
-
-                        </option>
-                    </select>
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="fechaFin">Fecha Fin</label>
-                </td>
-                <td>
-                    <input class="form-control" type="date" name="fechaFin" [(ngModel)]="cupon.fecha_expiracion">
-
-                </td>
-            </tr>
-            
-
-
-        </table>
-
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'"
-            (click)="nuevoCupon()">Nuevo Cupón</button>
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'"
-            (click)="modificar()">Modificar</button>
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'"
-            (click)="eliminar()">Eliminar</button>
-
-    </form>
-
+    <button
+      type="button"
+      class="grow-on-hover btn btn-danger mt-3 w-100 text-light"
+      *ngIf="modo === 'registrar'"
+      (click)="nuevoCupon()"
+    >
+      Nuevo Cupón
+    </button>
+    <button
+      type="button"
+      class="grow-on-hover btn btn-danger mt-3 w-100 text-light"
+      *ngIf="modo === 'modificar'"
+      (click)="modificar()"
+    >
+      Modificar
+    </button>
+    <button
+      type="button"
+      class="grow-on-hover btn btn-danger mt-3 w-100 text-light"
+      *ngIf="modo === 'eliminar'"
+      (click)="eliminar()"
+    >
+      Eliminar
+    </button>
+  </form>
 </div>

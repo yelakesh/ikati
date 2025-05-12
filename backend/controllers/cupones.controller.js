@@ -94,6 +94,34 @@ async function modificarPorCodigoController(req,res){
         res.status(500).json({ ok: true, mensaje: 'Error en el servidor', cupon: {} })
       }
     }
-  module.exports = { nuevoCuponController, modificarPorCodigoController, obtenerPorCodigoController, eliminarPorCodigoController };
+    async function obtenerTodosController(req, res) {
+      try {
+        const resultado = await CuponModel.obtenerTodos();
+
+        if (resultado.length === 0) {
+          return res
+            .status(404)
+            .json({ ok: false, mensaje: "Cupones no encontrados", cupon: {} });
+        }
+
+        res.json({
+          ok: true,
+          mensaje: "Cupones encontrados",
+          cupon: resultado,
+        });
+      } catch (err) {
+        console.error("Error en la busqueda de los cupones:", err);
+        res
+          .status(500)
+          .json({ ok: false, mensaje: "Error del servidor", cupon: {} });
+      }
+    }
+    module.exports = {
+      nuevoCuponController,
+      modificarPorCodigoController,
+      obtenerPorCodigoController,
+      eliminarPorCodigoController,
+      obtenerTodosController,
+    };
   
 

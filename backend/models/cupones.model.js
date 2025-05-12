@@ -27,10 +27,16 @@ async function obtenerPorCodigo(codigo) {
    return resultados;
  }
 
+ async function obtenerTodos() {
+   const sql = "SELECT * FROM cupones";
+   const resultados = await db.query(sql);
+   return resultados;
+ }
 
-module.exports = {
+ module.exports = {
    nuevoCupon,
    modificarPorCodigo,
    obtenerPorCodigo,
-   eliminarPorCodigo
-  };
+   eliminarPorCodigo,
+   obtenerTodos,
+ };
