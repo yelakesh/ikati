@@ -23,7 +23,7 @@
         <td colspan="4">
           <input
             class="form-control"
-            type="sele"
+            type="text"
             name="nombre"
             [(ngModel)]="producto.nombre"
             required
@@ -41,11 +41,11 @@
               matInput
               [matAutocomplete]="auto"
               [(ngModel)]="producto.nombre"
-              (ngModelChange)="filtrarNombres()"
+              (ngModelChange)="filtrarProductos()"
             />
-            <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
-              @for (nombre of nombresFiltrados; track nombre) {
-              <mat-option (click)="completarDatos()" [value]="nombre">{{ nombre }}</mat-option>
+            <mat-autocomplete #auto="matAutocomplete" class="bg-white">
+              @for (p of productosFiltrados; track p) {
+              <mat-option (click)="producto.id=p.id;this.completarDatos();" [value]="p.nombre">{{ p.nombre }}</mat-option>
               }
             </mat-autocomplete>
           </mat-form-field>
@@ -102,18 +102,24 @@
         </td>
       </tr>
       <tr>
-        <td>
-          <label class="form-label" for="animal">Animal*</label>
-        </td>
+        <td>Animal*</td>
         <td colspan="4">
-          <input
-            [disabled]="modo=='eliminar'"
-            class="form-control"
-            type="text"
-            name="animal"
-            [(ngModel)]="producto.animal"
-            required
-          />
+          <mat-form-field class="w-100 form-control">
+            <input
+              name="animal"
+              type="text"
+              placeholder="Selecciona animal"
+              matInput
+              [matAutocomplete]="auto"
+              [(ngModel)]="nombreAnimal"
+              (ngModelChange)="filtrarAnimales()"
+            />
+            <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
+              @for (animal of animalesFiltrados; track animal) {
+              <mat-option (click)="producto.id_animal=animal.id" [value]="animal.nombre">{{ animal.nombre }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
         </td>
       </tr>
       <tr>
@@ -126,7 +132,7 @@
             class="form-control"
             type="text"
             name="marca"
-            [(ngModel)]="producto.marca"
+            [(ngModel)]="producto.id_marca"
             required
           />
         </td>
@@ -141,7 +147,7 @@
             class="form-control"
             type="text"
             name="tipo"
-            [(ngModel)]="producto.tipo"
+            [(ngModel)]="producto.id_tipo"
             required
           />
         </td>
@@ -191,7 +197,7 @@
 
       <tr>
         <td>
-          <label class="form-label" for="nombre_variacion"
+          <label class="form-label" for="id_variacion"
             >Distinción (peso, talla...)*</label
           >
         </td>
@@ -200,8 +206,8 @@
           [disabled]="modo=='eliminar'"
             class="form-control"
             type="text"
-            name="nombre_variacion"
-            [(ngModel)]="nombre_variacion"
+            name="id_variacion"
+            [(ngModel)]="id_variacion"
             required
           />
         </td>

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductoService } from '../services/producto.service';
+import { AnimalService } from '../services/animal.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -25,23 +26,29 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './producto-form.component.css',
 })
 export class ProductoFormComponent {
-  constructor(private productoService: ProductoService) {}
+  constructor(
+    private productoService: ProductoService,
+    private animalService: AnimalService
+  ) {}
 
   @Input() modo: string = '';
   soloLectura = this.modo == 'eliminar' ? true : false;
 
+  nombreAnimal = '';
+
   producto = {
+    id: 0,
     nombre: '',
     descripcion: '',
     activo: 1,
-    animal: '',
-    marca: '',
-    tipo: '',
+    id_animal: '',
+    id_marca: '',
+    id_tipo: '',
     descuento: 0,
     valoracion: 0,
   };
 
-  nombre_variacion = '';
+  id_variacion = '';
 
   variantes = [{ valor_variacion: '', precio: 0, stock: 0 }];
 
@@ -49,11 +56,11 @@ export class ProductoFormComponent {
 
   imagenes = [{ file: null as null | File, base64: '' }];
 
-  nombresSelect: string[] = [];
-  nombresFiltrados: string[] = [];
+  productosSelect: { id: number; nombre: string }[] = [];
+  productosFiltrados: { id: number; nombre: string }[] = [];
 
-  animalesSelect: string[] = [];
-  animalesFiltrados: string[] = [];
+  animalesSelect: { id: string; nombre: string }[] = [];
+  animalesFiltrados: { id: string; nombre: string }[] = [];
 
   marcasSelect: string[] = [];
   marcasFiltradas: string[] = [];
@@ -69,6 +76,7 @@ export class ProductoFormComponent {
 
   async ngOnInit(): Promise<void> {
     await this.cargarNombres();
+    await this.cargarAnimales();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -105,15 +113,15 @@ export class ProductoFormComponent {
     this.imagenes.splice(i, 1);
   }
 
-  completarDatos() {
+  async completarDatos() {
     (this.producto.descripcion = ''),
       (this.producto.activo = 1),
-      (this.producto.animal = ''),
-      (this.producto.marca = ''),
-      (this.producto.tipo = ''),
+      (this.producto.id_animal = ''),
+      (this.producto.id_marca = ''),
+      (this.producto.id_tipo = ''),
       (this.producto.descuento = 0),
       (this.producto.valoracion = 0),
-      (this.nombre_variacion = ''),
+      (this.id_variacion = ''),
       (this.variantes = [
         {
           valor_variacion: '',
@@ -129,20 +137,21 @@ export class ProductoFormComponent {
     ];
     this.imagenes = [];
     if (this.producto.nombre != '') {
-      this.productoService.obtenerProductoCompleto(this.producto).subscribe({
-        next: (respuesta) => {
+      this.productoService.obtenerProductoPorId(this.producto).subscribe({
+        next: async (respuesta) => {
           if (respuesta.ok) {
             (this.producto.descripcion = respuesta.producto.descripcion),
               (this.producto.activo = respuesta.producto.activo),
-              (this.producto.animal = respuesta.producto.animal),
-              (this.producto.marca = respuesta.producto.marca),
-              (this.producto.tipo = respuesta.producto.tipo),
+              (this.producto.id_animal = respuesta.producto.id_animal),
+              (this.producto.id_marca = respuesta.producto.id_marca),
+              (this.producto.id_tipo = respuesta.producto.id_tipo),
               (this.producto.descuento = respuesta.producto.descuento),
               (this.producto.valoracion = respuesta.producto.valoracion);
 
-            this.nombre_variacion = respuesta.nombre_variacion;
+            this.id_variacion = respuesta.nombre_variacion;
             this.variantes = respuesta.variantes;
             this.filtros = respuesta.filtros;
+            this.obtenerNombreAnimal();
 
             for (const imagen of respuesta.imagenes) {
               if (imagen.url) {
@@ -176,16 +185,18 @@ export class ProductoFormComponent {
 
   vaciarInputs() {
     this.producto = {
+      id: 0,
       nombre: '',
       descripcion: '',
       activo: 1,
-      animal: '',
-      marca: '',
-      tipo: '',
+      id_animal: '',
+      id_marca: '',
+      id_tipo: '',
       descuento: 0,
       valoracion: 0,
     };
-    this.nombre_variacion = '';
+    this.nombreAnimal = '';
+    this.id_variacion = '';
     this.variantes = [
       {
         valor_variacion: '',
@@ -208,7 +219,7 @@ export class ProductoFormComponent {
       const formData = new FormData();
 
       formData.append('producto', JSON.stringify(this.producto));
-      formData.append('nombre_variacion', this.nombre_variacion);
+      formData.append('id_variacion', this.id_variacion);
       formData.append('filtros', JSON.stringify(this.filtros));
       formData.append('variantes', JSON.stringify(this.variantes));
 
@@ -228,109 +239,21 @@ export class ProductoFormComponent {
           alert(err.error.mensaje);
         },
       });
-
-      
     }
   }
   formularioValido() {
     const inputs = document.getElementsByTagName('input');
     for (let i = 0; i < inputs.length; i++) {
-      if (inputs[i].required && inputs[i].value == '') {
+      if (
+        inputs[i].required &&
+        (inputs[i].value == '' || inputs[i].value == '0')
+      ) {
         alert('Debe rellenar todos los campos obligatorios');
         inputs[i].focus();
         return false;
       }
     }
     return true;
-  }
-
-  async guardarImagen(event: any, i: number) {
-    let img = event.target.files[0];
-    await this.aBase64(img, i);
-    this.imagenes[i].file = img;
-  }
-
-  async aBase64(img: any, i: number) {
-    const lector = new FileReader();
-
-    lector.onload = () => {
-      const base64 = lector.result as string;
-      this.imagenes[i].base64 = base64;
-    };
-
-    lector.onerror = (error) => {
-      console.error('Error al convertir a base64:', error);
-    };
-
-    lector.readAsDataURL(img);
-  }
-
-  modificar() {
-    if (this.formularioValido()) {
-      const formData = new FormData();
-
-      formData.append('producto', JSON.stringify(this.producto));
-      formData.append('nombre_variacion', this.nombre_variacion);
-      formData.append('filtros', JSON.stringify(this.filtros));
-      formData.append('variantes', JSON.stringify(this.variantes));
-
-      this.imagenes.forEach((img) => {
-        if (img.file) {
-          formData.append('imagenes', img.file);
-        }
-      });
-
-      this.productoService.modificarProducto(formData).subscribe({
-        next: (respuesta) => {
-          alert(respuesta.mensaje);
-        },
-        error: (err) => {
-          console.log(err);
-          alert(err.error.mensaje);
-        },
-      });
-    }
-  }
-
-  eliminar() {
-    this.productoService.eliminarProducto(this.producto).subscribe({
-      next: (respuesta) => {
-        alert(respuesta.mensaje);
-        this.vaciarInputs();
-        this.cargarNombres();
-      },
-      error: (err) => {
-        console.log(err);
-        alert(err.error.mensaje);
-      },
-    });
-    
-  }
-
-  async cargarNombres() {
-    this.nombresSelect = [];
-    this.productoService.obtenerNombres().subscribe({
-      next: (respuesta) => {
-        if (respuesta.ok) {
-          respuesta.nombres.forEach((n: { nombre: string }) => {
-            this.nombresSelect.push(n.nombre);
-          });
-        }
-      },
-      error: () => {
-        alert('Cupón no encontrado');
-      },
-    });
-    this.nombresFiltrados = this.nombresSelect;
-  }
-
-  filtrarNombres() {
-    if (this.producto.nombre == '') {
-      this.vaciarInputs();
-    }
-    this.nombresFiltrados = this.nombresSelect.filter((f) =>
-      f.toLowerCase().includes(this.producto.nombre.toLowerCase())
-    );
   }
 
   validarInput(event: any, tipo: string) {
@@ -372,6 +295,129 @@ export class ProductoFormComponent {
 
       default:
         break;
+    }
+  }
+
+  async guardarImagen(event: any, i: number) {
+    let img = event.target.files[0];
+    await this.aBase64(img, i);
+    this.imagenes[i].file = img;
+  }
+
+  async aBase64(img: any, i: number) {
+    const lector = new FileReader();
+
+    lector.onload = () => {
+      const base64 = lector.result as string;
+      this.imagenes[i].base64 = base64;
+    };
+
+    lector.onerror = (error) => {
+      console.error('Error al convertir a base64:', error);
+    };
+
+    lector.readAsDataURL(img);
+  }
+
+  modificar() {
+    if (this.formularioValido()) {
+      const formData = new FormData();
+
+      formData.append('producto', JSON.stringify(this.producto));
+      formData.append('nombre_variacion', this.id_variacion);
+      formData.append('filtros', JSON.stringify(this.filtros));
+      formData.append('variantes', JSON.stringify(this.variantes));
+
+      this.imagenes.forEach((img) => {
+        if (img.file) {
+          formData.append('imagenes', img.file);
+        }
+      });
+
+      this.productoService.modificarProducto(formData).subscribe({
+        next: (respuesta) => {
+          alert(respuesta.mensaje);
+        },
+        error: (err) => {
+          console.log(err);
+          alert(err.error.mensaje);
+        },
+      });
+    }
+  }
+
+  eliminar() {
+    this.productoService.eliminarProducto(this.producto).subscribe({
+      next: (respuesta) => {
+        alert(respuesta.mensaje);
+        this.vaciarInputs();
+        this.cargarNombres();
+      },
+      error: (err) => {
+        console.log(err);
+        alert(err.error.mensaje);
+      },
+    });
+  }
+
+  async cargarNombres() {
+    this.productosSelect = [];
+    this.productoService.obtenerNombres().subscribe({
+      next: (respuesta) => {
+        if (respuesta.ok) {
+          respuesta.productos.forEach((n: { id: number; nombre: string }) => {
+            this.productosSelect.push({ id: n.id, nombre: n.nombre });
+          });
+        }
+      },
+      error: () => {
+        alert('Cupón no encontrado');
+      },
+    });
+    this.productosFiltrados = this.productosSelect;
+  }
+
+  cambiarId(id: number) {
+    this.producto.id = id;
+  }
+
+  filtrarProductos() {
+    if (this.producto.nombre == '') {
+      this.vaciarInputs();
+    }
+    this.productosFiltrados = this.productosSelect.filter((f) =>
+      f.nombre.toLowerCase().includes(this.producto.nombre.toLowerCase())
+    );
+  }
+
+  async cargarAnimales() {
+    this.animalesSelect = [];
+    this.animalService.obtenerAnimales().subscribe({
+      next: (respuesta) => {
+        if (respuesta.ok) {
+          respuesta.animales.forEach((a: { id: string; nombre: string }) => {
+            this.animalesSelect.push({ id: a.id, nombre: a.nombre });
+          });
+        }
+        this.animalesFiltrados = this.animalesSelect;
+      },
+      error: () => {
+        alert('Error en la carga de animales');
+      },
+    });
+  }
+
+  filtrarAnimales() {
+    this.animalesFiltrados = this.animalesSelect.filter((f) =>
+      f.nombre.toLowerCase().includes(this.nombreAnimal.toLowerCase())
+    );
+  }
+  obtenerNombreAnimal() {
+    const animal = this.animalesSelect.find(
+      (a) => a.id === this.producto.id_animal
+    );
+    if (animal) {
+      this.nombreAnimal = animal?.nombre;
     }
   }
 }

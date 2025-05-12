@@ -7,6 +7,7 @@ Texto enriquecido para la descripcion de productos
 ¿Variantes, marcas y animales? Tabla nueva, dejarlo...
 Guardar TODO en mayusculas en BBDD
 confirmar contraseña de usuario al registrar
+Cambiar las busquedas de nombres por ids
 
 
 HACER

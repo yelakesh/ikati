@@ -10,11 +10,8 @@ export class ProductoService {
 
   constructor(private http: HttpClient) {}
 
-  obtenerProductoCompleto(objProducto: object): Observable<any> {
-    return this.http.post(
-      this.apiUrl + '/obtenerProductoCompleto',
-      objProducto
-    );
+  obtenerProductoPorId(objProducto: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerProductoPorId', objProducto);
   }
 
   obtenerNombres(): Observable<any> {

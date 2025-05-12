@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-05-2025 a las 04:31:42
+-- Tiempo de generación: 13-05-2025 a las 00:30:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -38,7 +38,27 @@ CREATE TABLE `administradores` (
 --
 
 INSERT INTO `administradores` (`id`, `usuario`, `contrasena`) VALUES
-(4, 'Campos', '123');
+(4, 'Campos', '123'),
+(5, '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `animales`
+--
+
+CREATE TABLE `animales` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `animales`
+--
+
+INSERT INTO `animales` (`id`, `nombre`) VALUES
+(2, 'Gato'),
+(1, 'Perro');
 
 -- --------------------------------------------------------
 
@@ -128,7 +148,19 @@ CREATE TABLE `filtros` (
 CREATE TABLE `imagenes` (
   `id` int(11) NOT NULL,
   `id_producto` int(11) DEFAULT NULL,
-  `url` varchar(500) DEFAULT NULL
+  `nombre` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `marcas`
+--
+
+CREATE TABLE `marcas` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `imagen` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -142,13 +174,20 @@ CREATE TABLE `productos` (
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `activo` tinyint(4) DEFAULT NULL,
-  `animal` varchar(50) DEFAULT NULL,
-  `marca` varchar(50) DEFAULT NULL,
-  `tipo` varchar(50) DEFAULT NULL,
+  `id_animal` int(11) DEFAULT NULL,
+  `id_marca` int(11) DEFAULT NULL,
+  `id_tipo` int(11) DEFAULT NULL,
   `descuento` decimal(10,2) DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
   `valoracion` decimal(2,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `activo`, `id_animal`, `id_marca`, `id_tipo`, `descuento`, `precio`, `valoracion`) VALUES
+(57, 'Nath Adult Sterilised Pollo y Arroz pienso para gatos', 'p', 1, 2, 0, 0, 1.00, NULL, 1.0);
 
 -- --------------------------------------------------------
 
@@ -159,11 +198,33 @@ CREATE TABLE `productos` (
 CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `tipo` varchar(50) NOT NULL,
+  `id_tipo` int(11) NOT NULL,
   `latitud` decimal(10,8) NOT NULL,
   `longitud` decimal(11,8) NOT NULL,
   `direccion` varchar(150) NOT NULL,
   `web` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipos_variacion`
+--
+
+CREATE TABLE `tipos_variacion` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_producto`
+--
+
+CREATE TABLE `tipo_producto` (
+  `id` int(11) NOT NULL,
+  `tipo` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -203,7 +264,7 @@ CREATE TABLE `variantes` (
   `id_producto` int(11) NOT NULL,
   `precio` decimal(8,2) NOT NULL,
   `stock` int(11) NOT NULL,
-  `nombre_variacion` varchar(100) NOT NULL,
+  `id_variacion` int(11) NOT NULL,
   `valor_variacion` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -217,6 +278,13 @@ CREATE TABLE `variantes` (
 ALTER TABLE `administradores`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nombre` (`usuario`);
+
+--
+-- Indices de la tabla `animales`
+--
+ALTER TABLE `animales`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`);
 
 --
 -- Indices de la tabla `aviso_stock`
@@ -268,6 +336,13 @@ ALTER TABLE `imagenes`
   ADD KEY `id_producto` (`id_producto`);
 
 --
+-- Indices de la tabla `marcas`
+--
+ALTER TABLE `marcas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
 -- Indices de la tabla `productos`
 --
 ALTER TABLE `productos`
@@ -279,6 +354,20 @@ ALTER TABLE `productos`
 --
 ALTER TABLE `servicios`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipos_variacion`
+--
+ALTER TABLE `tipos_variacion`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tipo` (`tipo`);
+
+--
+-- Indices de la tabla `tipo_producto`
+--
+ALTER TABLE `tipo_producto`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tipo` (`tipo`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -304,6 +393,12 @@ ALTER TABLE `variantes`
 -- AUTO_INCREMENT de la tabla `administradores`
 --
 ALTER TABLE `administradores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `animales`
+--
+ALTER TABLE `animales`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
@@ -322,25 +417,43 @@ ALTER TABLE `cupones`
 -- AUTO_INCREMENT de la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT de la tabla `marcas`
+--
+ALTER TABLE `marcas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `tipos_variacion`
+--
+ALTER TABLE `tipos_variacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_producto`
+--
+ALTER TABLE `tipo_producto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -352,7 +465,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `variantes`
 --
 ALTER TABLE `variantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

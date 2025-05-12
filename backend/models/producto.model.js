@@ -5,6 +5,11 @@ async function obtenerProductoPorNombre(nombre) {
   const resultados = await db.query(sql, [nombre]);
   return resultados;
 }
+async function obtenerProductoPorId(id) {
+  const sql = "SELECT * FROM productos WHERE id=?";
+  const resultados = await db.query(sql, [id]);
+  return resultados;
+}
 
 async function obtenerFiltrosPorIdProducto(id_producto) {
   const sql = "SELECT filtro,valor FROM filtros WHERE id_producto=?";
@@ -14,26 +19,20 @@ async function obtenerFiltrosPorIdProducto(id_producto) {
 
 async function obtenerVariantesPorIdProducto(id_producto) {
   const sql =
-    "SELECT nombre_variacion,valor_variacion,precio,stock FROM variantes WHERE id_producto=?";
-  const resultados = await db.query(sql, [id_producto]);
-  return resultados;
-}
-
-async function obtenerImagenesPorIdProducto(id_producto) {
-  const sql = "SELECT url FROM imagenes WHERE id_producto=?";
+    "SELECT id_variacion,valor_variacion,precio,stock FROM variantes WHERE id_producto=?";
   const resultados = await db.query(sql, [id_producto]);
   return resultados;
 }
 
 async function registrarProducto(objProducto) {
   const sql = `INSERT INTO productos 
-      (nombre, descripcion, activo, animal, marca, tipo, descuento, valoracion) 
+      (nombre, descripcion, activo, id_animal, marca, tipo, descuento, valoracion) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const resultados = await db.query(sql, [
     objProducto.nombre,
     objProducto.descripcion,
     objProducto.activo,
-    objProducto.animal,
+    objProducto.id_animal,
     objProducto.marca,
     objProducto.tipo,
     objProducto.descuento,
@@ -68,30 +67,17 @@ async function registrarVariante(
   return resultados;
 }
 
-async function registrarImagen(id_producto, url) {
-  const sql = `INSERT INTO imagenes 
-      (id_producto,url) 
-      VALUES (?, ?)`;
-  const resultados = await db.query(sql, [id_producto, url]);
-  return resultados;
-}
-
-async function obtenerImagenesPorIdProducto(id_producto) {
-  const sql = `SELECT * FROM imagenes where id_producto=?`;
-  const resultados = await db.query(sql, [id_producto]);
-  return resultados;
-}
-
 async function obtenerNombres() {
-  const sql = `SELECT nombre FROM productos`;
+  const sql = `SELECT id,nombre FROM productos`;
   const resultados = await db.query(sql);
   return resultados;
 }
 
 async function modificarProducto(objProducto) {
   const sql = `UPDATE productos set
-      descripcion=?, activo=?, animal=?, marca=?, tipo=?, descuento=?, precio=?, valoracion=?
-      WHERE nombre=?`;
+      descripcion=?, activo=?, id_animal=?, marca=?, tipo=?, descuento=?, precio=?, valoracion=?
+      WHERE id=?`;
+
   const resultados = await db.query(sql, [
     objProducto.descripcion,
     objProducto.activo,
@@ -102,6 +88,7 @@ async function modificarProducto(objProducto) {
     objProducto.precio,
     objProducto.valoracion,
     objProducto.nombre,
+    objProducto.id,
   ]);
 
   return resultados;
@@ -119,31 +106,23 @@ async function eliminarVariantes(id_producto) {
   return resultados;
 }
 
-async function eliminarImagenes(id_producto) {
-  const sql = "DELETE FROM imagenes WHERE id_producto=?";
-  const resultados = await db.query(sql, [id_producto]);
-  return resultados;
-}
-
-async function eliminarProducto(nombre) {
-  const sql = "DELETE FROM productos WHERE nombre=?";
-  const resultados = await db.query(sql, [nombre]);
+async function eliminarProducto(id) {
+  const sql = "DELETE FROM productos WHERE id=?";
+  const resultados = await db.query(sql, [id]);
   return resultados;
 }
 
 module.exports = {
   obtenerProductoPorNombre,
   obtenerFiltrosPorIdProducto,
-  obtenerImagenesPorIdProducto,
   obtenerVariantesPorIdProducto,
+  obtenerProductoPorId,
   registrarFiltro,
-  registrarImagen,
   registrarProducto,
   registrarVariante,
   modificarProducto,
   eliminarFiltros,
   eliminarVariantes,
-  eliminarImagenes,
   eliminarProducto,
   obtenerNombres,
 };
