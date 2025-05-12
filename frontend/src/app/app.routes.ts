@@ -8,6 +8,7 @@ import { OfertasComponent } from "./pages/ofertas/ofertas.component";
 import { RegistroComponent } from "./registro/registro.component";
 import { RegistroExitoComponent } from "./components/registro-exito/registro-exito.component";
 import { LogoutComponent } from "./components/logout/logout.component";
+import { CambiarPassAdminComponent } from './components/cambiar-pass-admin/cambiar-pass-admin.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
     { path: "ofertas", component: OfertasComponent, data: { breadcrumb: 'Ofertas' } },
     { path: "registro", component: RegistroComponent, data: { breadcrumb: 'Registro' } },
     { path: 'registro-exito', component: RegistroExitoComponent } ,
-    { path: 'logout', component: LogoutComponent }
+    { path: 'logout', component: LogoutComponent },
+    { path: 'cambiar-pass-admin', component: CambiarPassAdminComponent, data: { breadcrumb: 'Cambiar Contrasena' } }
 
 ];

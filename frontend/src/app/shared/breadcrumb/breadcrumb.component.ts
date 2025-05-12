@@ -68,7 +68,8 @@ export class BreadcrumbComponent implements OnInit {
       'servicios': 'Servicios',
       'ofertas' : 'Ofertas',
       'registro': 'Crear Cuenta',
-      'login': 'Iniciar Sesión'
+      'login': 'Iniciar Sesión',
+      'cambiar-pass-admin': 'Cambiar Password'
 
     };
     return breadcrumbMap[segment] || segment;

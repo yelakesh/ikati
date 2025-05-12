@@ -40,7 +40,7 @@ export class LoginComponent {
           console.log(respuesta)
 
           this.usuarioService.setUsuario(respuesta.usuario);
-          alert(respuesta.mensaje);
+          
           this.router.navigate(['home']);
         } else {
           alert(respuesta.mensaje);
@@ -62,7 +62,7 @@ export class LoginComponent {
           console.log(respuesta)
           this.usuarioService.setUsuario(respuesta.usuario)
           
-          alert("Bienvenido " + this.usuario.usuario)
+          
           this.router.navigate(['administracion']);
 
 

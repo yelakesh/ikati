@@ -131,7 +131,7 @@ export class CuponFormComponent {
         }
       },
       error: (error) => {
-        alert(error.mensaje);
+        
       },
     });
   }
