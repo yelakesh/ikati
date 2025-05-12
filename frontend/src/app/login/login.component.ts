@@ -60,8 +60,8 @@ export class LoginComponent {
         if (respuesta.ok) {
 
           console.log(respuesta)
-
-          sessionStorage.setItem('usuario', JSON.stringify(respuesta.usuario))
+          this.usuarioService.setUsuario(respuesta.usuario)
+          
           alert("Bienvenido " + this.usuario.usuario)
           this.router.navigate(['administracion']);
 

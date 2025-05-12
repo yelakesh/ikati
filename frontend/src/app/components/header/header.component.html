@@ -34,15 +34,21 @@
       <div class="d-flex align-items-center">
         
         <div class="dropdown" (mouseenter)="open=true" (mouseleave)="open=false">
-          <img src="imagenes/cabeceraweb/iniciarsesion.png" height="20" alt="Mi Perfil">
-          <button class="btn btn-link dropdown-toggle text-decoration-none" [class.show]="open" [attr.aria-expanded]="open">
-            Hola {{ usuario.nombre }}
+          <img class="mb-1" src="imagenes/cabeceraweb/iniciarsesion.png" height="16" alt="Mi Perfil">
+          <button *ngIf="usuario.rol=='admin';else botonUser" class="btn btn-link dropdown-toggle text-decoration-none" style="font-size: small;" [class.show]="open" [attr.aria-expanded]="open">
+            Hola {{ usuario.usuario }} <span class="text-danger">({{usuario.rol}})</span> 
           </button>
+          <ng-template #botonUser>
+            <button class="btn btn-link dropdown-toggle text-decoration-none" style="font-size: small;" [class.show]="open" [attr.aria-expanded]="open">
+              Hola {{ usuario.nombre }}
+            </button>
+          </ng-template>
           <div class="dropdown-menu dropdown-menu-end" [class.show]="open">
-            <a class="dropdown-item" routerLink="/perfil">Mi Perfil</a>
-            <a class="dropdown-item" routerLink="/pedidos">Mis Pedidos</a>
+            <a class="dropdown-item" style="font-size: small;" routerLink="/perfil">Mi Perfil</a>
+            <a class="dropdown-item" routerLink="/pedidos" style="font-size: small;">Mis Pedidos</a>
+            <a *ngIf="usuario.rol=='admin'" class="dropdown-item" routerLink="/administracion" style="font-size: small;">Ir a Panel Admin</a>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-item text-danger"  (click)="logOut()">Cerrar Sesión</button>
+            <button class="dropdown-item text-danger " style="font-size: small;"  (click)="logOut()">Cerrar Sesión</button>
           </div>
          
         </div>

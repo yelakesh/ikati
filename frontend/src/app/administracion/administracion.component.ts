@@ -6,11 +6,12 @@ import { ProductoFormComponent } from '../producto-form/producto-form.component'
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AdminFormComponent } from '../admin-form/admin-form.component';
+import { HeaderComponent } from "../components/header/header.component";
 
 
 @Component({
   selector: 'app-administracion',
-  imports: [AdminFormComponent, UsuarioFormComponent,CommonModule, CuponFormComponent,ServicioFormComponent, ProductoFormComponent, RouterLink],
+  imports: [AdminFormComponent, UsuarioFormComponent, CommonModule, CuponFormComponent, ServicioFormComponent, ProductoFormComponent, RouterLink, HeaderComponent],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'
 })

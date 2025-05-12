@@ -85,7 +85,7 @@ export class UsuarioFormComponent {
     this.usuarioService.registrar(this.usuario).subscribe({
       next: (respuesta) => {
         if (this.origen === 'registro') {
-          // Redirige a la página de éxito solo si es registro público
+         
           this.router.navigate(['/registro-exito']);
         } else {
          
