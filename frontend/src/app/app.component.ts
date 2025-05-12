@@ -5,13 +5,14 @@ import { AdministracionComponent } from "./administracion/administracion.compone
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AdministracionComponent, LoginComponent, RouterModule,HomeComponent, ServiciosComponent],
+  imports: [MatTabsModule,RouterOutlet, AdministracionComponent, LoginComponent, RouterModule,HomeComponent, ServiciosComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

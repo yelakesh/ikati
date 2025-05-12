@@ -1,8 +1,8 @@
-<app-header/>
+
 <div class=" d-flex justify-content-start ms-5 py-3">
-    <app-breadcrumb></app-breadcrumb>
+    
 </div>
-<div class="container d-flex justify-content-center align-items-center ">
+<div class="container d-flex flex-column align-items-center justify-content-center">
 
     <form class="w-100 rounded shadow bg-white p-4"
             style="max-width: 300px;" (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
@@ -20,13 +20,17 @@
 
         </div>
 
-        <button class="btn btn-link text-decoration-none text-center mt-1 mb-5" routerLink="/registro" >No tengo cuenta. Registrarme</button>
         
-        <button class="text-light btn btn-danger mt-3 w-100" type="submit">Enviar</button>
+        
+        <button class="text-light btn btn-danger mt-3 w-100" type="submit">Iniciar sesión</button>
     </form>
 
+
+
 </div>
+
 <div class="text-center">
+    
     <button class="btn btn-link" (click)="comprobarLoginAdmin()">Login Admin</button>
     <button class="btn btn-link" routerLink="/home">Ir a Home</button>
 
