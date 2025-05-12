@@ -10,25 +10,48 @@
         
         
         <table class="table table-bordered align-middle">
-            <tr>
+            <tr *ngIf="modo == 'registrar'">
                 <td>
-                    <label class="form-label" for="usuario">Usuario</label>
-                </td>
-                <td >
-                    <input class="form-control" type="text" name="usuario" [(ngModel)]="usuario.usuario" required>
-
+                  <label class="form-label" for="usuario">Usuario</label>
                 </td>
                 <td>
-                    <button class="btn btn-secondary" (click)="completarDatosUsuario()" *ngIf="modo !== 'registrar'">Buscar</button>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="usuario"
+                    [(ngModel)]="usuario.usuario"
+                    required
+                  />
                 </td>
-            </tr>
+              </tr>
+              <tr *ngIf="modo != 'registrar'">
+                <td>Usuario</td>
+                <td colspan="4">
+                  <mat-form-field class="w-100 form-control">
+                    <input
+                      name="usuario"
+                      type="text"
+                      placeholder="Selecciona usuario"
+                      matInput
+                      [matAutocomplete]="auto"
+                      [(ngModel)]="usuario.usuario"
+                      (ngModelChange)="filtrarUsuarios()"
+                    />
+                    <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
+                      @for (usuario of usuariosFiltrados; track usuario) {
+                      <mat-option (click)="completarDatos()" [value]="usuario.usuario">{{ usuario.usuario }}</mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </td>
+              </tr>
             <tr>
                 <td>
                     <label class="form-label" for="contrasena">Contraseña</label>
 
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena"
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena"
                         required>
                 </td>
             </tr>
@@ -38,7 +61,7 @@
                     <label class="form-label" for="nombre">Nombre</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
 
                 </td>
             </tr>
@@ -47,7 +70,7 @@
                     <label class="form-label" for="apellido1">Primer apellido</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="text" name="apellido1" [(ngModel)]="usuario.apellido1" required>
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="apellido1" [(ngModel)]="usuario.apellido1" required>
 
                 </td>
             </tr>
@@ -56,7 +79,7 @@
                     <label class="form-label" for="apellido2">Segundo apellido</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="text" name="apellido2" [(ngModel)]="usuario.apellido2">
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="apellido2" [(ngModel)]="usuario.apellido2">
 
                 </td>
             </tr>
@@ -65,7 +88,7 @@
                     <label class="form-label" for="email">Email</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="email" name="email" [(ngModel)]="usuario.email" required>
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="email" name="email" [(ngModel)]="usuario.email" required>
 
                 </td>
             </tr>
@@ -74,7 +97,7 @@
                     <label class="form-label" for="telefono">Telefono</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="text" name="telefono" [(ngModel)]="usuario.telefono" required>
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="telefono" [(ngModel)]="usuario.telefono" required>
 
                 </td>
             </tr>
@@ -83,7 +106,7 @@
                     <label class="form-label" for="cp">Código postal</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="text" name="cp" [(ngModel)]="usuario.cp" required>
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="cp" [(ngModel)]="usuario.cp" required>
 
                 </td>
             </tr>
@@ -92,7 +115,7 @@
                     <label class="form-label" for="direccion">Dirección</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="text" name="direccion" [(ngModel)]="usuario.direccion" required>
+                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="direccion" [(ngModel)]="usuario.direccion" required>
 
                 </td>
             </tr>

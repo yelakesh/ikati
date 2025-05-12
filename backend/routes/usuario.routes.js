@@ -8,4 +8,5 @@ router.post('/obtenerPorUsuario', usuarioController.obtenerPorUsuarioController)
 router.post('/registrar', usuarioController.registrarController);
 router.post('/eliminarPorUsuario', usuarioController.eliminarPorUsuarioController);
 router.post('/modificarPorUsuario', usuarioController.modificarPorUsuarioController);
+router.post("/obtenerTodos", usuarioController.obtenerTodosController);
 module.exports = router;

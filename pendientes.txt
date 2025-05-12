@@ -1,11 +1,12 @@
 ARREGLAR
-Validar Inputs de Formularios en usuario, administrador,servicio
-Validar Formularios en usuario, administrador,servicio
-Desplegable de usuarios, cupones, administradores y servicios en administracion
+Validar Inputs de Formularios en administrador,servicio
+Validar Formularios en administrador,servicio
+Desplegable de administradores y servicios en administracion
 email de registro
 Texto enriquecido para la descripcion de productos
 ¿Variantes, marcas y animales? Tabla nueva, dejarlo...
 Guardar TODO en mayusculas en BBDD
+confirmar contraseña de usuario al registrar
 
 
 HACER
