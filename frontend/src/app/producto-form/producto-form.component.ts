@@ -266,28 +266,30 @@ export class ProductoFormComponent {
   }
 
   modificar() {
-    const formData = new FormData();
+    if (this.formularioValido()) {
+      const formData = new FormData();
 
-    formData.append('producto', JSON.stringify(this.producto));
-    formData.append('nombre_variacion', this.nombre_variacion);
-    formData.append('filtros', JSON.stringify(this.filtros));
-    formData.append('variantes', JSON.stringify(this.variantes));
+      formData.append('producto', JSON.stringify(this.producto));
+      formData.append('nombre_variacion', this.nombre_variacion);
+      formData.append('filtros', JSON.stringify(this.filtros));
+      formData.append('variantes', JSON.stringify(this.variantes));
 
-    this.imagenes.forEach((img) => {
-      if (img.file) {
-        formData.append('imagenes', img.file);
-      }
-    });
+      this.imagenes.forEach((img) => {
+        if (img.file) {
+          formData.append('imagenes', img.file);
+        }
+      });
 
-    this.productoService.modificarProducto(formData).subscribe({
-      next: (respuesta) => {
-        alert(respuesta.mensaje);
-      },
-      error: (err) => {
-        console.log(err);
-        alert(err.error.mensaje);
-      },
-    });
+      this.productoService.modificarProducto(formData).subscribe({
+        next: (respuesta) => {
+          alert(respuesta.mensaje);
+        },
+        error: (err) => {
+          console.log(err);
+          alert(err.error.mensaje);
+        },
+      });
+    }
   }
 
   eliminar() {

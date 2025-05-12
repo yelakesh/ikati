@@ -1,18 +1,12 @@
-
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CuponService } from '../services/cupon.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
-import {
-  MatAutocomplete,
-  MatAutocompleteModule,
-} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Observable } from 'rxjs';
-import { AdministracionComponent } from '../administracion/administracion.component';
 
 @Component({
   selector: 'app-cupon-form',
@@ -98,15 +92,17 @@ export class CuponFormComponent {
   }
 
   modificar() {
-    this.CuponService.modificarPorCodigo(this.cupon).subscribe({
-      next: (respuesta) => {
-        alert(respuesta.mensaje);
-      },
-      error: (err) => {
-        console.log(err);
-        alert(err.error.mensaje);
-      },
-    });
+    if (this.formularioValido()) {
+      this.CuponService.modificarPorCodigo(this.cupon).subscribe({
+        next: (respuesta) => {
+          alert(respuesta.mensaje);
+        },
+        error: (err) => {
+          console.log(err);
+          alert(err.error.mensaje);
+        },
+      });
+    }
   }
 
   async eliminar() {
