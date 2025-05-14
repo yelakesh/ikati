@@ -9,22 +9,70 @@
 
   </nav>
 
-<div class="modern-tabs mx-auto" style="max-width: 500px;">
+<!--<div class="modern-tabs mx-auto" style="max-width: 500px;">
     <mat-tab-group>
-      <!-- Pestaña Login -->
+      
       <mat-tab label="Iniciar Sesión">
         <app-login></app-login>
       </mat-tab>
   
-      <!-- Pestaña Registro -->
-      <mat-tab label="Crear Cuenta">
+      
+       <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="custom-label">Soy Nuevo en Ikati</span>
+      </ng-template>
         <app-registro></app-registro>
       </mat-tab>
   
-      <!-- Pestaña Admin
+      
       <mat-tab label="Acceso Admin">
         <app-login-admin></app-login-admin>
-      </mat-tab>-->
+      </mat-tab>
     </mat-tab-group>
+  </div>-->
+
+  <div class="modern-tabs mx-auto " style="max-width: 500px;">
+    <!-- Nav tabs -->
+
+    
+    <ul class="nav nav-tabs mb-3 justify-content-center" id="ikatiTabs" role="tablist">
+        
+      <li class="nav-item w-50 text-center" role="presentation">
+        
+        <button class="nav-link active w-100" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">
+          Iniciar Sesión
+        </button>
+      </li>
+      <li class="nav-item w-50 text-center" role="presentation">
+        <button class="nav-link w-100" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">
+          <span class="custom-label">Soy Nuevo en Ikati</span>
+        </button>
+      </li>
+      <!--
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="false">
+          Acceso Admin
+        </button>
+      </li>
+      -->
+    </ul>
+  
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+        <!-- Aquí va tu componente o formulario de login -->
+        <div><app-login></app-login></div>
+      </div>
+      <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+        
+        <div><app-registro/></div>
+      </div>
+      <!--
+      <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+        <div>Contenido de Admin</div>
+      </div>
+      -->
+    </div>
   </div>
+  
   

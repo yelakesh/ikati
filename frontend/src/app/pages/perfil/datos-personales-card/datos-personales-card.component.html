@@ -1,0 +1,27 @@
+<div class="mb-3">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h4 class="card-title mb-4">Mis Datos</h4>
+                <button class="btn btn-link">Editar</button>
+            </div>
+            <hr style="color: #F4B860; ">
+            <div class="d-flex flex-column align-items-start mt-4 mb-3">
+                <p class="card-text fw-bold me-3 m-0">Nombre: </p>
+                <p class="card-text">{{usuario.nombre}}</p>
+            </div>
+            <div class="d-flex flex-column align-items-start mb-3">
+                <p class="card-text fw-bold me-3 m-0">Apellidos: </p>
+                <p class="card-text">{{usuario.apellido1}} {{usuario.apellido2}}</p>
+            </div>
+            <div class="d-flex flex-column align-items-start mb-3">
+                <p class="card-text fw-bold me-3 m-0">Email: </p>
+                <p class="card-text">{{usuario.email}} </p>
+            </div>
+            <div class="d-flex flex-column align-items-start mb-3">
+                <p class="fw-bold card-text me-3 m-0">Teléfono: </p>
+                <p class="card-text">{{usuario.telefono}} </p>
+            </div>
+        </div>
+    </div>
+</div>

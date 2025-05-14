@@ -4,19 +4,19 @@
 </div>
 <div class="container d-flex flex-column align-items-center justify-content-center">
 
-    <form class="w-100 rounded shadow bg-white p-4"
-            style="max-width: 300px;" (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
+    <form class="w-100 rounded  bg-white p-4"
+            style="max-width: 450px;" (ngSubmit)="comprobarLogin()" #miFormulario="ngForm">
 
             <h3 class=" text-primary mb-3 text-center fw-bolder">Iniciar Sesión</h3>
 
         <div class="mb-3">
-            <label class="form-label" for="usuario">Usuario</label>
-            <input class="form-control" type="text" name="usuario" [(ngModel)]="usuario.usuario" required>
+            <label class="form-label fw-bold" style="font-size: small;" for="usuario">Usuario</label>
+            <input class="form-control" type="text" name="usuario" [(ngModel)]="usuario.usuario" placeholder="Usuario" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label" for="contrasena">Contraseña</label>
-            <input class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena" required>
+            <label class="form-label fw-bold" style="font-size: small" for="contrasena">Contraseña</label>
+            <input class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena" placeholder="Contraseña" required>
 
         </div>
 

@@ -86,15 +86,15 @@ $font-family-base: 'Nunito', Arial, sans-serif; //Fuente de Ikati
 .modern-tabs {
   background: #fff;
   border-radius: 1.5rem;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  
+ 
   margin-top: 2rem;
   max-width: 500px;
 }
 
 ::ng-deep .modern-tabs .mat-tab-label {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: bold;
   color: #5a5a5a;
   letter-spacing: 0.5px;
   transition: background 0.3s, color 0.3s;

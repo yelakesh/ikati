@@ -10,6 +10,7 @@ import { RegistroExitoComponent } from "./components/registro-exito/registro-exi
 import { LogoutComponent } from "./components/logout/logout.component";
 import { CambiarPassAdminComponent } from './components/cambiar-pass-admin/cambiar-pass-admin.component';
 import { GestionCuentasComponent } from "./pages/gestion-cuentas/gestion-cuentas.component";
+import { PerfilComponent } from "./pages/perfil/perfil.component";
 
 
 export const routes: Routes = [
@@ -24,6 +25,7 @@ export const routes: Routes = [
     { path: 'registro-exito', component: RegistroExitoComponent } ,
     { path: 'logout', component: LogoutComponent },
     { path: 'cambiar-pass-admin', component: CambiarPassAdminComponent, data: { breadcrumb: 'Cambiar Contrasena' } },
-    { path: 'gestion-cuentas', component: GestionCuentasComponent, data: { breadcrumb: 'Gestion Cuentas' } }
+    { path: 'gestion-cuentas', component: GestionCuentasComponent, data: { breadcrumb: 'Gestion Cuentas' } },
+    { path: 'perfil', component: PerfilComponent, data: { breadcrumb: 'Mi perfil' } }
 
 ];

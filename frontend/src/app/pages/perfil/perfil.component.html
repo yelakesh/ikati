@@ -1,0 +1,26 @@
+
+<app-header/>
+
+<div class=" d-flex justify-content-start ms-5 py-3">
+    <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class=" d-flex justify-content-start align-items-baseline mt-4 ms-5 py-3">
+<h2 class="text-info mb-0 me-3">MI CUENTA</h2>
+<p class="alert mb-0 py-2 text-primary">Hola {{usuario.nombre}}</p>
+</div>
+<div class="container mt-4 mb-5">
+    <div class="row">
+      <!-- Columna izquierda: 3 cards -->
+      <div class="col-md-6">
+        <app-datos-personales-card [usuario]="usuario"></app-datos-personales-card>
+        <app-contrasena-card [usuario]="usuario"></app-contrasena-card>
+       <app-direccion-envio-card [usuario]="usuario"></app-direccion-envio-card>
+      </div>
+      <!-- Columna derecha: pedidos anteriores -->
+      <div class="col-md-6">
+        <app-pedidos-anteriores-card ></app-pedidos-anteriores-card>
+      </div>
+    </div>
+  </div>
+  
