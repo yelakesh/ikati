@@ -70,7 +70,8 @@ export class BreadcrumbComponent implements OnInit {
       'registro': 'Crear Cuenta',
       'login': 'Iniciar Sesión',
       'cambiar-pass-admin': 'Cambiar Password',
-      'perfil': 'Mi Perfil'
+      'perfil': 'Mi Perfil',
+      'editpassword': 'Cambiar Contraseña'
 
     };
     return breadcrumbMap[segment] || segment;

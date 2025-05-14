@@ -12,7 +12,7 @@ import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, RouterLink, BreadcrumbComponent, HeaderComponent],
+  imports: [CommonModule, FormsModule, HttpClientModule, RouterLink],
   providers: [HttpClientModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

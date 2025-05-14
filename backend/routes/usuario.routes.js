@@ -9,4 +9,5 @@ router.post('/registrar', usuarioController.registrarController);
 router.post('/eliminarPorUsuario', usuarioController.eliminarPorUsuarioController);
 router.post('/modificarPorUsuario', usuarioController.modificarPorUsuarioController);
 router.post("/obtenerTodos", usuarioController.obtenerTodosController);
+router.post('/cambiarPass', usuarioController.comprobarPassController);
 module.exports = router;

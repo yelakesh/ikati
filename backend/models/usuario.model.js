@@ -23,6 +23,18 @@ async function login(usuario, contrasena) {
     return resultados;
   }
 
+  async function comprobarPass(usuario, antigua) {
+    const sql = 'SELECT * FROM usuarios WHERE usuario=? AND contrasena=?';
+    const resultados = await db.query(sql, [usuario, antigua]);
+    return resultados;
+  }
+
+    async function cambiarPass(usuario,nueva) {
+      const sql = 'UPDATE usuarios set contrasena=? WHERE usuario=?';
+      const resultados = await db.query(sql, [nueva,usuario]);
+      return resultados;
+    }
+
   async function modificarPorUsuario({
     nombre,
     apellido1,
@@ -86,4 +98,6 @@ async function login(usuario, contrasena) {
     registrar,
     eliminarPorUsuario,
     obtenerTodos,
+    comprobarPass,
+    cambiarPass
   };

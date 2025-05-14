@@ -19,6 +19,34 @@ async function loginController(req, res) {
   }
 }
 
+async function comprobarPassController(req, res) {
+  const objUsuario = req.body;
+  try {
+
+    const resultado = await UsuarioModel.comprobarPass(objUsuario.usuario, objUsuario.antigua);
+
+    if (resultado.length === 0) {
+      return res.status(401).json({ ok: false, mensaje: 'Usuario o contraseña incorrectos', usuario: {} });
+    }
+
+    
+
+    
+   
+    const actualizado = await UsuarioModel.cambiarPass(objUsuario.usuario,objUsuario.nueva)
+
+
+    if(!actualizado){
+        return res.status(401).json({ ok: false, mensaje: 'No se pudo actualizar la contraseña', usuario: {} });
+    }
+
+    res.json({ ok: true, mensaje: "Contraseña cambiada con éxito", usuario: resultado[0] })
+  } catch (err) {
+    console.error('Error en la busqueda del admin:', err);
+    res.status(500).json({ ok: false, mensaje: 'Error del servidor', usuario: {} });
+  }
+}
+
 async function obtenerPorUsuarioController(req, res) {
   const objUsuario = req.body;
   try {
@@ -150,4 +178,5 @@ module.exports = {
   eliminarPorUsuarioController,
   modificarPorUsuarioController,
   obtenerTodosController,
+  comprobarPassController
 };

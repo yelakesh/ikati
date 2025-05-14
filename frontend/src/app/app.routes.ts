@@ -11,6 +11,7 @@ import { LogoutComponent } from "./components/logout/logout.component";
 import { CambiarPassAdminComponent } from './components/cambiar-pass-admin/cambiar-pass-admin.component';
 import { GestionCuentasComponent } from "./pages/gestion-cuentas/gestion-cuentas.component";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
+import { EditpasswordComponent } from "./pages/perfil/contrasena-card/editpassword/editpassword.component";
 
 
 export const routes: Routes = [
@@ -22,10 +23,16 @@ export const routes: Routes = [
     { path: "servicios", component: ServiciosComponent, data: { breadcrumb: 'Servicios' } },
     { path: "ofertas", component: OfertasComponent, data: { breadcrumb: 'Ofertas' } },
     { path: "registro", component: RegistroComponent, data: { breadcrumb: 'Registro' } },
-    { path: 'registro-exito', component: RegistroExitoComponent } ,
+    { path: 'registro-exito', component: RegistroExitoComponent },
     { path: 'logout', component: LogoutComponent },
     { path: 'cambiar-pass-admin', component: CambiarPassAdminComponent, data: { breadcrumb: 'Cambiar Contrasena' } },
     { path: 'gestion-cuentas', component: GestionCuentasComponent, data: { breadcrumb: 'Gestion Cuentas' } },
-    { path: 'perfil', component: PerfilComponent, data: { breadcrumb: 'Mi perfil' } }
+    {
+        path: 'perfil',
+        component: PerfilComponent, data:{ breadcrumb:"Mi perfil"}
+
+    },
+    { path: 'editpassword', component: EditpasswordComponent }
+
 
 ];

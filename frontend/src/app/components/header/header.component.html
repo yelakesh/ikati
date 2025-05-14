@@ -49,7 +49,6 @@
             <a *ngIf="usuario.rol=='admin'" class="dropdown-item" routerLink="/administracion" style="font-size: small;">Ir a Panel Admin</a>
             <a *ngIf="usuario.rol=='admin'" class="dropdown-item" style="font-size: small;" routerLink="/cambiar-pass-admin">Cambiar Password</a>
             <a *ngIf="usuario.rol=='user'" class="dropdown-item" style="font-size: small;" routerLink="/perfil">Mi perfil</a>
-            <a *ngIf="usuario.rol=='user'" class="dropdown-item" style="font-size: small;" routerLink="/mispedidos">Mis pedidos</a>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item text-danger " style="font-size: small;"  (click)="logOut()">Cerrar Sesión</button>
           </div>
