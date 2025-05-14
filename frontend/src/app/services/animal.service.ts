@@ -6,16 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AnimalService {
-  private apiUrl = 'http://localhost:3000/api/animal';
+  private apiUrl = 'http://localhost:3000/api/animales';
 
   constructor(private http: HttpClient) {}
 
-  obtenerPorId(id: {id:string}): Observable<any> {
+  obtenerPorId(id: { id: string }): Observable<any> {
     return this.http.post(this.apiUrl + '/obtenerPorId', id);
   }
 
   obtenerAnimales(): Observable<any> {
-    return this.http.post(this.apiUrl + '/obtenerAnimales', "");
+    return this.http.post(this.apiUrl + '/obtenerAnimales', '');
   }
 
   registrar(objAnimal: object): Observable<any> {
@@ -29,6 +29,4 @@ export class AnimalService {
   modificarPorUsuario(objAnimal: object): Observable<any> {
     return this.http.post(this.apiUrl + '/modificarAnimal', objAnimal);
   }
-
- 
 }

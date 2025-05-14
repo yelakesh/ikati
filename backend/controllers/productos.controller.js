@@ -117,12 +117,12 @@ async function registrarProductoCompletoController(req, res) {
       for (const variante of variantes) {
         await ProductoModel.registrarVariante(
           id_producto,
-          objProducto.nombre_variacion,
+          objProducto.id_variacion,
           variante
         );
 
         await ProductoModel.registrarFiltro(id_producto, {
-          filtro: objProducto.nombre_variacion,
+          filtro: objProducto.id_variacion,
           valor: variante.valor_variacion,
         });
       }

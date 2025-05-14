@@ -26,14 +26,14 @@ async function obtenerVariantesPorIdProducto(id_producto) {
 
 async function registrarProducto(objProducto) {
   const sql = `INSERT INTO productos 
-      (nombre, descripcion, activo, id_animal, marca, tipo, descuento, valoracion) 
+      (nombre, descripcion, activo, id_animal, id_marca, id_tipo, descuento, valoracion) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const resultados = await db.query(sql, [
     objProducto.nombre,
     objProducto.descripcion,
     objProducto.activo,
     objProducto.id_animal,
-    objProducto.marca,
+    objProducto.id_marca,
     objProducto.tipo,
     objProducto.descuento,
     objProducto.valoracion,
@@ -51,17 +51,17 @@ async function registrarFiltro(id_producto, { filtro, valor }) {
 
 async function registrarVariante(
   id_producto,
-  nombre_variacion,
+  id_variacion,
   { precio, stock, valor_variacion }
 ) {
   const sql = `INSERT INTO variantes 
-      (id_producto,precio,stock,nombre_variacion,valor_variacion) 
+      (id_producto,precio,stock,id_variacion,valor_variacion) 
       VALUES (?, ?, ?, ?, ?)`;
   const resultados = await db.query(sql, [
     id_producto,
     precio,
     stock,
-    nombre_variacion,
+    id_variacion,
     valor_variacion,
   ]);
   return resultados;

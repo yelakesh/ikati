@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from '../services/usuario.service';
 import { Router } from '@angular/router';
+import emailjs from '@emailjs/browser';
 
 import {
   MatAutocomplete,
@@ -40,6 +41,10 @@ export class UsuarioFormComponent {
   @Input() modo: string = '';
   @Input() origen: 'admin' | 'registro' = 'registro';
 
+  ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
   completarDatos() {
     this.vaciarInputs();
 
@@ -71,6 +76,7 @@ export class UsuarioFormComponent {
     if (this.formularioValido()) {
       this.usuarioService.registrar(this.usuario).subscribe({
         next: (respuesta) => {
+          //this.enviarEmail();
           if (this.origen === 'registro') {
             this.router.navigate(['/registro-exito']);
           } else {
@@ -134,7 +140,7 @@ export class UsuarioFormComponent {
     this.usuarioService.obtenerTodos().subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          this.usuarios = respuesta.cupon;
+          this.usuarios = respuesta.usuarios;
           this.usuariosFiltrados = this.usuarios;
         }
       },
@@ -164,5 +170,19 @@ export class UsuarioFormComponent {
     this.usuario.telefono = '';
     this.usuario.cp = '';
     this.usuario.direccion = '';
+  }
+
+  enviarEmail() {
+    emailjs.init({
+      publicKey: '8bfO8ErXlSa136U6E',
+    });
+
+    const params = {
+      name: 'Ikati',
+      user_name: this.usuario.usuario,
+      email: this.usuario.email,
+    };
+
+    emailjs.send('service_mnppien', 'template_dqfcmd2', params);
   }
 }

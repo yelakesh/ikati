@@ -2,10 +2,10 @@ const mysql = require('mysql2');
 const util = require('util');
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',       // si no has puesto contraseña en XAMPP, déjalo vacío
-  database: 'ikati'   // o el nombre que le hayas puesto a tu BD
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "ikati",
 });
 
 connection.connect((err) => {

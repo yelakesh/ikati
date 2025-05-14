@@ -1,11 +1,8 @@
 ARREGLAR
 Validar Inputs de Formularios en administrador,servicio
 Validar Formularios en administrador,servicio
-Desplegable de administradores y servicios en administracion
-email de registro
-Texto enriquecido para la descripcion de productos
-¿Variantes, marcas y animales? Tabla nueva, dejarlo...
-Guardar TODO en mayusculas en BBDD
+Desplegable de administradores y servicios en administracion, cupon
+Tablas de Tipo de Variacion, Tipo de producto
 confirmar contraseña de usuario al registrar
 
 
@@ -19,32 +16,3 @@ Carrito
 Pasarela de compra y PDF
 Servicios
 Despliegue
-
-
-Para descripcion
-<script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
-
-<textarea type="text" name="txtDescripcion" id="txtDescripcion"></textarea> 
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#txtDescripcion' ) )
-        .catch( error => {
-        console.error( error );
-        } );
-</script>
-
-
-
-function enviarEmail() {
-
-        const params = {
-            name: "Ikati",
-            user_name: usu_nombre,
-            email: usu_email
-        }
-
-
-        emailjs.send('service_mnppien', 'template_dqfcmd2', params)
-    }
-
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>

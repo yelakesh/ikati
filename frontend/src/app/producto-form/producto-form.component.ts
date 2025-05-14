@@ -4,10 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductoService } from '../services/producto.service';
 import { AnimalService } from '../services/animal.service';
+import { MarcaService } from '../services/marca.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-producto-form',
@@ -21,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    CKEditorModule,
   ],
   templateUrl: './producto-form.component.html',
   styleUrl: './producto-form.component.css',
@@ -28,27 +32,30 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class ProductoFormComponent {
   constructor(
     private productoService: ProductoService,
-    private animalService: AnimalService
+    private animalService: AnimalService,
+    private marcaService: MarcaService
   ) {}
+
+  public Editor: any = ClassicEditor;
 
   @Input() modo: string = '';
   soloLectura = this.modo == 'eliminar' ? true : false;
 
   nombreAnimal = '';
+  nombreMarca = '';
 
   producto = {
     id: 0,
     nombre: '',
     descripcion: '',
     activo: 1,
-    id_animal: '',
-    id_marca: '',
+    id_animal: 0,
+    id_marca: 0,
     id_tipo: '',
     descuento: 0,
     valoracion: 0,
   };
-
-  id_variacion = '';
+  id_variacion= 0;
 
   variantes = [{ valor_variacion: '', precio: 0, stock: 0 }];
 
@@ -59,11 +66,11 @@ export class ProductoFormComponent {
   productosSelect: { id: number; nombre: string }[] = [];
   productosFiltrados: { id: number; nombre: string }[] = [];
 
-  animalesSelect: { id: string; nombre: string }[] = [];
-  animalesFiltrados: { id: string; nombre: string }[] = [];
+  animalesSelect: { id: number; nombre: string }[] = [];
+  animalesFiltrados: { id: number; nombre: string }[] = [];
 
-  marcasSelect: string[] = [];
-  marcasFiltradas: string[] = [];
+  marcasSelect: { id: number; nombre: string; imagen: string }[] = [];
+  marcasFiltradas: { id: number; nombre: string; imagen: string }[] = [];
 
   tiposSelect: string[] = [];
   tiposFiltrados: string[] = [];
@@ -77,6 +84,7 @@ export class ProductoFormComponent {
   async ngOnInit(): Promise<void> {
     await this.cargarNombres();
     await this.cargarAnimales();
+    await this.cargarMarcas();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -113,30 +121,31 @@ export class ProductoFormComponent {
     this.imagenes.splice(i, 1);
   }
 
-  async completarDatos() {
-    (this.producto.descripcion = ''),
-      (this.producto.activo = 1),
-      (this.producto.id_animal = ''),
-      (this.producto.id_marca = ''),
-      (this.producto.id_tipo = ''),
-      (this.producto.descuento = 0),
-      (this.producto.valoracion = 0),
-      (this.id_variacion = ''),
-      (this.variantes = [
-        {
-          valor_variacion: '',
-          precio: 0,
-          stock: 0,
-        },
-      ]);
-    this.filtros = [
+  async completarDatos() {(this.producto.descripcion = ''),
+    (this.producto.activo = 1),
+    (this.producto.id_animal = 0),
+    (this.producto.id_marca = 0),
+    (this.producto.id_tipo = ''),
+    (this.producto.descuento = 0),
+    (this.producto.valoracion = 0),
+    (this.id_variacion = 0),
+    (this.variantes = [
       {
-        filtro: '',
-        valor: '',
+        valor_variacion: '',
+        precio: 0,
+        stock: 0,
       },
-    ];
-    this.imagenes = [];
-    if (this.producto.nombre != '') {
+    ]);
+  this.filtros = [
+    {
+      filtro: '',
+      valor: '',
+    },
+  ];
+  this.imagenes = [];
+    this.filtrarAnimales();
+    this.filtrarMarcas();
+     if (this.producto.nombre != '') {
       this.productoService.obtenerProductoPorId(this.producto).subscribe({
         next: async (respuesta) => {
           if (respuesta.ok) {
@@ -152,13 +161,14 @@ export class ProductoFormComponent {
             this.variantes = respuesta.variantes;
             this.filtros = respuesta.filtros;
             this.obtenerNombreAnimal();
+            this.obtenerNombreMarca();
 
             for (const imagen of respuesta.imagenes) {
-              if (imagen.url) {
-                fetch('http://localhost:3000/imagenesProductos/' + imagen.url)
+              if (imagen.nombre) {
+                fetch('http://localhost:3000/imagenesProductos/' + imagen.nombre)
                   .then((response) => response.blob())
                   .then(async (blob) => {
-                    const file = new File([blob], imagen.url, {
+                    const file = new File([blob], imagen.nombre, {
                       type: blob.type,
                     });
                     this.imagenes.push({
@@ -189,14 +199,15 @@ export class ProductoFormComponent {
       nombre: '',
       descripcion: '',
       activo: 1,
-      id_animal: '',
-      id_marca: '',
+      id_animal: 0,
+      id_marca: 0,
       id_tipo: '',
       descuento: 0,
       valoracion: 0,
     };
     this.nombreAnimal = '';
-    this.id_variacion = '';
+    this.nombreMarca = '';
+
     this.variantes = [
       {
         valor_variacion: '',
@@ -212,6 +223,8 @@ export class ProductoFormComponent {
       },
     ];
     this.imagenes = [{ file: null, base64: '' }];
+    this.filtrarAnimales()
+    this.filtrarMarcas()
   }
 
   async registrar() {
@@ -219,9 +232,9 @@ export class ProductoFormComponent {
       const formData = new FormData();
 
       formData.append('producto', JSON.stringify(this.producto));
-      formData.append('id_variacion', this.id_variacion);
       formData.append('filtros', JSON.stringify(this.filtros));
       formData.append('variantes', JSON.stringify(this.variantes));
+      formData.append('id_variacion', JSON.stringify(this.id_variacion));
 
       this.imagenes.forEach((img) => {
         if (img.file) {
@@ -241,6 +254,7 @@ export class ProductoFormComponent {
       });
     }
   }
+
   formularioValido() {
     const inputs = document.getElementsByTagName('input');
     for (let i = 0; i < inputs.length; i++) {
@@ -309,7 +323,9 @@ export class ProductoFormComponent {
 
     lector.onload = () => {
       const base64 = lector.result as string;
-      this.imagenes[i].base64 = base64;
+      
+        this.imagenes[i].base64 = base64;
+        
     };
 
     lector.onerror = (error) => {
@@ -324,7 +340,7 @@ export class ProductoFormComponent {
       const formData = new FormData();
 
       formData.append('producto', JSON.stringify(this.producto));
-      formData.append('nombre_variacion', this.id_variacion);
+      formData.append('id_variacion', JSON.stringify(this.id_variacion));
       formData.append('filtros', JSON.stringify(this.filtros));
       formData.append('variantes', JSON.stringify(this.variantes));
 
@@ -395,7 +411,7 @@ export class ProductoFormComponent {
     this.animalService.obtenerAnimales().subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          respuesta.animales.forEach((a: { id: string; nombre: string }) => {
+          respuesta.animales.forEach((a: { id: number; nombre: string }) => {
             this.animalesSelect.push({ id: a.id, nombre: a.nombre });
           });
         }
@@ -406,12 +422,7 @@ export class ProductoFormComponent {
       },
     });
   }
-
-  filtrarAnimales() {
-    this.animalesFiltrados = this.animalesSelect.filter((f) =>
-      f.nombre.toLowerCase().includes(this.nombreAnimal.toLowerCase())
-    );
-  }
+  
   obtenerNombreAnimal() {
     const animal = this.animalesSelect.find(
       (a) => a.id === this.producto.id_animal
@@ -420,4 +431,50 @@ export class ProductoFormComponent {
       this.nombreAnimal = animal?.nombre;
     }
   }
+
+  filtrarAnimales() {
+    this.animalesFiltrados = this.animalesSelect.filter((f) =>
+      f.nombre.toLowerCase().includes(this.nombreAnimal.toLowerCase())
+    );
+  }
+
+  filtrarMarcas() {
+    this.marcasFiltradas = this.marcasSelect.filter((f) =>
+      f.nombre.toLowerCase().includes(this.nombreMarca.toLowerCase())
+    );
+  }
+
+  obtenerNombreMarca() {
+    const marca = this.marcasSelect.find(
+      (m) => m.id === this.producto.id_marca
+    );
+    if (marca) {
+      this.nombreMarca = marca?.nombre;
+    }
+  }
+
+  async cargarMarcas() {
+    this.marcasSelect = [];
+    this.marcaService.obtenerTodas().subscribe({
+      next: (respuesta) => {
+        if (respuesta.ok) {
+          respuesta.marcas.forEach(
+            async (m: { id: number; nombre: string; imagen: string }) => {
+              this.marcasSelect.push({
+                id: m.id,
+                nombre: m.nombre,
+                imagen: m.imagen,
+              });
+            }
+          );
+        }
+        this.marcasFiltradas = this.marcasSelect;
+      },
+      error: () => {
+        alert('Error en la carga de marcas');
+      },
+    });
+  }
+
+
 }

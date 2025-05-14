@@ -45,7 +45,11 @@
             />
             <mat-autocomplete #auto="matAutocomplete" class="bg-white">
               @for (p of productosFiltrados; track p) {
-              <mat-option (click)="producto.id=p.id;this.completarDatos();" [value]="p.nombre">{{ p.nombre }}</mat-option>
+              <mat-option
+                (click)="producto.id = p.id; this.completarDatos()"
+                [value]="p.nombre"
+                >{{ p.nombre }}</mat-option
+              >
               }
             </mat-autocomplete>
           </mat-form-field>
@@ -53,18 +57,17 @@
       </tr>
       <tr>
         <td>
-          <label class="form-label" for="descripcion">Descripcion(HTML)</label>
+          <label class="form-label" for="descripcion">Descripcion</label>
         </td>
         <td colspan="4">
-          <textarea
-          [disabled]="modo=='eliminar'"
-            class="form-control"
-            type="text"
+          <ckeditor
+            required
+            [disabled]="modo == 'eliminar'"
+            class="editor-alto"
             name="descripcion"
+            [editor]="Editor"
             [(ngModel)]="producto.descripcion"
-            rows="6"
-          >
-          </textarea>
+          ></ckeditor>
         </td>
       </tr>
 
@@ -75,27 +78,25 @@
         <td>
           <div class="form-check form-check-inline">
             <input
-              [disabled]="modo=='eliminar'"
+              [disabled]="modo == 'eliminar'"
               class="form-check-input"
               type="radio"
               name="activo"
               id="activoSi"
               [value]="1"
               [(ngModel)]="producto.activo"
-              
             />
             <label class="form-check-label" for="activoSi">Sí</label>
           </div>
           <div class="form-check form-check-inline">
             <input
-              [disabled]="modo=='eliminar'"
+              [disabled]="modo == 'eliminar'"
               class="form-check-input"
               type="radio"
               name="activo"
               id="activoNo"
               [value]="0"
               [(ngModel)]="producto.activo"
-              
             />
             <label class="form-check-label" for="activoNo">No</label>
           </div>
@@ -106,35 +107,60 @@
         <td colspan="4">
           <mat-form-field class="w-100 form-control">
             <input
+              required
+              [disabled]="modo == 'eliminar'"
               name="animal"
               type="text"
               placeholder="Selecciona animal"
               matInput
-              [matAutocomplete]="auto"
+              [matAutocomplete]="autoAnimal"
               [(ngModel)]="nombreAnimal"
               (ngModelChange)="filtrarAnimales()"
             />
-            <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
+            <mat-autocomplete #autoAnimal="matAutocomplete" class="bg-white">
               @for (animal of animalesFiltrados; track animal) {
-              <mat-option (click)="producto.id_animal=animal.id" [value]="animal.nombre">{{ animal.nombre }}</mat-option>
+              <mat-option
+                (click)="producto.id_animal = animal.id"
+                [value]="animal.nombre"
+                >{{ animal.nombre }}</mat-option
+              >
               }
             </mat-autocomplete>
           </mat-form-field>
         </td>
       </tr>
       <tr>
-        <td>
-          <label class="form-label" for="marca">Marca*</label>
-        </td>
+        <td>Marca*</td>
         <td colspan="4">
-          <input
-          [disabled]="modo=='eliminar'"
-            class="form-control"
-            type="text"
-            name="marca"
-            [(ngModel)]="producto.id_marca"
-            required
-          />
+          <mat-form-field class="w-100 form-control">
+            <input
+              required
+              [disabled]="modo == 'eliminar'"
+              name="marca"
+              type="text"
+              placeholder="Selecciona marca"
+              matInput
+              [matAutocomplete]="autoMarca"
+              [(ngModel)]="nombreMarca"
+              (ngModelChange)="filtrarMarcas()"
+            />
+            <mat-autocomplete #autoMarca="matAutocomplete" class="bg-white">
+              @for (marca of marcasFiltradas; track marca) {
+              <mat-option
+                (click)="producto.id_marca = marca.id"
+                [value]="marca.nombre"
+                ><span class="me-3"
+                  ><img
+                    [src]="
+                      'http://localhost:3000/imagenesMarcas/' + marca.imagen
+                    "
+                    alt="imgMarca"
+                    style="width: 50px" /></span
+                ><span>{{ marca.nombre }}</span></mat-option
+              >
+              }
+            </mat-autocomplete>
+          </mat-form-field>
         </td>
       </tr>
       <tr>
@@ -143,7 +169,7 @@
         </td>
         <td colspan="4">
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="text"
             name="tipo"
@@ -158,14 +184,13 @@
         </td>
         <td colspan="4">
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             step="0.1"
             type="number"
             name="descuento"
             [(ngModel)]="producto.descuento"
-            (keydown)="validarInput($event,'1')"
-            
+            (keydown)="validarInput($event, '1')"
           />
         </td>
       </tr>
@@ -175,13 +200,13 @@
         </td>
         <td colspan="4">
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             step="0,1"
             type="number"
             name="valoracion"
             value=""
-            (keydown)="validarInput($event,'1')"
+            (keydown)="validarInput($event, '1')"
             [(ngModel)]="producto.valoracion"
             required
           />
@@ -203,7 +228,7 @@
         </td>
         <td colspan="4">
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="text"
             name="id_variacion"
@@ -219,7 +244,7 @@
         </td>
         <td>
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="text"
             name="valor_variacion{{ i }}"
@@ -233,13 +258,13 @@
         </td>
         <td>
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="number"
             step="0,01"
             name="precio{{ i }}"
             [(ngModel)]="v.precio"
-            (keydown)="validarInput($event,'2')"
+            (keydown)="validarInput($event, '2')"
             required
           />
         </td>
@@ -249,12 +274,12 @@
         </td>
         <td>
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="number"
             name="stock{{ i }}"
             [(ngModel)]="v.stock"
-            (keydown)="validarInput($event,'0')"
+            (keydown)="validarInput($event, '0')"
             required
           />
         </td>
@@ -297,12 +322,11 @@
         </td>
         <td>
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="text"
             name="filtro{{ i }}"
             [(ngModel)]="f.filtro"
-            
           />
         </td>
 
@@ -311,12 +335,11 @@
         </td>
         <td>
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="text"
             name="valor{{ i }}"
             [(ngModel)]="f.valor"
-            
           />
         </td>
         <td>
@@ -359,7 +382,7 @@
         </td>
         <td colspan="4">
           <input
-          [disabled]="modo=='eliminar'"
+            [disabled]="modo == 'eliminar'"
             class="form-control"
             type="file"
             accept="image/*"
