@@ -11,17 +11,18 @@ import { ProductoService } from '../../../../services/producto.service';
 })
 export class GridProductosComponent {
   constructor(private productoService:ProductoService ){}
-  productos:any
+  productos:any=[]
 
   ngOnInit(): void {
     this.obtenerProductos()
+    
     
   }
 
   obtenerProductos() {
     this.productoService.obtenerTodos().subscribe({
       next: (res) => {
-        this.productos = res.resultados;
+        this.productos = res.productos;
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);

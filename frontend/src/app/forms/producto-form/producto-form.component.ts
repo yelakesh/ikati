@@ -63,7 +63,9 @@ export class ProductoFormComponent {
   };
 
   id_tipo_variante = 0;
-  variantes = [{ valor_variacion: '', precio: 0, stock: 0 }];
+  variantes = [
+    { id_tipo_variante: 0, valor_variacion: '', precio: 0, stock: 0 },
+  ];
 
   filtros = [{ filtro: 0, valor: '' }];
 
@@ -111,6 +113,7 @@ export class ProductoFormComponent {
 
   nuevaVariante() {
     this.variantes.push({
+      id_tipo_variante: 0,
       valor_variacion: '',
       precio: 0,
       stock: 0,
@@ -140,6 +143,7 @@ export class ProductoFormComponent {
       (this.id_tipo_variante = 0),
       (this.variantes = [
         {
+          id_tipo_variante: 0,
           valor_variacion: '',
           precio: 0,
           stock: 0,
@@ -166,11 +170,13 @@ export class ProductoFormComponent {
               (this.producto.descuento = respuesta.producto.descuento),
               (this.producto.valoracion = respuesta.producto.valoracion);
 
-            this.id_tipo_variante = respuesta.nombre_variacion;
+            this.id_tipo_variante = respuesta.variantes[0].id_variacion;
             this.variantes = respuesta.variantes;
             this.filtros = respuesta.filtros;
             this.obtenerNombreAnimal();
             this.obtenerNombreMarca();
+            this.obtenerTipos_Producto();
+            this.obtenerTipos_Variante();
 
             for (const imagen of respuesta.imagenes) {
               if (imagen.nombre) {
@@ -219,9 +225,11 @@ export class ProductoFormComponent {
     this.nombreAnimal = '';
     this.nombreMarca = '';
     this.nombreTipo_Producto = '';
+    this.nombreTipo_Variante = '';
 
     this.variantes = [
       {
+        id_tipo_variante: 0,
         valor_variacion: '',
         precio: 0,
         stock: 0,
@@ -274,10 +282,7 @@ export class ProductoFormComponent {
   formularioValido() {
     const inputs = document.getElementsByTagName('input');
     for (let i = 0; i < inputs.length; i++) {
-      if (
-        inputs[i].required &&
-        (inputs[i].value == '' || inputs[i].value == '0')
-      ) {
+      if (inputs[i].required && inputs[i].value == '') {
         alert('Debe rellenar todos los campos obligatorios');
         inputs[i].focus();
         return false;
@@ -541,6 +546,7 @@ export class ProductoFormComponent {
     const tipo = this.tipos_variantesSelect.find(
       (m) => m.id === this.id_tipo_variante
     );
+
     if (tipo) {
       this.nombreTipo_Variante = tipo?.tipo;
     }

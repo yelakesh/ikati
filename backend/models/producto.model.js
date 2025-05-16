@@ -24,13 +24,10 @@ async function obtenerFiltrosPorIdProducto(id_producto) {
 }
 
 async function obtenerVariantesPorIdProducto(id_producto) {
-  const sql =
-    "SELECT id_variacion,valor_variacion,precio,stock FROM variantes WHERE id_producto=?";
+  const sql = "SELECT * FROM variantes WHERE id_producto=?";
   const resultados = await db.query(sql, [id_producto]);
   return resultados;
 }
-
-
 
 async function registrarProducto(objProducto) {
   const sql = `INSERT INTO productos 
@@ -42,13 +39,12 @@ async function registrarProducto(objProducto) {
     objProducto.activo,
     objProducto.id_animal,
     objProducto.id_marca,
-    objProducto.tipo,
+    objProducto.id_tipo_producto,
     objProducto.descuento,
     objProducto.valoracion,
   ]);
   return resultados;
 }
-
 
 async function registrarFiltro(id_producto, { filtro, valor }) {
   const sql = `INSERT INTO filtros 
@@ -84,7 +80,7 @@ async function obtenerNombres() {
 
 async function modificarProducto(objProducto) {
   const sql = `UPDATE productos set
-      descripcion=?, activo=?, id_animal=?, id_marca=?, id_tipo=?, descuento=?, precio=?, valoracion=?
+      descripcion=?, activo=?, id_animal=?, id_marca=?, id_tipo=?, descuento=?, valoracion=?, nombre=?
       WHERE id=?`;
 
   const resultados = await db.query(sql, [
@@ -92,9 +88,8 @@ async function modificarProducto(objProducto) {
     objProducto.activo,
     objProducto.id_animal,
     objProducto.id_marca,
-    objProducto.id_tipo,
+    objProducto.id_tipo_producto,
     objProducto.descuento,
-    objProducto.precio,
     objProducto.valoracion,
     objProducto.nombre,
     objProducto.id,

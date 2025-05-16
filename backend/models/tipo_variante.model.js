@@ -2,31 +2,26 @@ const db = require("../database");
 
 async function registrar(tipo) {
   const sql = `INSERT INTO tipos_variacion (tipo) VALUES (?)`;
-  const resultados = await db.query(sql, [tipo]);
+  const resultados = db.query(sql, [tipo]);
   return resultados;
 }
 
 async function obtenerTodos() {
   const sql = `SELECT * FROM tipos_variacion`;
-  const resultados = await db.query(sql);
+  const resultados = db.query(sql);
   return resultados;
 }
 
 async function obtenerPorId(id) {
   const sql = `SELECT * FROM tipos_variacion where id=?`;
-  const resultados = await db.query(sql, id);
+  const resultados = db.query(sql, id);
   return resultados;
 }
 
-// async function obtenerPorId_producto(id) {
-//   const sql = `SELECT * FROM tipos_variacion where id_producto=?`;
-//   const resultados = await db.query(sql, id);
-//   return resultados;
-// }
 
 async function modificar(objTipo_variacion) {
   const sql = ` UPDATE tipos_variacion set tipo=? WHERE id=?`;
-  const resultados = await db.query(sql, [
+  const resultados = db.query(sql, [
     objTipo_variacion.tipo,
     objTipo_variacion.id,
   ]);
@@ -35,7 +30,7 @@ async function modificar(objTipo_variacion) {
 
 async function eliminar(id) {
   const sql = "DELETE FROM tipos_variacion WHERE id=?";
-  const resultados = await db.query(sql, [id]);
+  const resultados = db.query(sql, [id]);
   return resultados;
 }
 
@@ -45,5 +40,4 @@ module.exports = {
   eliminar,
   modificar,
   obtenerPorId,
-  obtenerPorId_producto,
 };

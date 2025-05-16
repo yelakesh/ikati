@@ -1,1 +1,32 @@
-<p>card-producto works!</p>
+<div class="card w-100 h-100" style="width: 18rem">
+  <img
+    [src]="
+      'http://localhost:3000/imagenesProductos/' + producto.imagenes[0].nombre
+    "
+    class="card-img-top"
+    alt="..."
+  />
+  <div class="card-body">
+    <h5 class="card-title">{{ producto.producto.nombre }}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">{{ producto.marca.nombre }}</li>
+    <li class="list-group-item">{{ precioMin }}€ - {{ precioMax }}€</li>
+    <li class="list-group-item">
+
+        <p>Valoración({{producto.producto.valoracion}}):</p>
+      <div style="width: 90%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'" >
+          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
+          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
+          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
+          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
+          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
+        
+        </div>
+    </li>
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>

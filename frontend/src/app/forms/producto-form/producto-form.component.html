@@ -242,11 +242,11 @@
               type="text"
               placeholder="Selecciona Tipo de variante"
               matInput
-              [matAutocomplete]="autoTipo"
+              [matAutocomplete]="autoVariante"
               [(ngModel)]="nombreTipo_Variante"
               (ngModelChange)="filtrarTipos_Variante()"
             />
-            <mat-autocomplete #autoTipo="matAutocomplete" class="bg-white">
+            <mat-autocomplete #autoVariante="matAutocomplete" class="bg-white">
               @for (tipo of tipos_variantesFiltrados; track tipo) {
               <mat-option
                 (click)="id_tipo_variante = tipo.id"

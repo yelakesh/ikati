@@ -2,6 +2,8 @@ import ProductoModel from "../models/producto.model.js";
 import ImagenModel from "../models/imagen.model.js";
 import Tipo_Variante from "../models/tipo_variante.model.js";
 import Tipo_Producto from "../models/tipo_producto.model.js";
+import Animal from "../models/animal.model.js";
+import Marca from "../models/marca.model.js";
 
 import fs from "fs";
 import path from "path";
@@ -68,74 +70,86 @@ async function obtenerProductoPorIdController(req, res) {
 }
 
 async function obtenerTodosController(req, res) {
- const productos = await ProductoModel.obtenerTodos()
- let resultados=[]
+  const productos = await ProductoModel.obtenerTodos();
+  let resultados = [];
 
- productos.forEach(async (producto) => {
-  try {
-    let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-      producto.id
-    );
-    let filtros = await ProductoModel.obtenerFiltrosPorIdProducto(producto.id);
-    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(producto.id);
-    let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo)
-    let tipo_variante = await Tipo_Variante.obtenerPorId_producto(producto.id);
+  for await (const producto of productos) {
+    try {
+      
+      let filtros = await ProductoModel.obtenerFiltrosPorIdProducto(
+        producto.id
+      );
+      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
+        producto.id
+      );
+      let animal = await Animal.obtenerPorId(producto.id_animal);
+      let marca = await Marca.obtenerPorId(producto.id_marca);
+      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
+      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
+        producto.id
+      );
+      let tipo_variante = null;
 
-    if (filtros.length === 0) {
-      filtros = [
-        {
-          id:0,
-          id_producto:0,
-          filtro: "",
-          valor: "",
-        },
-      ];
+      if (filtros.length === 0) {
+        filtros = [
+          {
+            id: 0,
+            id_producto: 0,
+            filtro: "",
+            valor: "",
+          },
+        ];
+      }
+
+      if (variantes.length === 0) {
+        variantes = [
+          {
+            id: 0,
+            id_producto: 0,
+            precio: "",
+            stock: "",
+            id_variacion: 0,
+            valor_variacion: "",
+          },
+        ];
+      } else {
+        tipo_variante = await Tipo_Variante.obtenerPorId(
+          variantes[0].id_variacion
+        );
+      }
+
+      if (imagenes.length === 0) {
+        imagenes = [
+          {
+            id: 0,
+            id_producto: 0,
+            url: "",
+          },
+        ];
+      }
+      resultados.push({
+        producto: producto,
+        animal: animal,
+        marca: marca[0],
+        tipo_producto: tipo_producto[0],
+        variantes: variantes,
+        tipo_variante: tipo_variante[0],
+        filtros: filtros,
+        imagenes: imagenes,
+      });
+      
+    } catch (err) {
+      console.error("Error en la busqueda del producto:", err);
+      return res
+        .status(500)
+        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
     }
-
-    if (variantes.length === 0) {
-      variantes = [
-        {
-          id:0,
-          id_producto:0,
-          precio: "",
-          stock: "",
-          id_variacion:0,
-          valor_variacion:''
-        },
-      ];
-    }
-
-    if (imagenes.length === 0) {
-      imagenes = [
-        {
-          id:0,
-          id_producto:0,
-          url: "",
-        },
-      ];
-    }
-    resultados.push({
-      producto: producto,
-      tipo_producto: tipo_producto,
-      tipo_variante: tipo_variante,
-      variantes: variantes,
-      filtros: filtros,
-      imagenes: imagenes,
-    });
-  } catch (err) {
-    console.error("Error en la busqueda del producto:", err);
-    return res
-      .status(500)
-      .json({ ok: false, mensaje: "Error del servidor", productos: {} });
-  }
-
-
- });
- res.json({
-   ok: true,
-   mensaje: "Productos encontrados",
-   productos: resultados
- });
+  };
+  res.json({
+    ok: true,
+    mensaje: "Productos encontrados",
+    productos: resultados,
+  });
   
 }
 
@@ -187,7 +201,7 @@ async function registrarProductoCompletoController(req, res) {
       for (const variante of variantes) {
         await ProductoModel.registrarVariante(
           id_producto,
-          objProducto.id_variacion,
+          objProducto.id_tipo_variante,
           variante
         );
       }
@@ -232,12 +246,14 @@ async function registrarProductoCompletoController(req, res) {
 }
 
 async function modificarProductoController(req, res) {
-  const objProducto = req.body;
-  let id_producto = objProducto.producto.id;
+  const objProducto =  req.body;
+  let id_producto = JSON.parse(objProducto.producto).id;
+  
   try {
     let resultado = await ProductoModel.modificarProducto(
       JSON.parse(objProducto.producto)
     );
+    
 
     if (resultado.affectedRows != 0) {
       try {
@@ -257,9 +273,10 @@ async function modificarProductoController(req, res) {
         let variantes = JSON.parse(objProducto.variantes);
         await ProductoModel.eliminarVariantes(id_producto);
         for (const variante of variantes) {
+         
           await ProductoModel.registrarVariante(
             id_producto,
-            objProducto.id_variacion,
+            variante.id_variacion,
             variante
           );
         }
@@ -302,14 +319,15 @@ async function modificarProductoController(req, res) {
 
 async function eliminarImagenes(id_producto) {
   const imagenes = await ImagenModel.obtenerImagenesPorIdProducto(id_producto);
-
+  console.log(imagenes);
+  
   imagenes.forEach((imagen) => {
-    const ruta = path.join(__dirname, "..", "imagenesProductos", imagen.url);
+    const ruta = path.join(__dirname, "..", "imagenesProductos", imagen.nombre);
     fs.unlink(ruta, (err) => {
       if (err) {
         console.error("Error al eliminar archivo:", err);
       } else {
-        console.log("Archivo eliminado:", imagen.url);
+        console.log("Archivo eliminado:", imagen.nombre);
       }
     });
   });
