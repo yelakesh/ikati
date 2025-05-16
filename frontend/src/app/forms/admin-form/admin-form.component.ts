@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { adminService } from '../services/admin.service';
+import { adminService } from '../../services/admin.service';
 import { Router } from '@angular/router';
 
 @Component({

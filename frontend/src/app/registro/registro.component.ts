@@ -1,5 +1,5 @@
 import { Component,ViewChild  } from '@angular/core';
-import { UsuarioFormComponent } from '../usuario-form/usuario-form.component';
+import { UsuarioFormComponent } from '../forms/usuario-form/usuario-form.component';
 import { HeaderComponent } from '../components/header/header.component';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
@@ -7,7 +7,7 @@ import { BreadcrumbComponent } from '../shared/breadcrumb/breadcrumb.component';
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [UsuarioFormComponent,HeaderComponent,BreadcrumbComponent],
+  imports: [UsuarioFormComponent],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'
 })

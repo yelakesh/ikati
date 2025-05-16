@@ -1,8 +1,7 @@
 import { Component,ViewChild,Input  } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
-import { RouterLink } from '@angular/router';
 import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
-import { AdminFormComponent } from "../../admin-form/admin-form.component";
+import { AdminFormComponent } from "../../forms/admin-form/admin-form.component";
 
 @Component({
   selector: 'app-cambiar-pass-admin',

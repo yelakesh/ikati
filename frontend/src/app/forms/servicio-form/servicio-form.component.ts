@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { servicioService } from '../services/servicio.service';
+import { servicioService } from '../../services/servicio.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, SimpleChanges } from '@angular/core';
 
