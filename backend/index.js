@@ -13,6 +13,8 @@ const servicioRoutes=require('./routes/servicio.routes')
 const adminRoutes=require('./routes/admin.routes')
 const animalRoutes = require("./routes/animal.routes");
 const marcaRoutes = require("./routes/marca.routes");
+const tipo_productoRoutes = require("./routes/tipo_producto.routes");
+const tipo_VarianteRoutes = require("./routes/tipo_variante.routes");
 
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/cupones", cuponesRoutes);
@@ -21,6 +23,8 @@ app.use("/api/servicio", servicioRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/animales", animalRoutes);
 app.use("/api/marcas", marcaRoutes);
+app.use("/api/tipo_producto", tipo_productoRoutes);
+app.use("/api/tipo_variante", tipo_VarianteRoutes);
 app.use("/imagenesProductos", express.static("imagenesProductos"));
 app.use("/imagenesMarcas", express.static("imagenesMarcas"));
 

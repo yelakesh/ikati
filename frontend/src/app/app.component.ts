@@ -12,7 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-root',
-  imports: [MatTabsModule,RouterOutlet, AdministracionComponent, LoginComponent, RouterModule],
+  imports: [MatTabsModule,RouterOutlet, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

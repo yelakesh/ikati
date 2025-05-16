@@ -15,12 +15,7 @@ async function obtenerProductoPorIdController(req, res) {
   try {
     let producto = await ProductoModel.obtenerProductoPorId(id);
     let variantes = await ProductoModel.obtenerVariantesPorIdProducto(id);
-
     let filtros = await ProductoModel.obtenerFiltrosPorIdProducto(id);
-
-    for (let i = 0; i < variantes.length; i++) {
-      filtros.pop();
-    }
     let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(id);
     let nombre_variacion = "";
 
@@ -87,6 +82,7 @@ async function obtenerNombresController(req, res) {
   }
 }
 
+
 async function registrarProductoCompletoController(req, res) {
   const objProducto = req.body;
 
@@ -120,11 +116,6 @@ async function registrarProductoCompletoController(req, res) {
           objProducto.id_variacion,
           variante
         );
-
-        await ProductoModel.registrarFiltro(id_producto, {
-          filtro: objProducto.id_variacion,
-          valor: variante.valor_variacion,
-        });
       }
     } catch (err) {
       console.error("Error en el registro de la variante:", err);
@@ -194,14 +185,9 @@ async function modificarProductoController(req, res) {
         for (const variante of variantes) {
           await ProductoModel.registrarVariante(
             id_producto,
-            objProducto.nombre_variacion,
+            objProducto.id_variacion,
             variante
           );
-
-          await ProductoModel.registrarFiltro(id_producto, {
-            filtro: objProducto.nombre_variacion,
-            valor: variante.valor_variacion,
-          });
         }
       } catch (err) {
         console.error("Error en la modificacion de las variantes:", err);

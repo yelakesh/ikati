@@ -164,18 +164,30 @@
         </td>
       </tr>
       <tr>
-        <td>
-          <label class="form-label" for="tipo">Tipo de producto*</label>
-        </td>
+        <td>Tipo de producto*</td>
         <td colspan="4">
-          <input
-            [disabled]="modo == 'eliminar'"
-            class="form-control"
-            type="text"
-            name="tipo"
-            [(ngModel)]="producto.id_tipo"
-            required
-          />
+          <mat-form-field class="w-100 form-control">
+            <input
+              required
+              [disabled]="modo == 'eliminar'"
+              name="tipo_producto"
+              type="text"
+              placeholder="Selecciona Tipo de producto"
+              matInput
+              [matAutocomplete]="autoTipo"
+              [(ngModel)]="nombreTipo_Producto"
+              (ngModelChange)="filtrarTipos_Producto()"
+            />
+            <mat-autocomplete #autoTipo="matAutocomplete" class="bg-white">
+              @for (tipo of tipos_productoFiltrados; track tipo) {
+              <mat-option
+                (click)="producto.id_tipo_producto = tipo.id"
+                [value]="tipo.tipo"
+                >{{ tipo.tipo }}</mat-option
+              >
+              }
+            </mat-autocomplete>
+          </mat-form-field>
         </td>
       </tr>
       <tr>
@@ -219,22 +231,31 @@
       <tr>
         <td colspan="6"><h3 class="text-body-tertiary">Variantes</h3></td>
       </tr>
-
       <tr>
-        <td>
-          <label class="form-label" for="id_variacion"
-            >Distinción (peso, talla...)*</label
-          >
-        </td>
+        <td>Tipo de variante*</td>
         <td colspan="4">
-          <input
-            [disabled]="modo == 'eliminar'"
-            class="form-control"
-            type="text"
-            name="id_variacion"
-            [(ngModel)]="id_variacion"
-            required
-          />
+          <mat-form-field class="w-100 form-control">
+            <input
+              required
+              [disabled]="modo == 'eliminar'"
+              name="tipo_variante"
+              type="text"
+              placeholder="Selecciona Tipo de variante"
+              matInput
+              [matAutocomplete]="autoTipo"
+              [(ngModel)]="nombreTipo_Variante"
+              (ngModelChange)="filtrarTipos_Variante()"
+            />
+            <mat-autocomplete #autoTipo="matAutocomplete" class="bg-white">
+              @for (tipo of tipos_variantesFiltrados; track tipo) {
+              <mat-option
+                (click)="id_tipo_variante = tipo.id"
+                [value]="tipo.tipo"
+                >{{ tipo.tipo }}</mat-option
+              >
+              }
+            </mat-autocomplete>
+          </mat-form-field>
         </td>
       </tr>
 

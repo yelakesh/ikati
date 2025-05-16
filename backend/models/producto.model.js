@@ -75,15 +75,15 @@ async function obtenerNombres() {
 
 async function modificarProducto(objProducto) {
   const sql = `UPDATE productos set
-      descripcion=?, activo=?, id_animal=?, marca=?, tipo=?, descuento=?, precio=?, valoracion=?
+      descripcion=?, activo=?, id_animal=?, id_marca=?, id_tipo=?, descuento=?, precio=?, valoracion=?
       WHERE id=?`;
 
   const resultados = await db.query(sql, [
     objProducto.descripcion,
     objProducto.activo,
-    objProducto.animal,
-    objProducto.marca,
-    objProducto.tipo,
+    objProducto.id_animal,
+    objProducto.id_marca,
+    objProducto.id_tipo,
     objProducto.descuento,
     objProducto.precio,
     objProducto.valoracion,

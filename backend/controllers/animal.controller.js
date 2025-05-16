@@ -66,7 +66,7 @@ async function registrarController(req, res) {
           .json({ ok: false, mensaje: "Animal ya registrado", animal: {} });
       }
     }
-    console.error("Error en el registro del usuario:", err);
+    console.error("Error en el registro del animal:", err);
     res
       .status(500)
       .json({ ok: false, mensaje: "Error del servidor", animal: {} });
@@ -116,7 +116,7 @@ async function modificarAnimalController(req, res) {
         .status(401)
         .json({ ok: false, mensaje: "Animal ya registrado", animal: {} });
     }
-    console.error("Error en la modificación del usuario:", err);
+    console.error("Error en la modificación del animal:", err);
     res
       .status(500)
       .json({ ok: false, mensaje: "Error del servidor", animal: {} });
