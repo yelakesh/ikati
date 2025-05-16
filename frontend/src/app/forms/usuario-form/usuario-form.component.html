@@ -1,132 +1,88 @@
-<div class="container d-flex justify-content-center align-items-center mt-4 mb-4">
-
-    <form class="table-responsive w-100 rounded bg-white p-4" style="max-width: 500px;" #miFormulario="ngForm">
-<div *ngIf="origen=='admin'">
-    <h3 class="text-center text-primary mb-1">Usuario</h3>
-    <p class="text-center" *ngIf="modo === 'registrar'">Añade un usuario:</p>
-    <p class="text-center" *ngIf="modo === 'modificar'">Modifica un usuario:</p>
-    <p class="text-center" *ngIf="modo === 'eliminar'">Elimina un usuario:</p>
-</div>
-        
-        
-        <table class="table table-bordered align-middle">
-            <tr *ngIf="modo == 'registrar'">
-                <td>
-                  <label class="form-label" for="usuario">Usuario</label>
-                </td>
-                <td>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="usuario"
-                    [(ngModel)]="usuario.usuario"
-                    required
-                  />
-                </td>
-              </tr>
-              <tr *ngIf="modo != 'registrar'">
-                <td>Usuario</td>
-                <td colspan="4">
-                  <mat-form-field class="w-100 form-control">
-                    <input
-                      name="usuario"
-                      type="text"
-                      placeholder="Selecciona usuario"
-                      matInput
-                      [matAutocomplete]="auto"
-                      [(ngModel)]="usuario.usuario"
-                      (ngModelChange)="filtrarUsuarios()"
-                    />
-                    <mat-autocomplete #auto="matAutocomplete" class="bg-white" >
-                      @for (usuario of usuariosFiltrados; track usuario) {
-                      <mat-option (click)="completarDatos()" [value]="usuario.usuario">{{ usuario.usuario }}</mat-option>
-                      }
-                    </mat-autocomplete>
-                  </mat-form-field>
-                </td>
-              </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="contrasena">Contraseña</label>
-
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena"
-                        required>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label class="form-label" for="nombre">Nombre</label>
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="apellido1">Primer apellido</label>
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="apellido1" [(ngModel)]="usuario.apellido1" required>
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="apellido2">Segundo apellido</label>
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="apellido2" [(ngModel)]="usuario.apellido2">
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="email">Email</label>
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="email" name="email" [(ngModel)]="usuario.email" required>
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="telefono">Telefono</label>
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="telefono" [(ngModel)]="usuario.telefono" required>
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="cp">Código postal</label>
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="cp" [(ngModel)]="usuario.cp" required>
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="form-label" for="direccion">Dirección</label>
-                </td>
-                <td colspan="2">
-                    <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="direccion" [(ngModel)]="usuario.direccion" required>
-
-                </td>
-            </tr>
-
-
-        </table>
-
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'registrar'" (click)="registrar()">Registrar</button>
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'modificar'" (click)="modificar()">Modificar</button>
-        <button type="button" class="grow-on-hover btn btn-danger mt-3 w-100 text-light" *ngIf="modo === 'eliminar'" (click)="eliminar()">Eliminar</button>
-
+<div class="d-flex justify-content-center mt-3 mb-4">
+    <form class="w-75 rounded bg-white p-4 " style="max-width: 500px;" #miFormulario="ngForm">
+      <div *ngIf="origen=='admin'">
+        <h3 class="text-center text-primary mb-1">Usuario</h3>
+        <p class="text-center" *ngIf="modo === 'registrar'">Añade un usuario:</p>
+        <p class="text-center" *ngIf="modo === 'modificar'">Modifica un usuario:</p>
+        <p class="text-center" *ngIf="modo === 'eliminar'">Elimina un usuario:</p>
+      </div>
+  
+      <!-- Usuario -->
+      <div class="mb-3" *ngIf="modo == 'registrar'">
+        <label class="form-label fw-bold" style="font-size: small;" for="usuario">Usuario</label>
+        <input class="form-control" type="text" name="usuario" [(ngModel)]="usuario.usuario" required>
+      </div>
+      <div class="mb-3" *ngIf="modo != 'registrar'">
+        <label class="form-label" for="usuario">Usuario</label>
+        <mat-form-field class="w-100">
+          <input name="usuario" type="text" placeholder="Selecciona usuario" matInput [matAutocomplete]="auto"
+            [(ngModel)]="usuario.usuario" (ngModelChange)="filtrarUsuarios()" />
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (usuario of usuariosFiltrados; track usuario) {
+              <mat-option (click)="completarDatos()" [value]="usuario.usuario">{{ usuario.usuario }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+  
+      <!-- Contraseña -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="font-size: small;" for="contrasena">Contraseña</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="password" name="contrasena" [(ngModel)]="usuario.contrasena" required>
+      </div>
+  
+      <!-- Nombre -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="font-size: small;">Nombre</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="nombre" [(ngModel)]="usuario.nombre" required>
+      </div>
+  
+      <!-- Primer Apellido -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="font-size: small;" for="apellido1">Primer apellido</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="apellido1" [(ngModel)]="usuario.apellido1" required>
+      </div>
+  
+      <!-- Segundo Apellido -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="font-size: small;" for="apellido2">Segundo apellido</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="apellido2" [(ngModel)]="usuario.apellido2">
+      </div>
+  
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="font-size: small;" for="email">Email</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="email" name="email" [(ngModel)]="usuario.email" required>
+      </div>
+  
+      <!-- Teléfono -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="font-size: small;" for="telefono">Teléfono</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="telefono" [(ngModel)]="usuario.telefono" required>
+      </div>
+  
+      <!-- Código Postal -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" style="font-size: small;" for="cp">Código postal</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="cp" [(ngModel)]="usuario.cp" required>
+      </div>
+  
+      <!-- Dirección -->
+      <div class="mb-4">
+        <label class="form-label fw-bold" style="font-size: small;" for="direccion">Dirección</label>
+        <input [disabled]="modo=='eliminar'" class="form-control" type="text" name="direccion" [(ngModel)]="usuario.direccion" required>
+      </div>
+  
+      <!-- Botones -->
+      <div class="d-flex flex-row w-100">
+       
+        <button *ngIf="modo === 'registrar'" type="button" class="btn btn-danger text-light shadow mt-3 w-100"
+          (click)="registrar()">Registrar</button>
+        <button *ngIf="modo === 'modificar'" type="button" class="btn btn-danger text-light shadow mt-3 w-100"
+          (click)="modificar()">Modificar</button>
+        <button *ngIf="modo === 'eliminar'" type="button" class="btn btn-danger text-light shadow mt-3 w-100"
+          (click)="eliminar()">Eliminar</button>
+      </div>
     </form>
-
-</div>
+  </div>
+  
