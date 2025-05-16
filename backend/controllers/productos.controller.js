@@ -1,5 +1,7 @@
 import ProductoModel from "../models/producto.model.js";
 import ImagenModel from "../models/imagen.model.js";
+import Tipo_Variante from "../models/tipo_variante.model.js";
+import Tipo_Producto from "../models/tipo_producto.model.js";
 
 import fs from "fs";
 import path from "path";
@@ -63,6 +65,78 @@ async function obtenerProductoPorIdController(req, res) {
       .status(500)
       .json({ ok: false, mensaje: "Error del servidor", producto: {} });
   }
+}
+
+async function obtenerTodosController(req, res) {
+ const productos = await ProductoModel.obtenerTodos()
+ let resultados=[]
+
+ productos.forEach(async (producto) => {
+  try {
+    let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
+      producto.id
+    );
+    let filtros = await ProductoModel.obtenerFiltrosPorIdProducto(producto.id);
+    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(producto.id);
+    let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo)
+    let tipo_variante = await Tipo_Variante.obtenerPorId_producto(producto.id);
+
+    if (filtros.length === 0) {
+      filtros = [
+        {
+          id:0,
+          id_producto:0,
+          filtro: "",
+          valor: "",
+        },
+      ];
+    }
+
+    if (variantes.length === 0) {
+      variantes = [
+        {
+          id:0,
+          id_producto:0,
+          precio: "",
+          stock: "",
+          id_variacion:0,
+          valor_variacion:''
+        },
+      ];
+    }
+
+    if (imagenes.length === 0) {
+      imagenes = [
+        {
+          id:0,
+          id_producto:0,
+          url: "",
+        },
+      ];
+    }
+    resultados.push({
+      producto: producto,
+      tipo_producto: tipo_producto,
+      tipo_variante: tipo_variante,
+      variantes: variantes,
+      filtros: filtros,
+      imagenes: imagenes,
+    });
+  } catch (err) {
+    console.error("Error en la busqueda del producto:", err);
+    return res
+      .status(500)
+      .json({ ok: false, mensaje: "Error del servidor", productos: {} });
+  }
+
+
+ });
+ res.json({
+   ok: true,
+   mensaje: "Productos encontrados",
+   productos: resultados
+ });
+  
 }
 
 async function obtenerNombresController(req, res) {
@@ -272,4 +346,5 @@ export {
   modificarProductoController,
   eliminarProductoController,
   obtenerNombresController,
+  obtenerTodosController,
 };

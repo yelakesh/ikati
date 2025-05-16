@@ -11,6 +11,12 @@ async function obtenerProductoPorId(id) {
   return resultados;
 }
 
+async function obtenerTodos() {
+  const sql = "SELECT * FROM productos";
+  const resultados = await db.query(sql);
+  return resultados;
+}
+
 async function obtenerFiltrosPorIdProducto(id_producto) {
   const sql = "SELECT filtro,valor FROM filtros WHERE id_producto=?";
   const resultados = await db.query(sql, [id_producto]);
@@ -23,6 +29,8 @@ async function obtenerVariantesPorIdProducto(id_producto) {
   const resultados = await db.query(sql, [id_producto]);
   return resultados;
 }
+
+
 
 async function registrarProducto(objProducto) {
   const sql = `INSERT INTO productos 
@@ -40,6 +48,7 @@ async function registrarProducto(objProducto) {
   ]);
   return resultados;
 }
+
 
 async function registrarFiltro(id_producto, { filtro, valor }) {
   const sql = `INSERT INTO filtros 
@@ -125,4 +134,5 @@ module.exports = {
   eliminarVariantes,
   eliminarProducto,
   obtenerNombres,
+  obtenerTodos,
 };

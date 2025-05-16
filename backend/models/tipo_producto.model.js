@@ -14,7 +14,7 @@ async function obtenerTodos() {
 
 async function obtenerPorId(id) {
   const sql = `SELECT * FROM tipo_producto where id=?`;
-  const resultados = await db.query(sql,id);
+  const resultados = await db.query(sql,[id]);
   return resultados;
 }
 

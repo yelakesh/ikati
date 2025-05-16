@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbComponent } from "../../shared/breadcrumb/breadcrumb.component";
-import { BodyComponent } from "../../components/body/body.component";
+import { BodyComponent } from "./body/body.component";
 
 
 @Component({

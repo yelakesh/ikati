@@ -26,6 +26,7 @@ router.post(
   upload.array("imagenes"),
   productoController.registrarProductoCompletoController
 );
+router.post("/obtenerTodos", productoController.obtenerTodosController);
 
 router.post(
   "/modificarProducto",
