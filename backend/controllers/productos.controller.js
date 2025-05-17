@@ -323,6 +323,7 @@ async function eliminarImagenes(id_producto) {
   
   imagenes.forEach((imagen) => {
     const ruta = path.join(__dirname, "..", "imagenesProductos", imagen.nombre);
+    console.log(ruta);
     fs.unlink(ruta, (err) => {
       if (err) {
         console.error("Error al eliminar archivo:", err);
@@ -343,7 +344,9 @@ async function eliminarProductoController(req, res) {
         .status(401)
         .json({ ok: false, mensaje: "Producto no encontrado", producto: {} });
     }
-    await ImagenModel.eliminarImagenes(id_producto);
+
+    await eliminarImagenes(id_producto);
+    
     await ProductoModel.eliminarProducto(id_producto);
     return res.status(200).json({
       ok: true,
