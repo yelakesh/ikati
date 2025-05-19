@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-05-2025 a las 00:30:23
+-- Tiempo de generación: 19-05-2025 a las 03:43:06
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -57,7 +57,9 @@ CREATE TABLE `animales` (
 --
 
 INSERT INTO `animales` (`id`, `nombre`) VALUES
+(4, 'Conejos y Roedores'),
 (2, 'Gato'),
+(3, 'Pájaro'),
 (1, 'Perro');
 
 -- --------------------------------------------------------
@@ -135,7 +137,7 @@ CREATE TABLE `cupones` (
 CREATE TABLE `filtros` (
   `id` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
-  `filtro` varchar(100) NOT NULL,
+  `id_filtro` int(11) NOT NULL,
   `valor` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -163,6 +165,23 @@ CREATE TABLE `marcas` (
   `imagen` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `marcas`
+--
+
+INSERT INTO `marcas` (`id`, `nombre`, `imagen`) VALUES
+(1, 'Seresto', 'Seresto.png'),
+(2, 'Frontline', 'Frontline.png'),
+(3, 'Acana Classic', 'Acana_Classic.png'),
+(4, 'Advance', 'Advance.png'),
+(5, 'Dogxtreme', 'Dogxtreme.jpg'),
+(6, 'Royal Canin', 'RoyalCanin.png'),
+(7, 'Dogzilla', 'Dogzilla.png'),
+(8, 'Outech', 'Outech.png'),
+(9, 'Vitakraft', 'Vitakraft.png'),
+(10, 'Felix', 'Felix.png'),
+(11, 'True Origins', 'True_origins.jpeg');
+
 -- --------------------------------------------------------
 
 --
@@ -178,16 +197,8 @@ CREATE TABLE `productos` (
   `id_marca` int(11) DEFAULT NULL,
   `id_tipo` int(11) DEFAULT NULL,
   `descuento` decimal(10,2) DEFAULT NULL,
-  `precio` decimal(10,2) DEFAULT NULL,
   `valoracion` decimal(2,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `productos`
---
-
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `activo`, `id_animal`, `id_marca`, `id_tipo`, `descuento`, `precio`, `valoracion`) VALUES
-(57, 'Nath Adult Sterilised Pollo y Arroz pienso para gatos', 'p', 1, 2, 0, 0, 1.00, NULL, 1.0);
 
 -- --------------------------------------------------------
 
@@ -208,6 +219,28 @@ CREATE TABLE `servicios` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tipos_filtro`
+--
+
+CREATE TABLE `tipos_filtro` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipos_filtro`
+--
+
+INSERT INTO `tipos_filtro` (`id`, `nombre`) VALUES
+(1, 'Novedades'),
+(2, 'Tamaño de la mascota'),
+(3, 'Sabores'),
+(4, 'Material'),
+(5, 'Color');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tipos_variacion`
 --
 
@@ -215,6 +248,17 @@ CREATE TABLE `tipos_variacion` (
   `id` int(11) NOT NULL,
   `tipo` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipos_variacion`
+--
+
+INSERT INTO `tipos_variacion` (`id`, `tipo`) VALUES
+(4, 'Color'),
+(5, 'Formato'),
+(2, 'Peso'),
+(1, 'Talla'),
+(3, 'Tamaño');
 
 -- --------------------------------------------------------
 
@@ -226,6 +270,23 @@ CREATE TABLE `tipo_producto` (
   `id` int(11) NOT NULL,
   `tipo` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_producto`
+--
+
+INSERT INTO `tipo_producto` (`id`, `tipo`) VALUES
+(3, 'Collar Antiparasitario'),
+(11, 'Comedero/bebedero'),
+(6, 'Comida húmeda'),
+(10, 'Jaula'),
+(12, 'Juguetes'),
+(9, 'Lecho'),
+(13, 'Pienso'),
+(5, 'Pienso seco'),
+(4, 'Pipetas Antiparasitarias'),
+(7, 'Snacks'),
+(8, 'Transportín');
 
 -- --------------------------------------------------------
 
@@ -326,7 +387,8 @@ ALTER TABLE `cupones`
 --
 ALTER TABLE `filtros`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_producto` (`id_producto`);
+  ADD KEY `id_producto` (`id_producto`),
+  ADD KEY `id_filtro` (`id_filtro`);
 
 --
 -- Indices de la tabla `imagenes`
@@ -347,12 +409,21 @@ ALTER TABLE `marcas`
 --
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nombre` (`nombre`);
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD KEY `id_animal` (`id_animal`,`id_marca`,`id_tipo`),
+  ADD KEY `id_tipo` (`id_tipo`),
+  ADD KEY `id_marca` (`id_marca`);
 
 --
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tipos_filtro`
+--
+ALTER TABLE `tipos_filtro`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -383,7 +454,8 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `variantes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_producto` (`id_producto`);
+  ADD KEY `id_producto` (`id_producto`),
+  ADD KEY `id_variacion` (`id_variacion`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -399,7 +471,7 @@ ALTER TABLE `administradores`
 -- AUTO_INCREMENT de la tabla `animales`
 --
 ALTER TABLE `animales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `compra`
@@ -417,25 +489,25 @@ ALTER TABLE `cupones`
 -- AUTO_INCREMENT de la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
@@ -444,16 +516,22 @@ ALTER TABLE `servicios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `tipos_filtro`
+--
+ALTER TABLE `tipos_filtro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `tipos_variacion`
 --
 ALTER TABLE `tipos_variacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_producto`
 --
 ALTER TABLE `tipo_producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -465,7 +543,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `variantes`
 --
 ALTER TABLE `variantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- Restricciones para tablas volcadas
@@ -502,7 +580,8 @@ ALTER TABLE `compra_producto`
 -- Filtros para la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  ADD CONSTRAINT `filtros_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `filtros_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `filtros_ibfk_2` FOREIGN KEY (`id_filtro`) REFERENCES `tipos_filtro` (`id`);
 
 --
 -- Filtros para la tabla `imagenes`
@@ -511,10 +590,19 @@ ALTER TABLE `imagenes`
   ADD CONSTRAINT `imagenes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
 
 --
+-- Filtros para la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_animal`) REFERENCES `animales` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_producto` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id`) ON DELETE SET NULL;
+
+--
 -- Filtros para la tabla `variantes`
 --
 ALTER TABLE `variantes`
-  ADD CONSTRAINT `variantes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `variantes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `variantes_ibfk_2` FOREIGN KEY (`id_variacion`) REFERENCES `tipos_variacion` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
