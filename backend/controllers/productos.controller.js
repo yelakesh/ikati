@@ -26,7 +26,7 @@ async function obtenerProductoPorIdController(req, res) {
     if (filtros.length === 0) {
       filtros = [
         {
-          filtro: "",
+          id_filtro: 0,
           valor: "",
         },
       ];
@@ -76,9 +76,6 @@ async function obtenerTodosController(req, res) {
   for await (const producto of productos) {
     try {
       
-      let filtros = await ProductoModel.obtenerFiltrosPorIdProducto(
-        producto.id
-      );
       let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
         producto.id
       );
@@ -89,17 +86,6 @@ async function obtenerTodosController(req, res) {
         producto.id
       );
       let tipo_variante = null;
-
-      if (filtros.length === 0) {
-        filtros = [
-          {
-            id: 0,
-            id_producto: 0,
-            filtro: "",
-            valor: "",
-          },
-        ];
-      }
 
       if (variantes.length === 0) {
         variantes = [
@@ -134,7 +120,6 @@ async function obtenerTodosController(req, res) {
         tipo_producto: tipo_producto[0],
         variantes: variantes,
         tipo_variante: tipo_variante[0],
-        filtros: filtros,
         imagenes: imagenes,
       });
       
@@ -186,7 +171,11 @@ async function registrarProductoCompletoController(req, res) {
     try {
       let filtros = JSON.parse(objProducto.filtros);
       for (const filtro of filtros) {
-        await ProductoModel.registrarFiltro(id_producto, filtro);
+        console.log(filtro);
+        
+        if (filtro.id_filtro != 0) {
+          await ProductoModel.registrarFiltro(id_producto, filtro);
+        }
       }
     } catch (err) {
       console.error("Error en el registro del filtro:", err);

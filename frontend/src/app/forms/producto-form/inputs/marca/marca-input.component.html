@@ -1,0 +1,22 @@
+<mat-form-field class="w-100 form-control">
+    <input
+      required
+      [disabled]="modo == 'eliminar'"
+      name="marca"
+      type="text"
+      placeholder="Selecciona marca"
+      matInput
+      (focus)="filtrar()"
+      [matAutocomplete]="autoMarca"
+      [(ngModel)]="nombreMarca"
+      (ngModelChange)="filtrar()"
+    />
+    <mat-autocomplete #autoMarca="matAutocomplete" class="bg-white">
+      @for (marca of marcasFiltrados; track marca) {
+      <mat-option (click)="cambiarIdMarca(marca.id)" [value]="marca.nombre">{{
+        marca.nombre
+      }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <p>marca-input works!</p>

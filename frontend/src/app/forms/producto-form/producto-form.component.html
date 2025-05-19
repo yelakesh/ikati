@@ -25,6 +25,7 @@
             class="form-control"
             type="text"
             name="nombre"
+            (click)="filtrarProductos()"
             [(ngModel)]="producto.nombre"
             required
           />
@@ -105,64 +106,26 @@
       <tr>
         <td>Animal*</td>
         <td colspan="4">
-          <mat-form-field class="w-100 form-control">
-            <input
-              required
-              [disabled]="modo == 'eliminar'"
-              name="animal"
-              type="text"
-              placeholder="Selecciona animal"
-              matInput
-              [matAutocomplete]="autoAnimal"
-              [(ngModel)]="nombreAnimal"
-              (ngModelChange)="filtrarAnimales()"
-            />
-            <mat-autocomplete #autoAnimal="matAutocomplete" class="bg-white">
-              @for (animal of animalesFiltrados; track animal) {
-              <mat-option
-                (click)="producto.id_animal = animal.id"
-                [value]="animal.nombre"
-                >{{ animal.nombre }}</mat-option
-              >
-              }
-            </mat-autocomplete>
-          </mat-form-field>
+          <app-animal-input
+            [modo]="modo"
+            [id_animal_padre]="producto.id_animal"
+            (IdAnimal)="cambiarIdAnimal($event)"
+
+          ></app-animal-input>
         </td>
       </tr>
+
       <tr>
         <td>Marca*</td>
         <td colspan="4">
-          <mat-form-field class="w-100 form-control">
-            <input
-              required
-              [disabled]="modo == 'eliminar'"
-              name="marca"
-              type="text"
-              placeholder="Selecciona marca"
-              matInput
-              [matAutocomplete]="autoMarca"
-              [(ngModel)]="nombreMarca"
-              (ngModelChange)="filtrarMarcas()"
-            />
-            <mat-autocomplete #autoMarca="matAutocomplete" class="bg-white">
-              @for (marca of marcasFiltradas; track marca) {
-              <mat-option
-                (click)="producto.id_marca = marca.id"
-                [value]="marca.nombre"
-                ><span class="me-3"
-                  ><img
-                    [src]="
-                      'http://localhost:3000/imagenesMarcas/' + marca.imagen
-                    "
-                    alt="imgMarca"
-                    style="width: 50px" /></span
-                ><span>{{ marca.nombre }}</span></mat-option
-              >
-              }
-            </mat-autocomplete>
-          </mat-form-field>
+          <app-marca-input
+            [modo]="modo"
+            [id_marca_padre]="producto.id_marca"
+            (IdMarca)="cambiarIdMarca($event)"
+          ></app-marca-input>
         </td>
       </tr>
+      
       <tr>
         <td>Tipo de producto*</td>
         <td colspan="4">
@@ -174,6 +137,7 @@
               type="text"
               placeholder="Selecciona Tipo de producto"
               matInput
+              (click)="filtrarTipos_Producto()"
               [matAutocomplete]="autoTipo"
               [(ngModel)]="nombreTipo_Producto"
               (ngModelChange)="filtrarTipos_Producto()"
@@ -242,6 +206,7 @@
               type="text"
               placeholder="Selecciona Tipo de variante"
               matInput
+              (click)="filtrarTipos_Variante()"
               [matAutocomplete]="autoVariante"
               [(ngModel)]="nombreTipo_Variante"
               (ngModelChange)="filtrarTipos_Variante()"
@@ -334,21 +299,33 @@
       <tr>
         <td colspan="6"><h3 class="text-body-tertiary">Filtros</h3></td>
       </tr>
-
-      <tr></tr>
-
-      <tr *ngFor="let f of filtros; let i = index">
+      <tr *ngFor="let filtro of filtros; let i = index; trackBy: trackByIndex">
         <td>
           <label class="form-label" for="filtro">Filtro</label>
         </td>
         <td>
-          <input
-            [disabled]="modo == 'eliminar'"
-            class="form-control"
-            type="text"
-            name="filtro{{ i }}"
-            [(ngModel)]="f.filtro"
-          />
+          <mat-form-field class="w-100 form-control">
+            <input
+              [disabled]="modo == 'eliminar'"
+              [name]="'filtro' + i"
+              type="text"
+              placeholder="Selecciona filtro"
+              matInput
+              (click)="filtrarTipos_Filtro(i)"
+              [matAutocomplete]="autoFiltro"
+              [(ngModel)]="filtro.nombre"
+              (ngModelChange)="filtrarTipos_Filtro(i)"
+            />
+            <mat-autocomplete #autoFiltro="matAutocomplete" class="bg-white">
+              @for (filtro of filtrosFiltrados; track filtro) {
+              <mat-option
+                (click)="filtros[i].id_filtro = filtro.id"
+                [value]="filtro.nombre"
+                >{{ filtro.nombre }}</mat-option
+              >
+              }
+            </mat-autocomplete>
+          </mat-form-field>
         </td>
 
         <td>
@@ -360,7 +337,7 @@
             class="form-control"
             type="text"
             name="valor{{ i }}"
-            [(ngModel)]="f.valor"
+            [(ngModel)]="filtros[i].valor"
           />
         </td>
         <td>
@@ -374,6 +351,7 @@
           </button>
         </td>
       </tr>
+
       <tr>
         <td>
           <button

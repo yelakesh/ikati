@@ -3,16 +3,17 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductoService } from '../../services/producto.service';
-import { AnimalService } from '../../services/animal.service';
-import { MarcaService } from '../../services/marca.service';
 import { TipoProductoService } from '../../services/tipo_producto.service';
 import { TipoVarianteService } from '../../services/tipo_variante.service';
+import { TipoFiltroService } from '../../services/tipo_filtro.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { AnimalInputComponent } from "./inputs/animal/animal-input.component";
+import { MarcaInputComponent } from "./inputs/marca/marca-input.component";
 
 @Component({
   selector: 'app-producto-form',
@@ -27,17 +28,18 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     MatAutocompleteModule,
     ReactiveFormsModule,
     CKEditorModule,
-  ],
+    AnimalInputComponent,
+    MarcaInputComponent
+],
   templateUrl: './producto-form.component.html',
   styleUrl: './producto-form.component.css',
 })
 export class ProductoFormComponent {
   constructor(
     private productoService: ProductoService,
-    private animalService: AnimalService,
-    private marcaService: MarcaService,
     private tipoProductoService: TipoProductoService,
-    private tipoVarianteService: TipoVarianteService
+    private tipoVarianteService: TipoVarianteService,
+    private tipoFiltroService: TipoFiltroService
   ) {}
 
   public Editor: any = ClassicEditor;
@@ -45,8 +47,6 @@ export class ProductoFormComponent {
   @Input() modo: string = '';
   soloLectura = this.modo == 'eliminar' ? true : false;
 
-  nombreAnimal = '';
-  nombreMarca = '';
   nombreTipo_Producto = '';
   nombreTipo_Variante = '';
 
@@ -67,18 +67,12 @@ export class ProductoFormComponent {
     { id_tipo_variante: 0, valor_variacion: '', precio: 0, stock: 0 },
   ];
 
-  filtros = [{ filtro: 0, valor: '' }];
+  filtros = [{ id_filtro: 0, valor: '', nombre: '' }];
 
   imagenes = [{ file: null as null | File, base64: '' }];
 
   productosSelect: { id: number; nombre: string }[] = [];
   productosFiltrados: { id: number; nombre: string }[] = [];
-
-  animalesSelect: { id: number; nombre: string }[] = [];
-  animalesFiltrados: { id: number; nombre: string }[] = [];
-
-  marcasSelect: { id: number; nombre: string; imagen: string }[] = [];
-  marcasFiltradas: { id: number; nombre: string; imagen: string }[] = [];
 
   tipos_productoSelect: { id: number; tipo: string }[] = [];
   tipos_productoFiltrados: { id: number; tipo: string }[] = [];
@@ -89,12 +83,12 @@ export class ProductoFormComponent {
   filtrosSelect: { id: number; nombre: string }[] = [];
   filtrosFiltrados: { id: number; nombre: string }[] = [];
 
+
   async ngOnInit(): Promise<void> {
     await this.cargarNombres();
-    await this.cargarAnimales();
-    await this.cargarMarcas();
     await this.cargarTipos_Producto();
     await this.cargarTipos_Variante();
+    await this.cargarTipos_Filtro();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -104,7 +98,13 @@ export class ProductoFormComponent {
   }
 
   nuevoFiltro() {
-    this.filtros.push({ filtro: 0, valor: '' });
+    this.filtros.push({
+      id_filtro: 0,
+      valor: '',
+      nombre: '',
+    });
+    this.filtrarTipos_Filtro(this.filtros.length - 1);
+    console.log(this.filtros);
   }
 
   eliminarFiltro(i: number) {
@@ -151,13 +151,12 @@ export class ProductoFormComponent {
       ]);
     this.filtros = [
       {
-        filtro: 0,
         valor: '',
+        id_filtro: 0,
+        nombre: '',
       },
     ];
     this.imagenes = [];
-    this.filtrarAnimales();
-    this.filtrarMarcas();
     if (this.producto.nombre != '') {
       this.productoService.obtenerProductoPorId(this.producto).subscribe({
         next: async (respuesta) => {
@@ -173,10 +172,9 @@ export class ProductoFormComponent {
             this.id_tipo_variante = respuesta.variantes[0].id_variacion;
             this.variantes = respuesta.variantes;
             this.filtros = respuesta.filtros;
-            this.obtenerNombreAnimal();
-            this.obtenerNombreMarca();
             this.obtenerTipos_Producto();
             this.obtenerTipos_Variante();
+            this.obtenerTipos_Filtro();
 
             for (const imagen of respuesta.imagenes) {
               if (imagen.nombre) {
@@ -222,8 +220,6 @@ export class ProductoFormComponent {
       descuento: 0,
       valoracion: 0,
     };
-    this.nombreAnimal = '';
-    this.nombreMarca = '';
     this.nombreTipo_Producto = '';
     this.nombreTipo_Variante = '';
 
@@ -238,13 +234,12 @@ export class ProductoFormComponent {
 
     this.filtros = [
       {
-        filtro: 0,
         valor: '',
+        id_filtro: 0,
+        nombre: '',
       },
     ];
     this.imagenes = [{ file: null, base64: '' }];
-    this.filtrarAnimales();
-    this.filtrarMarcas();
     this.filtrarTipos_Producto();
   }
 
@@ -429,76 +424,7 @@ export class ProductoFormComponent {
     );
   }
 
-  async cargarAnimales() {
-    this.animalesSelect = [];
-    this.animalService.obtenerAnimales().subscribe({
-      next: (respuesta) => {
-        if (respuesta.ok) {
-          respuesta.animales.forEach((a: { id: number; nombre: string }) => {
-            this.animalesSelect.push({ id: a.id, nombre: a.nombre });
-          });
-        }
-        this.animalesFiltrados = this.animalesSelect;
-      },
-      error: () => {
-        alert('Error en la carga de animales');
-      },
-    });
-  }
-
-  obtenerNombreAnimal() {
-    const animal = this.animalesSelect.find(
-      (a) => a.id === this.producto.id_animal
-    );
-    if (animal) {
-      this.nombreAnimal = animal?.nombre;
-    }
-  }
-
-  filtrarAnimales() {
-    this.animalesFiltrados = this.animalesSelect.filter((f) =>
-      f.nombre.toLowerCase().includes(this.nombreAnimal.toLowerCase())
-    );
-  }
-
-  filtrarMarcas() {
-    this.marcasFiltradas = this.marcasSelect.filter((f) =>
-      f.nombre.toLowerCase().includes(this.nombreMarca.toLowerCase())
-    );
-  }
-
-  obtenerNombreMarca() {
-    const marca = this.marcasSelect.find(
-      (m) => m.id === this.producto.id_marca
-    );
-    if (marca) {
-      this.nombreMarca = marca?.nombre;
-    }
-  }
-
-  async cargarMarcas() {
-    this.marcasSelect = [];
-    this.marcaService.obtenerTodas().subscribe({
-      next: (respuesta) => {
-        if (respuesta.ok) {
-          respuesta.marcas.forEach(
-            async (m: { id: number; nombre: string; imagen: string }) => {
-              this.marcasSelect.push({
-                id: m.id,
-                nombre: m.nombre,
-                imagen: m.imagen,
-              });
-            }
-          );
-        }
-        this.marcasFiltradas = this.marcasSelect;
-      },
-      error: () => {
-        alert('Error en la carga de marcas');
-      },
-    });
-  }
-
+  
   filtrarTipos_Producto() {
     this.tipos_productoFiltrados = this.tipos_productoSelect.filter((f) =>
       f.tipo.toLowerCase().includes(this.nombreTipo_Producto.toLowerCase())
@@ -573,4 +499,56 @@ export class ProductoFormComponent {
       },
     });
   }
+
+  filtrarTipos_Filtro(i: number) {
+    this.filtrosFiltrados = this.filtrosSelect.filter((f) =>
+      f.nombre.toLowerCase().includes(this.filtros[i].nombre.toLowerCase())
+    );
+  }
+
+  obtenerTipos_Filtro() {
+    for (let i = 0; i < this.filtros.length; i++) {
+      const tipo = this.filtrosSelect.find(
+        (m) => m.id === this.filtros[i].id_filtro
+      );
+
+      if (tipo) {
+        this.filtros[i].nombre = tipo?.nombre;
+      }
+    }
+  }
+
+  async cargarTipos_Filtro() {
+    this.filtrosSelect = [];
+    this.tipoFiltroService.obtenerTodos().subscribe({
+      next: (respuesta) => {
+        if (respuesta.ok) {
+          respuesta.tipo_filtro.forEach(
+            async (m: { id: number; nombre: string }) => {
+              this.filtrosSelect.push({
+                id: m.id,
+                nombre: m.nombre,
+              });
+            }
+          );
+        }
+        this.filtrosFiltrados = this.filtrosSelect;
+      },
+      error: () => {
+        alert('Error en la carga de los tipos de variante');
+      },
+    });
+  }
+
+  trackByIndex(index: number, item: any): any {
+    return index;
+  }
+
+  cambiarIdAnimal($event: number) {
+   this.producto.id_animal=$event;
+  }
+  cambiarIdMarca($event: number) {
+   this.producto.id_marca=$event;
+  }
+  
 }

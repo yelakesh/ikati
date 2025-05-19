@@ -15,6 +15,7 @@ const animalRoutes = require("./routes/animal.routes");
 const marcaRoutes = require("./routes/marca.routes");
 const tipo_productoRoutes = require("./routes/tipo_producto.routes");
 const tipo_VarianteRoutes = require("./routes/tipo_variante.routes");
+const tipo_FiltroRoutes = require("./routes/tipo_filtros.routes");
 
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/cupones", cuponesRoutes);
@@ -25,6 +26,7 @@ app.use("/api/animales", animalRoutes);
 app.use("/api/marcas", marcaRoutes);
 app.use("/api/tipo_producto", tipo_productoRoutes);
 app.use("/api/tipo_variante", tipo_VarianteRoutes);
+app.use("/api/tipo_filtro", tipo_FiltroRoutes);
 app.use("/imagenesProductos", express.static("imagenesProductos"));
 app.use("/imagenesMarcas", express.static("imagenesMarcas"));
 

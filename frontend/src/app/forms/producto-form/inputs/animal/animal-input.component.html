@@ -1,0 +1,21 @@
+<mat-form-field class="w-100 form-control">
+  <input
+    required
+    [disabled]="modo == 'eliminar'"
+    name="animal"
+    type="text"
+    placeholder="Selecciona animal"
+    matInput
+    (focus)="filtrar()"
+    [matAutocomplete]="autoAnimal"
+    [(ngModel)]="nombreAnimal"
+    (ngModelChange)="filtrar()"
+  />
+  <mat-autocomplete #autoAnimal="matAutocomplete" class="bg-white">
+    @for (animal of animalesFiltrados; track animal) {
+    <mat-option (click)="cambiarIdAnimal(animal.id)" [value]="animal.nombre">{{
+      animal.nombre
+    }}</mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>
