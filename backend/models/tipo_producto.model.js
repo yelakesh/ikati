@@ -33,10 +33,17 @@ async function eliminar(id) {
   return resultados;
 }
 
+async function obtenerPorIdAnimal(id_animal) {
+  const sql = `SELECT * FROM tipo_producto where id in (select id_tipo from productos where id_animal=?)`;
+  const resultados = await db.query(sql, [id_animal]);
+  return resultados;
+}
+
 module.exports = {
   registrar,
   obtenerTodos,
   eliminar,
   modificar,
-  obtenerPorId
+  obtenerPorId,
+  obtenerPorIdAnimal
 };

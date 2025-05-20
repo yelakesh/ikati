@@ -136,6 +136,34 @@ async function modificarController(req, res) {
       .json({ ok: false, mensaje: "Error del servidor", tipo_Producto: {} });
   }
 }
+async function obtenerPorIdAnimalController(req, res) {
+  const id_animal = req.body.id;
+ 
+  try {
+    const resultado = await Tipo_ProductoModel.obtenerPorIdAnimal(id_animal);
+
+    if (resultado.length === 0) {
+      return res
+        .status(401)
+        .json({
+          ok: false,
+          mensaje: "Tipos de producto no encontrados",
+          tipo_Producto: {},
+        });
+    }
+
+    res.json({
+      ok: true,
+      mensaje: "Tipos de producto encontrados",
+      tipo_Producto: resultado,
+    });
+  } catch (err) {
+    console.error("Error en la busqueda del tipo de producto:", err);
+    res
+      .status(500)
+      .json({ ok: false, mensaje: "Error del servidor", tipo_Producto: {} });
+  }
+}
 
 module.exports = {
   registrarController,
@@ -143,4 +171,5 @@ module.exports = {
   eliminarPorIdController,
   obtenerTodosController,
   obtenerPorIdController,
+  obtenerPorIdAnimalController,
 };

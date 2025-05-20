@@ -75,33 +75,15 @@
   <div class="container d-flex align-items-center">
 
     <ul class="nav gap-1 flex-grow-1 justify-content-center py-2 mb-0">
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngFor="let animal of animales">
         <a class="nav-link dropdown-toggle fw-bold text-light" href="#" id="perrosDropdown" role="button"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          Perros
+          data-bs-toggle="dropdown" aria-expanded="false" (click)="filtrarPorAnimal(animal)">
+          {{animal.nombre}}
         </a>
+
         <ul class="dropdown-menu bg-secondary-subtle " aria-labelledby="perrosDropdown">
-          <li><a class="dropdown-item text-dark" routerLink="/perros/pienso">Pienso</a></li>
-          <li><a class="dropdown-item text-dark" routerLink="/perros/snacks">Snacks</a></li>
-          <li><a class="dropdown-item text-dark" routerLink="/perros/accesorios">Accesorios</a></li>
-          <li><a class="dropdown-item text-dark" routerLink="/perros/accesorios">Antiparasitarios</a></li>
+          <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark" routerLink="/perros/pienso" (click)="filtrarPorAnimalYTipo(animal,tipo)">{{tipo.tipo}}</a></li>
         </ul>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle fw-bold text-light" href="#" id="gatosDropdown" role="button"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          Gatos
-        </a>
-        <ul class="dropdown-menu bg-secondary-subtle" aria-labelledby="gatosDropdown">
-          <li><a class="dropdown-item text-dark" routerLink="/gatos/pienso">Pienso</a></li>
-          <li><a class="dropdown-item text-dark" routerLink="/gatos/snacks">Snacks</a></li>
-          <li><a class="dropdown-item text-dark" routerLink="/gatos/accesorios">Accesorios</a></li>
-          <li><a class="dropdown-item text-dark" routerLink="/gatos/accesorios">Antiparasitarios</a></li>
-        </ul>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link fw-bold text-light" routerLink="/roedores">Conejos y Roedores</a>
-      </li>
       <li class="nav-item">
         <a class="nav-link fw-bold text-danger" routerLink="/ofertas">OFERTAS</a>
       </li>

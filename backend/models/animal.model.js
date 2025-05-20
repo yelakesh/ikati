@@ -7,7 +7,7 @@ async function registrarAnimal(nombre) {
 }
 
 async function obtenerAnimales() {
-  const sql = `SELECT * FROM animales`;
+  const sql = `SELECT * FROM animales order by id`;
   const resultados = await db.query(sql);
   return resultados;
 }

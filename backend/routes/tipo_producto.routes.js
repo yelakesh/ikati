@@ -8,5 +8,6 @@ router.post("/registrar", tipo_producto.registrarController);
 router.post("/eliminarPorId", tipo_producto.eliminarPorIdController);
 router.post("/modificar", tipo_producto.modificarController);
 router.post("/obtenerTodos", tipo_producto.obtenerTodosController);
+router.post("/obtenerPorIdAnimal", tipo_producto.obtenerPorIdAnimalController);
 
 module.exports = router;

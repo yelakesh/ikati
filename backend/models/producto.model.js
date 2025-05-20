@@ -116,6 +116,17 @@ async function eliminarProducto(id) {
   return resultados;
 }
 
+async function obtenerPorAnimal(id_animal) {
+  const sql = "SELECT * FROM productos where id_animal=?";
+  const resultados = await db.query(sql,[id_animal]);
+  return resultados;
+}
+async function obtenerPorAnimalYTipo(id_animal,id_tipo) {
+  const sql = "SELECT * FROM productos where id_animal=? and id_tipo=?";
+  const resultados = await db.query(sql,[id_animal,id_tipo]);
+  return resultados;
+}
+
 module.exports = {
   obtenerProductoPorNombre,
   obtenerFiltrosPorIdProducto,
@@ -130,4 +141,6 @@ module.exports = {
   eliminarProducto,
   obtenerNombres,
   obtenerTodos,
+  obtenerPorAnimal,
+  obtenerPorAnimalYTipo,
 };

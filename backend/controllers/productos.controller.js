@@ -69,7 +69,7 @@ async function obtenerProductoPorIdController(req, res) {
   }
 }
 
-async function obtenerTodosController(req, res) {
+async function obtenerTodosController(_req, res) {
   const productos = await ProductoModel.obtenerTodos();
   let resultados = [];
 
@@ -138,7 +138,7 @@ async function obtenerTodosController(req, res) {
   
 }
 
-async function obtenerNombresController(req, res) {
+async function obtenerNombresController(_req, res) {
   try {
     let productos = await ProductoModel.obtenerNombres();
 
@@ -350,6 +350,141 @@ async function eliminarProductoController(req, res) {
   }
 }
 
+async function obtenerPorAnimalController(req, res) {
+  const productos = await ProductoModel.obtenerPorIdAnimal(req.body.id);
+  let resultados = [];
+
+  for await (const producto of productos) {
+    try {
+      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
+        producto.id
+      );
+      let animal = await Animal.obtenerPorId(producto.id_animal);
+      let marca = await Marca.obtenerPorId(producto.id_marca);
+      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
+      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
+        producto.id
+      );
+      let tipo_variante = null;
+
+      if (variantes.length === 0) {
+        variantes = [
+          {
+            id: 0,
+            id_producto: 0,
+            precio: "",
+            stock: "",
+            id_variacion: 0,
+            valor_variacion: "",
+          },
+        ];
+      } else {
+        tipo_variante = await Tipo_Variante.obtenerPorId(
+          variantes[0].id_variacion
+        );
+      }
+
+      if (imagenes.length === 0) {
+        imagenes = [
+          {
+            id: 0,
+            id_producto: 0,
+            url: "",
+          },
+        ];
+      }
+      resultados.push({
+        producto: producto,
+        animal: animal,
+        marca: marca[0],
+        tipo_producto: tipo_producto[0],
+        variantes: variantes,
+        tipo_variante: tipo_variante[0],
+        imagenes: imagenes,
+      });
+    } catch (err) {
+      console.error("Error en la busqueda del producto:", err);
+      return res
+        .status(500)
+        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
+    }
+  }
+  res.json({
+    ok: true,
+    mensaje: "Productos encontrados",
+    productos: resultados,
+  });
+}
+
+async function obtenerPorAnimalYTipoController(req, res) {
+  const productos = await ProductoModel.obtenerPorAnimalYTipo(
+    req.body.objAnimal.id,
+    req.body.objTipo.id
+  );
+  let resultados = [];
+
+  for await (const producto of productos) {
+    try {
+      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
+        producto.id
+      );
+      let animal = await Animal.obtenerPorId(producto.id_animal);
+      let marca = await Marca.obtenerPorId(producto.id_marca);
+      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
+      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
+        producto.id
+      );
+      let tipo_variante = null;
+
+      if (variantes.length === 0) {
+        variantes = [
+          {
+            id: 0,
+            id_producto: 0,
+            precio: "",
+            stock: "",
+            id_variacion: 0,
+            valor_variacion: "",
+          },
+        ];
+      } else {
+        tipo_variante = await Tipo_Variante.obtenerPorId(
+          variantes[0].id_variacion
+        );
+      }
+
+      if (imagenes.length === 0) {
+        imagenes = [
+          {
+            id: 0,
+            id_producto: 0,
+            url: "",
+          },
+        ];
+      }
+      resultados.push({
+        producto: producto,
+        animal: animal,
+        marca: marca[0],
+        tipo_producto: tipo_producto[0],
+        variantes: variantes,
+        tipo_variante: tipo_variante[0],
+        imagenes: imagenes,
+      });
+    } catch (err) {
+      console.error("Error en la busqueda del producto:", err);
+      return res
+        .status(500)
+        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
+    }
+  }
+  res.json({
+    ok: true,
+    mensaje: "Productos encontrados",
+    productos: resultados,
+  });
+}
+
 export {
   obtenerProductoPorIdController,
   registrarProductoCompletoController,
@@ -357,4 +492,6 @@ export {
   eliminarProductoController,
   obtenerNombresController,
   obtenerTodosController,
+  obtenerPorAnimalController,
+  obtenerPorAnimalYTipoController,
 };

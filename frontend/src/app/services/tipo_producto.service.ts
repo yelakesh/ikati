@@ -29,4 +29,7 @@ export class TipoProductoService {
   modificarPorUsuario(objTipo_producto: object): Observable<any> {
     return this.http.post(this.apiUrl + '/modificar', objTipo_producto);
   }
+  obtenerPorIdAnimal(objAnimal: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerPorIdAnimal', objAnimal);
+  }
 }

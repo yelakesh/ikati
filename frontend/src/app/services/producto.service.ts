@@ -31,4 +31,11 @@ export class ProductoService {
   eliminarProducto(producto: object): Observable<any> {
     return this.http.post(this.apiUrl + '/eliminarProducto', producto);
   }
+
+  obtenerPorAnimal(objAnimal: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerPorAnimal', objAnimal);
+  }
+  obtenerPorAnimalYTipo(objAnimal: object,objTipo:object): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerPorAnimal', objAnimal,objTipo);
+  }
 }
