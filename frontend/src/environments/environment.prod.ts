@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://ikati-back.onrender.com/api' 
+  apiUrl: '' // Enlace de Render 
 };
 
