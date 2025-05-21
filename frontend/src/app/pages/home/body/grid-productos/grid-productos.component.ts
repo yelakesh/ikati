@@ -3,6 +3,7 @@ import { CardProductoComponent } from './card-producto/card-producto.component';
 import { NgFor } from '@angular/common';
 import { ProductoService } from '../../../../services/producto.service';
 import { HeaderGridService } from '../../../../services/header-grid.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-grid-productos',
@@ -13,18 +14,39 @@ import { HeaderGridService } from '../../../../services/header-grid.service';
 export class GridProductosComponent {
   constructor(
     private productoService: ProductoService,
-    private header_grid: HeaderGridService
+    private header_grid: HeaderGridService,
+    private route: ActivatedRoute
   ) {}
   productos: any = [];
 
   ngOnInit(): void {
-    this.obtenerProductos();
-    this.header_grid.porAnimal$.subscribe((data: any) => {
-      this.obtenerProductosPorAnimal(data);
+    this.route.paramMap.subscribe(() => {
+      const id_animal = this.route.snapshot.paramMap.get('id_animal');
+      const id_tipo = this.route.snapshot.paramMap.get('id_tipo');
+
+      if (id_tipo) {
+        this.obtenerProductosPorIdAnimalYTipo(
+          { id: id_animal },
+          { id: id_tipo }
+        );
+      } else if (id_animal) {
+        this.obtenerProductosPorAnimal({ id: id_animal });
+      } else {
+        this.obtenerProductos();
+        this.header_grid.porAnimal$.subscribe((data: any) => {
+          if (data.id) {
+            this.obtenerProductosPorAnimal(data);
+          }
+        });
+        this.header_grid.porAnimalYTipo$.subscribe((data: any) => {
+          if (data.objAnimal) {
+            this.obtenerProductosPorIdAnimalYTipo(data.objAnimal, data.objTipo);
+          }
+        });
+      }
+
     });
-    this.header_grid.porAnimalYTipo$.subscribe((data: any) => {
-      this.obtenerProductosPorIdAnimalYTipo(data.objAnimal, data.objTipo);
-    });
+    
   }
 
   obtenerProductos() {

@@ -21,9 +21,7 @@ export class CardProductoComponent {
     this.precioMin = this.producto.variantes[0].precio;
     this.producto.variantes.forEach((variante: any) => {
       if (parseInt(variante.precio) > this.precioMax) {
-        this.precioMax = variante.precio;
-        //console.log(typeof);
-        
+        this.precioMax = variante.precio;        
       }
       if (parseInt(variante.precio) < this.precioMin) {
         this.precioMin = variante.precio;

@@ -56,7 +56,6 @@ export class HeaderComponent implements OnInit {
               });
             }
           );
-          console.log(this.animales);
         }
       },
       error: () => {

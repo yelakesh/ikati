@@ -1,10 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
-import { RouterLink, Router } from '@angular/router';
 import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
-import { GridProductosComponent } from "../home/body/grid-productos/grid-productos.component";
 import { ActivatedRoute } from '@angular/router';
-import { HeaderGridService } from '../../services/header-grid.service';
 import { ProductoService } from '../../services/producto.service';
 
 @Component({
@@ -24,8 +21,6 @@ export class PaginaProductoComponent {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    // Usa el id para cargar los datos del producto
-
       if (id) {
     this.cargarProducto(id);
   }

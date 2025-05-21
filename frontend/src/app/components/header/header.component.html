@@ -76,13 +76,13 @@
 
     <ul class="nav gap-1 flex-grow-1 justify-content-center py-2 mb-0">
       <li class="nav-item dropdown" *ngFor="let animal of animales">
-        <a class="nav-link dropdown-toggle fw-bold text-light" href="#" id="perrosDropdown" role="button"
-          data-bs-toggle="dropdown" aria-expanded="false" (click)="filtrarPorAnimal(animal)">
+        <a class="nav-link dropdown-toggle fw-bold text-light" [routerLink]="['/home',animal.id]" id="perrosDropdown" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
           {{animal.nombre}}
         </a>
 
         <ul class="dropdown-menu bg-secondary-subtle " aria-labelledby="perrosDropdown">
-          <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark" routerLink="/perros/pienso" (click)="filtrarPorAnimalYTipo(animal,tipo)">{{tipo.tipo}}</a></li>
+          <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark" [routerLink]="['/home',animal.id,tipo.id]">{{tipo.tipo}}</a></li>
         </ul>
       <li class="nav-item">
         <a class="nav-link fw-bold text-danger" routerLink="/ofertas">OFERTAS</a>
