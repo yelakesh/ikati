@@ -34,7 +34,7 @@
       <tr *ngIf="modo != 'registrar'">
         <td>Producto</td>
         <td colspan="4">
-          <mat-form-field class="w-100 form-control">
+          <mat-form-field class="custom-autocomplete">
             <input
               name="nombre"
               type="text"
@@ -44,9 +44,9 @@
               [(ngModel)]="producto.nombre"
               (ngModelChange)="filtrarProductos()"
             />
-            <mat-autocomplete #auto="matAutocomplete" class="bg-white">
+            <mat-autocomplete #auto="matAutocomplete" class="bg-danger-subtle">
               @for (p of productosFiltrados; track p) {
-              <mat-option
+              <mat-option class="text-black"
                 (click)="producto.id = p.id; this.completarDatos()"
                 [value]="p.nombre"
                 >{{ p.nombre }}</mat-option
@@ -54,6 +54,8 @@
               }
             </mat-autocomplete>
           </mat-form-field>
+
+        
         </td>
       </tr>
       <tr>
@@ -129,7 +131,7 @@
       <tr>
         <td>Tipo de producto*</td>
         <td colspan="4">
-          <mat-form-field class="w-100 form-control">
+          <mat-form-field class="w-100 custom-autocomplete">
             <input
               required
               [disabled]="modo == 'eliminar'"
@@ -142,7 +144,7 @@
               [(ngModel)]="nombreTipo_Producto"
               (ngModelChange)="filtrarTipos_Producto()"
             />
-            <mat-autocomplete #autoTipo="matAutocomplete" class="bg-white">
+            <mat-autocomplete #autoTipo="matAutocomplete" class="bg-danger-subtle">
               @for (tipo of tipos_productoFiltrados; track tipo) {
               <mat-option
                 (click)="producto.id_tipo_producto = tipo.id"
@@ -198,7 +200,7 @@
       <tr>
         <td>Tipo de variante*</td>
         <td colspan="4">
-          <mat-form-field class="w-100 form-control">
+          <mat-form-field class="w-100 custom-autocomplete">
             <input
               required
               [disabled]="modo == 'eliminar'"
@@ -211,7 +213,7 @@
               [(ngModel)]="nombreTipo_Variante"
               (ngModelChange)="filtrarTipos_Variante()"
             />
-            <mat-autocomplete #autoVariante="matAutocomplete" class="bg-white">
+            <mat-autocomplete #autoVariante="matAutocomplete" class="bg-danger-subtle">
               @for (tipo of tipos_variantesFiltrados; track tipo) {
               <mat-option
                 (click)="id_tipo_variante = tipo.id"
@@ -304,7 +306,7 @@
           <label class="form-label" for="filtro">Filtro</label>
         </td>
         <td>
-          <mat-form-field class="w-100 form-control">
+          <mat-form-field class="w-100 custom-autocomplete">
             <input
               [disabled]="modo == 'eliminar'"
               [name]="'filtro' + i"
@@ -316,7 +318,7 @@
               [(ngModel)]="filtro.nombre"
               (ngModelChange)="filtrarTipos_Filtro(i)"
             />
-            <mat-autocomplete #autoFiltro="matAutocomplete" class="bg-white">
+            <mat-autocomplete #autoFiltro="matAutocomplete" class="bg-danger-subtle">
               @for (filtro of filtrosFiltrados; track filtro) {
               <mat-option
                 (click)="filtros[i].id_filtro = filtro.id"

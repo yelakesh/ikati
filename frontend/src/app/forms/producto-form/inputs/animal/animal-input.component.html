@@ -1,4 +1,4 @@
-<mat-form-field class="w-100 form-control">
+<mat-form-field class="custom-autocomplete">
   <input
     required
     [disabled]="modo == 'eliminar'"
@@ -11,7 +11,7 @@
     [(ngModel)]="nombreAnimal"
     (ngModelChange)="filtrar()"
   />
-  <mat-autocomplete #autoAnimal="matAutocomplete" class="bg-white">
+  <mat-autocomplete #autoAnimal="matAutocomplete" class="bg-danger-subtle">
     @for (animal of animalesFiltrados; track animal) {
     <mat-option (click)="cambiarIdAnimal(animal.id)" [value]="animal.nombre">{{
       animal.nombre

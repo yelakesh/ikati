@@ -39,6 +39,7 @@ export class GridProductosComponent {
   }
 
   obtenerProductosPorIdAnimal(objAnimal: object) {
+    this.productos=[]
     this.productoService.obtenerPorAnimal(objAnimal).subscribe({
       next: (res) => {
         this.productos = res.productos;
@@ -49,6 +50,7 @@ export class GridProductosComponent {
     });
   }
   obtenerProductosPorIdAnimalYTipo(objAnimal: object,objTipo:object) {
+        this.productos=[]
     this.productoService.obtenerPorAnimalYTipo(objAnimal,objTipo).subscribe({
       next: (res) => {
         this.productos = res.productos;

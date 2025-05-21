@@ -12,6 +12,7 @@ import { CambiarPassAdminComponent } from './components/cambiar-pass-admin/cambi
 import { GestionCuentasComponent } from "./pages/gestion-cuentas/gestion-cuentas.component";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
 import { EditpasswordComponent } from "./pages/perfil/contrasena-card/editpassword/editpassword.component";
+import { PaginaProductoComponent } from "./pages/pagina-producto/pagina-producto.component";
 
 
 export const routes: Routes = [
@@ -29,10 +30,11 @@ export const routes: Routes = [
     { path: 'gestion-cuentas', component: GestionCuentasComponent, data: { breadcrumb: 'Gestion Cuentas' } },
     {
         path: 'perfil',
-        component: PerfilComponent, data:{ breadcrumb:"Mi perfil"}
+        component: PerfilComponent, data: { breadcrumb: "Mi perfil" }
 
     },
-    { path: 'editpassword', component: EditpasswordComponent }
+    { path: 'editpassword', component: EditpasswordComponent },
+    { path: 'pagina-producto/:id', component: PaginaProductoComponent, data: { breadcrumb: 'Producto' } }
 
 
 ];

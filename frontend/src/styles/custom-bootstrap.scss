@@ -149,6 +149,67 @@ nav[aria-label="breadcrumb"] {
 }
 
 
+//ESTILOS PARA EL "AUTOCOMPLETE" DE MATERIAL
+.custom-autocomplete {
+  width: 600px; /* Ajusta el ancho a lo que prefieras */
+  font-size: 0.98rem;
+}
+
+.custom-autocomplete .mat-form-field-wrapper {
+  padding-bottom: 0.3em !important;
+}
+
+.custom-autocomplete .mat-form-field-flex {
+  min-height: 1px !important; /* Menos alto */
+  border-radius: 6px;
+}
+
+.custom-autocomplete .mat-input-element {
+  padding: 0.4em 0.8em !important;
+}
+
+.custom-autocomplete .mat-form-field-outline {
+  border-radius: 6px;
+  border-width: 1.5px;
+}
+
+.custom-autocomplete .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #1976d2;
+}
+
+.custom-autocomplete .mat-form-field-label {
+  color: #555 !important;
+  font-weight: 400;
+}
+
+.mat-autocomplete-panel {
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  font-size: 0.98rem;
+}
+
+.mat-option {
+  padding: 0.5em 1.2em;
+}
+
+.mat-option:hover, .mat-option.mat-active {
+  background: #e3f2fd !important;
+  color: #1976d2 !important;
+}
+
+// ESTILOS PARA LAS CARDS DE PRODUCTO
+.custom-card {
+  transition: box-shadow 0.2s, transform 0.4s;
+ 
+}
+
+.custom-card:hover {
+  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.15), 0 1.5px 4px rgba(0,0,0,0.10);
+  transform: translateY(-2px) scale(1.00);
+  border-color: #f7dce4;
+}
+
+
 
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/bootstrap";

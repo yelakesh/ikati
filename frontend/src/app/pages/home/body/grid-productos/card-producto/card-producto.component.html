@@ -1,22 +1,26 @@
-<div class="card w-100 h-100" style="width: 18rem">
-  <img
-    [src]="
-      'http://localhost:3000/imagenesProductos/' + producto.imagenes[0].nombre
-    "
-    class="card-img-top"
-    alt="..."
-  />
+<div  class="card w-100 h-100 shadow custom-card" style="max-width: 30rem">
+  
+  <a [routerLink]="['/pagina-producto', producto.producto.id]">
+    <img
+      [src]="'http://localhost:3000/imagenesProductos/' + producto.imagenes[0].nombre"
+      class="card-img-top"
+      alt="..."
+    />
+  </a>
   <div class="card-body">
-    <h5 class="card-title">{{ producto.producto.nombre }}</h5>
+    <p style="max-width: 120px; font-size: small;" class="alert alert-warning py-0 text-center">{{ producto.marca.nombre }}</p>
+    <p class="card-title">{{ producto.producto.nombre }}</p>
+    
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">{{ producto.marca.nombre }}</li>
-    <li class="list-group-item">{{ precioMin }}€ - {{ precioMax }}€</li>
+    
+    <li *ngIf="precioMin!= precioMax" class="list-group-item fw-bold" >{{ precioMin }}€ - {{ precioMax }}€</li>
+    <li *ngIf="precioMin== precioMax" class="list-group-item fw-bold" >{{ precioMin }}€</li>
     <li class="list-group-item">
 
         <p>Valoración({{producto.producto.valoracion}}):</p>
-      <div style="width: 90%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'" >
-          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
+      <div style="width: 40%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'" >
+          <img  src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block ;" />
           <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
           <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
           <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
@@ -25,8 +29,5 @@
         </div>
     </li>
   </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
+
 </div>

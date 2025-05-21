@@ -351,7 +351,7 @@ async function eliminarProductoController(req, res) {
 }
 
 async function obtenerPorAnimalController(req, res) {
-  const productos = await ProductoModel.obtenerPorIdAnimal(req.body.id);
+  const productos = await ProductoModel.obtenerPorAnimal(req.body.id_animal);
   let resultados = [];
 
   for await (const producto of productos) {

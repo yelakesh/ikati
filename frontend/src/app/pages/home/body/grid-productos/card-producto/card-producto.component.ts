@@ -1,8 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card-producto',
-  imports: [],
+  imports: [RouterLink, CommonModule],
   templateUrl: './card-producto.component.html',
   styleUrl: './card-producto.component.css',
 })

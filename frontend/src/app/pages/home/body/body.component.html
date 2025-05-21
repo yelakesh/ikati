@@ -1,6 +1,6 @@
-<div class="container-fluid d-flex mt-5 py-3 justify-content-between">
+<div class="container-fluid d-flex mt-5 py-3 justify-content-center">
     <!-- Imagen fija -->
-    <img  src="imagenes/logo/banner3.png" class=" img-fluid shadow ms-3 " style="max-height: 350px;" alt="" height="100px">
+    <img  src="imagenes/logo/banner3.png" class=" img-fluid shadow me-4" style="max-height: 350px;" alt="" height="100px">
   
     <!-- Carrusel en #alimento -->
     <div id="alimento" class="carousel slide me-5" data-bs-ride="carousel" data-bs-interval="3000" style="width:400px;">
@@ -23,7 +23,14 @@
       </button>
     </div>
   </div>
-  <div class="grid_productos"><app-grid-productos></app-grid-productos></div>
+
+  <div class=" d-flex justify-content-center mt-5 mb-3">
+    <h3>Nuestros Recomendados</h3>
+  </div>
+  <div class="d-flex justify-content-center">
+    
+    <app-grid-productos></app-grid-productos>
+  </div>
   
   
   

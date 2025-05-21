@@ -30,7 +30,7 @@ import { MarcaInputComponent } from "./inputs/marca/marca-input.component";
     CKEditorModule,
     AnimalInputComponent,
     MarcaInputComponent
-],
+  ],
   templateUrl: './producto-form.component.html',
   styleUrl: './producto-form.component.css',
 })
@@ -40,7 +40,7 @@ export class ProductoFormComponent {
     private tipoProductoService: TipoProductoService,
     private tipoVarianteService: TipoVarianteService,
     private tipoFiltroService: TipoFiltroService
-  ) {}
+  ) { }
 
   public Editor: any = ClassicEditor;
 
@@ -84,6 +84,9 @@ export class ProductoFormComponent {
   filtrosFiltrados: { id: number; nombre: string }[] = [];
 
 
+  displayProducto(producto: any): string {
+    return producto && producto.nombre ? producto.nombre : '';
+  }
   async ngOnInit(): Promise<void> {
     await this.cargarNombres();
     await this.cargarTipos_Producto();
@@ -424,7 +427,7 @@ export class ProductoFormComponent {
     );
   }
 
-  
+
   filtrarTipos_Producto() {
     this.tipos_productoFiltrados = this.tipos_productoSelect.filter((f) =>
       f.tipo.toLowerCase().includes(this.nombreTipo_Producto.toLowerCase())
@@ -545,10 +548,10 @@ export class ProductoFormComponent {
   }
 
   cambiarIdAnimal($event: number) {
-   this.producto.id_animal=$event;
+    this.producto.id_animal = $event;
   }
   cambiarIdMarca($event: number) {
-   this.producto.id_marca=$event;
+    this.producto.id_marca = $event;
   }
-  
+
 }
