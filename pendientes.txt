@@ -15,4 +15,3 @@ Perfil de usuario
 Carrito
 Pasarela de compra y PDF
 Servicios
-Despliegue
