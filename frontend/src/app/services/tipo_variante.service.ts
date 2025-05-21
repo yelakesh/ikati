@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class TipoVarianteService {
-  private apiUrl = 'http://localhost:3000/api/tipo_variante';
+  private apiUrl = `${environment.apiUrl}/tipo_variante`;
 
   constructor(private http: HttpClient) {}
 
