@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CardProductoComponent } from "./card-producto/card-producto.component";
+import { CardProductoComponent } from './card-producto/card-producto.component';
 import { NgFor } from '@angular/common';
 import { ProductoService } from '../../../../services/producto.service';
 import { HeaderGridService } from '../../../../services/header-grid.service';
@@ -20,10 +20,10 @@ export class GridProductosComponent {
   ngOnInit(): void {
     this.obtenerProductos();
     this.header_grid.porAnimal$.subscribe((data: any) => {
-      this.obtenerProductosPorIdAnimal(data);
+      this.obtenerProductosPorAnimal(data);
     });
     this.header_grid.porAnimalYTipo$.subscribe((data: any) => {
-      this.obtenerProductosPorIdAnimalYTipo(data.objAnimal,data.objTipo);
+      this.obtenerProductosPorIdAnimalYTipo(data.objAnimal, data.objTipo);
     });
   }
 
@@ -38,8 +38,8 @@ export class GridProductosComponent {
     });
   }
 
-  obtenerProductosPorIdAnimal(objAnimal: object) {
-    this.productos=[]
+  obtenerProductosPorAnimal(objAnimal: object) {
+    this.productos = [];
     this.productoService.obtenerPorAnimal(objAnimal).subscribe({
       next: (res) => {
         this.productos = res.productos;
@@ -49,9 +49,10 @@ export class GridProductosComponent {
       },
     });
   }
-  obtenerProductosPorIdAnimalYTipo(objAnimal: object,objTipo:object) {
-        this.productos=[]
-    this.productoService.obtenerPorAnimalYTipo(objAnimal,objTipo).subscribe({
+
+  obtenerProductosPorIdAnimalYTipo(objAnimal: object, objTipo: object) {
+    this.productos = [];
+    this.productoService.obtenerPorAnimalYTipo(objAnimal, objTipo).subscribe({
       next: (res) => {
         this.productos = res.productos;
       },

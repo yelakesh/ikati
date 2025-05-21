@@ -20,10 +20,12 @@ export class CardProductoComponent {
   calcularPrecios() {
     this.precioMin = this.producto.variantes[0].precio;
     this.producto.variantes.forEach((variante: any) => {
-      if (variante.precio > this.precioMax) {
+      if (parseInt(variante.precio) > this.precioMax) {
         this.precioMax = variante.precio;
+        //console.log(typeof);
+        
       }
-      if (variante.precio < this.precioMin) {
+      if (parseInt(variante.precio) < this.precioMin) {
         this.precioMin = variante.precio;
       }
     });

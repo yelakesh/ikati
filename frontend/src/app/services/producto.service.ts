@@ -37,6 +37,13 @@ export class ProductoService {
     return this.http.post(this.apiUrl + '/obtenerPorAnimal', objAnimal);
   }
   obtenerPorAnimalYTipo(objAnimal: object,objTipo:object): Observable<any> {
-    return this.http.post(this.apiUrl + '/obtenerPorAnimal', objAnimal,objTipo);
+    const objs={
+      objAnimal:objAnimal,
+      objTipo:objTipo,
+
+    }
+
+    return this.http.post(this.apiUrl + '/obtenerPorAnimalYTipo', objs);
+    
   }
 }

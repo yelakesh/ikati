@@ -351,7 +351,7 @@ async function eliminarProductoController(req, res) {
 }
 
 async function obtenerPorAnimalController(req, res) {
-  const productos = await ProductoModel.obtenerPorAnimal(req.body.id_animal);
+  const productos = await ProductoModel.obtenerPorAnimal(req.body.id);
   let resultados = [];
 
   for await (const producto of productos) {
@@ -402,6 +402,7 @@ async function obtenerPorAnimalController(req, res) {
         tipo_variante: tipo_variante[0],
         imagenes: imagenes,
       });
+
     } catch (err) {
       console.error("Error en la busqueda del producto:", err);
       return res
@@ -417,6 +418,7 @@ async function obtenerPorAnimalController(req, res) {
 }
 
 async function obtenerPorAnimalYTipoController(req, res) {
+  
   const productos = await ProductoModel.obtenerPorAnimalYTipo(
     req.body.objAnimal.id,
     req.body.objTipo.id
