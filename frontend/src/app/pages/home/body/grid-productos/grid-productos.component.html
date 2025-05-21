@@ -1,6 +1,6 @@
 <div class="container-fluid mb-5">
-    <div class="row g-4 mx-3">
-      <div class="col-12 col-sm-6 col-md-3 d-flex" *ngFor="let producto of productos">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 mx-3">
+      <div class="col d-flex" *ngFor="let producto of productos">
         <app-card-producto class="w-100 h-100" [producto]="producto"></app-card-producto>
       </div>
     </div>
