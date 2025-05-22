@@ -8,23 +8,30 @@
     />
   </a>
   <div class="card-body">
-    <p style="max-width: 120px; font-size: small;" class="alert alert-warning py-0 text-center">{{ producto.marca.nombre }}</p>
-    <p class="card-title">{{ producto.producto.nombre }}</p>
+    <span class="badge text-bg-danger">{{ producto.marca.nombre }}</span>
+    <!-- <p style="max-width: 120px; font-size: small;" class="alert alert-warning py-0 text-center"></p> -->
+    <p class="card-title mt-2">{{ producto.producto.nombre }}</p>
     
   </div>
-  <ul class="list-group list-group-flush">
+  <ul class="list-group list-group-flush border-0">
     
-    <li *ngIf="precioMin!= precioMax" class="list-group-item fw-bold" >{{ precioMin }}€ - {{ precioMax }}€</li>
-    <li *ngIf="precioMin== precioMax" class="list-group-item fw-bold" >{{ precioMin }}€</li>
+    <div class="d-flex flex-column gap-0">
+   <li *ngIf="precioMin!= precioMax" class="list-group-item border-0 fw-bold py-0 text-success" style="font-size: smaller;" >Varias opciones disponibles 
+      </li>
+    <li *ngIf="precioMin!= precioMax" class="list-group-item border-0 fw-bold" >{{ precioMin }}€ - {{ precioMax }}€ 
+      </li>
+      </div>
+    
+    <li *ngIf="precioMin== precioMax" class="list-group-item fw-bold border-0" >{{ precioMin }}€</li>
     <li class="list-group-item">
 
-        <p>Valoración({{producto.producto.valoracion}}):</p>
+        <p>Valoración(<span class="fw-bold">{{producto.producto.valoracion}}</span>)</p>
       <div style="width: 40%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'" >
-          <img  src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block ;" />
-          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
-          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
-          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
-          <img src="imagenes/recursos/huellaPerroNegra.png" style="width: 20%; display: inline-block;" />
+          <img  src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
+          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
         
         </div>
     </li>

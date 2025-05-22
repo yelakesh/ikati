@@ -1,11 +1,89 @@
-<app-header/>
-<div class=" d-flex justify-content-start ms-5 py-3">
-    <app-breadcrumb></app-breadcrumb>
+<app-header />
+
+
+<div class="container my-5">
+    <div class="row g-4">
+        <!-- Carrusel de imágenes -->
+        <div class="col-md-6">
+            <div id="carouselProducto" class="carousel slide" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+                    <div *ngFor="let imagen of imagenes; let i = index" class="carousel-item" [class.active]="i===0">
+
+                        <img class="d-block w-100"  [src]="'http://localhost:3000/imagenesProductos/' + imagen.nombre" 
+                        alt="'Imagen ' + (i+1)" style="object-fit: contain; background: #f8f9fa;">
+
+                    </div>
+            
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselProducto"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Info producto -->
+        <div class="col-md-6">
+            <h2>{{producto.nombre}}</h2>
+
+
+            <p class=" mt-2 mb-0">Valoración(<span class="fw-bold">{{producto.valoracion}}</span>)</p>
+
+            <div class="mb-3" style="width: 40%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
+                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
+                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+
+            </div>
+
+
+            <p class="descripcion-corta"  [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
+            <a href="#descrip" class="btn btn-link p-0 mb-3">Continuar a descripción completa</a>
+
+
+            <!-- <form>
+                <div class="mb-3">
+                    <label for="selectOpciones" class="form-label">Escoge una opción</label>
+                    <select class="form-select" id="selectOpciones">
+                        <option>Opción 1</option>
+                        <option>Opción 2</option>
+                        
+
+                    </select>
+                </div>
+                <div class="mb-3 d-flex align-items-center">
+                    <label for="cantidad" class="form-label me-2 mb-0">Cantidad</label>
+                    <input type="number" class="form-control w-auto" id="cantidad" value="1" min="1">
+                </div>
+                <button type="submit" class="btn btn-danger w-100">Añadir al carrito</button>
+            </form> -->
+        </div>
+    </div>
+
+   
+    <div class="row mt-5" id="descrip">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="productTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active bg-warning text-light" id="descripcion-tab" data-bs-toggle="tab"
+                        data-bs-target="#descripcion" type="button" role="tab">Descripción</button>
+                </li>
+
+            </ul>
+            <div class="tab-content p-3 border border-top-0 bg-white" id="productTabContent">
+                <div class="tab-pane fade show active" id="descripcion" role="tabpanel">
+                   
+                    <p class="text-primary" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
 </div>
-
-<div>
-    <h1>{{producto.nombre}}</h1>
-</div>
-
-
-

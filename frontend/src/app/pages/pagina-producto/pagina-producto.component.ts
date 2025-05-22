@@ -3,12 +3,13 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
 import { ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
+import { CommonModule } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-pagina-producto',
-  imports: [HeaderComponent, BreadcrumbComponent],
+  imports: [HeaderComponent, BreadcrumbComponent, CommonModule],
   templateUrl: './pagina-producto.component.html',
   styleUrl: './pagina-producto.component.css'
 })
@@ -19,6 +20,7 @@ export class PaginaProductoComponent {
   constructor(private route: ActivatedRoute, private ProductoService: ProductoService) { }
 
   producto: any
+  imagenes: any
   valoracion = 0;
 
 
@@ -40,10 +42,11 @@ export class PaginaProductoComponent {
       next: (respuesta) => {
         if (respuesta.ok) {
           this.producto = respuesta.producto;
+          this.imagenes= respuesta.imagenes
 
           this.valoracion = 100 - (this.producto.valoracion * 20);
 
-          console.log(this.producto);
+          console.log(this.imagenes);
 
 
         }
