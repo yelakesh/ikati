@@ -4,6 +4,8 @@ import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.componen
 import { ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 
+
+
 @Component({
   selector: 'app-pagina-producto',
   imports: [HeaderComponent, BreadcrumbComponent],
@@ -17,21 +19,29 @@ export class PaginaProductoComponent {
   constructor(private route: ActivatedRoute, private ProductoService: ProductoService) { }
 
   producto: any
+  valoracion = 0;
 
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-      if (id) {
-    this.cargarProducto(id);
-  }
+    if (id) {
+      this.cargarProducto(id);
+      
+
+    }
+    
 
   }
 
-  async cargarProducto(id:string) {
-    this.ProductoService.obtenerProductoPorId({id}).subscribe({
+
+
+  async cargarProducto(id: string) {
+    this.ProductoService.obtenerProductoPorId({ id }).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
           this.producto = respuesta.producto;
+
+          this.valoracion = 100 - (this.producto.valoracion * 20);
 
           console.log(this.producto);
 
