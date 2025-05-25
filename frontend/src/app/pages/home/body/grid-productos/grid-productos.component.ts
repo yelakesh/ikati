@@ -21,16 +21,16 @@ export class GridProductosComponent {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
-      const id_animal = this.route.snapshot.paramMap.get('id_animal');
-      const id_tipo = this.route.snapshot.paramMap.get('id_tipo');
+      const accion = this.route.snapshot.paramMap.get('accion');
+      const filtro1 = this.route.snapshot.paramMap.get('filtro1');
+      const filtro2 = this.route.snapshot.paramMap.get('filtro2');
 
-      if (id_tipo) {
-        this.obtenerProductosPorIdAnimalYTipo(
-          { id: id_animal },
-          { id: id_tipo }
-        );
-      } else if (id_animal) {
-        this.obtenerProductosPorAnimal({ id: id_animal });
+      if (accion == 'animal_tipo') {
+        this.obtenerProductosPorIdAnimalYTipo({ id: filtro1 }, { id: filtro2 });
+      } else if (accion == 'animal') {
+        this.obtenerProductosPorAnimal({ id: filtro1 });
+      } else if (accion == 'buscar') {
+        this.buscarProductosPorNombre(filtro1);
       } else {
         this.obtenerProductos();
         this.header_grid.porAnimal$.subscribe((data: any) => {
@@ -44,14 +44,13 @@ export class GridProductosComponent {
           }
         });
       }
-
     });
-    
   }
 
   obtenerProductos() {
     this.productoService.obtenerTodos().subscribe({
-      next: (res) => {
+      
+      next: (res) => {        
         this.productos = res.productos;
       },
       error: (err) => {
@@ -64,6 +63,8 @@ export class GridProductosComponent {
     this.productos = [];
     this.productoService.obtenerPorAnimal(objAnimal).subscribe({
       next: (res) => {
+        console.log(res);
+
         this.productos = res.productos;
       },
       error: (err) => {
@@ -82,5 +83,23 @@ export class GridProductosComponent {
         console.error('Error al obtener productos:', err);
       },
     });
+  }
+
+  buscarProductosPorNombre(textoBusqueda: string | null) {
+    if (textoBusqueda) {
+      this.productos = [];
+      this.productoService.buscarPorNombre(textoBusqueda).subscribe({
+        next: (res) => {
+          if (res.productos.length) {
+            this.productos = res.productos;
+          }
+          else{ alert("No se han encontrado productos con ese nombre")
+          this.obtenerProductos()}
+        },
+        error: (err) => {
+          console.error('Error al obtener productos:', err);
+        },
+      });
+    }
   }
 }

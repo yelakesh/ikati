@@ -38,5 +38,6 @@ router.post("/eliminarProducto", productoController.eliminarProductoController);
 router.post("/obtenerNombres", productoController.obtenerNombresController);
 router.post("/obtenerPorAnimal", productoController.obtenerPorAnimalController);
 router.post("/obtenerPorAnimalYTipo", productoController.obtenerPorAnimalYTipoController);
+router.post("/buscarPorNombre", productoController.buscarPorNombreController);
 
 module.exports = router;

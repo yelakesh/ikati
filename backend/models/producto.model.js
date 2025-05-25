@@ -127,6 +127,15 @@ async function obtenerPorAnimalYTipo(id_animal,id_tipo) {
   return resultados;
 }
 
+async function buscarPorNombre(textoBusqueda) {
+ 
+  const sql = "SELECT * FROM productos where nombre like ? ";
+  const resultados = await db.query(sql, [textoBusqueda.textoBusqueda]);
+  console.log(resultados);
+  
+  return resultados;
+}
+
 module.exports = {
   obtenerProductoPorNombre,
   obtenerFiltrosPorIdProducto,
@@ -143,4 +152,5 @@ module.exports = {
   obtenerTodos,
   obtenerPorAnimal,
   obtenerPorAnimalYTipo,
+  buscarPorNombre,
 };
