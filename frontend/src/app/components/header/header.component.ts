@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario.service';
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule,FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -32,7 +33,14 @@ export class HeaderComponent implements OnInit {
     nombre: string;
     tipos: { id: number; tipo: string }[];
   }[] = [];
+  textoBusqueda=''
+  textoBusquedaFormateado=''
 
+  formatearTexto(){
+    this.textoBusquedaFormateado='%'+(this.textoBusqueda.trim()).replace(' ','%')+'%'
+  }
+    
+  
   ngOnInit() {
     this.usuario = this.usuarioService.usuario;
     this.cargarAnimales();
@@ -84,12 +92,12 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  filtrarPorAnimal(objAnimal: object) {
-    this.header_grid.porAnimal$.next(objAnimal);
-  }
+  // filtrarPorAnimal(objAnimal: object) {
+  //   this.header_grid.porAnimal$.next(objAnimal);
+  // }
 
-  filtrarPorAnimalYTipo(objAnimal: object, objTipo: object) {
-    this.header_grid.porAnimalYTipo$.next({objAnimal, objTipo});
-  }
+  // filtrarPorAnimalYTipo(objAnimal: object, objTipo: object) {
+  //   this.header_grid.porAnimalYTipo$.next({objAnimal, objTipo});
+  // }
 }
 

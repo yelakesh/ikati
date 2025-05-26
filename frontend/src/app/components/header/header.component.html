@@ -77,16 +77,16 @@
 
     <ul class="nav gap-1 flex-grow-1 justify-content-center py-2 mb-0">
       <li class="nav-item dropdown" *ngFor="let animal of animales">
-        <a class="nav-link dropdown-toggle fw-bold text-light" [routerLink]="['/home',animal.id]" id="perrosDropdown" role="button"
+        <a class="nav-link dropdown-toggle fw-bold text-light" [routerLink]="['/home','animal',animal.id]" id="perrosDropdown" role="button"
           data-bs-toggle="dropdown" aria-expanded="false">
           {{animal.nombre}}
         </a>
 
         <ul class="dropdown-menu bg-secondary-subtle " aria-labelledby="perrosDropdown">
-          <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark" [routerLink]="['/home',animal.id,tipo.id]">{{tipo.tipo}}</a></li>
+          <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark" [routerLink]="['/home','animal_tipo',animal.id,tipo.id]">{{tipo.tipo}}</a></li>
         </ul>
       <li class="nav-item">
-        <a class="nav-link fw-bold text-danger" routerLink="/ofertas">OFERTAS</a>
+        <a class="nav-link fw-bold text-danger" [routerLink]="['/home','ofertas']">OFERTAS</a>
       </li>
       <li class="nav-item">
         <a class="nav-link fw-bold text-light " routerLink="/servicios">Servicios</a>
@@ -95,8 +95,8 @@
     </ul>
     <form class="d-flex align-items-end ms-auto" style="width: 400px; max-width: 50%;">
       <input class="form-control rounded-start-pill border-end-0" type="search" placeholder="Busca tu producto..."
-        aria-label="Buscar">
-      <button class="btn btn-info rounded-end-pill border-0" type="submit">
+        aria-label="Buscar" [(ngModel)]="textoBusqueda" [name]="textoBusqueda" [ngModelOptions]="{standalone: true}" (ngModelChange)="formatearTexto()">
+      <button class="btn btn-info rounded-end-pill border-0" type="button" [routerLink]="['/home','buscar',textoBusquedaFormateado]">
         <img src="imagenes/cabeceraweb/lupa.png" alt="buscar" height="25px">
       </button>
     </form>

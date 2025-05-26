@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class HeaderGridService {
-  public porAnimal$ = new BehaviorSubject<object>({});
-  public porAnimalYTipo$ = new BehaviorSubject<object>({});
-  public porDescripcion$ = new BehaviorSubject<string>('');
+  // public porAnimal$ = new BehaviorSubject<object>({});
+  // public porAnimalYTipo$ = new BehaviorSubject<object>({});
+  // public porDescripcion$ = new BehaviorSubject<string>('');
   constructor() {}
 }

@@ -17,6 +17,18 @@ async function obtenerTodos() {
   return resultados;
 }
 
+async function obtenerRecomendados() {
+  const sql = "SELECT * FROM productos order by valoracion DESC LIMIT 10;";
+  const resultados = await db.query(sql);
+  return resultados;
+}
+
+async function obtenerEnOferta() {
+  const sql = "SELECT * FROM productos where descuento!=0 and descuento is not null";
+  const resultados = await db.query(sql);
+  return resultados;
+}
+
 async function obtenerFiltrosPorIdProducto(id_producto) {
   const sql = "SELECT * FROM filtros WHERE id_producto=?";
   const resultados = await db.query(sql, [id_producto]);
@@ -127,6 +139,15 @@ async function obtenerPorAnimalYTipo(id_animal,id_tipo) {
   return resultados;
 }
 
+async function buscarPorNombre(textoBusqueda) {
+ 
+  const sql = "SELECT * FROM productos where nombre like ? ";
+  const resultados = await db.query(sql, [textoBusqueda.textoBusqueda]);
+  console.log(resultados);
+  
+  return resultados;
+}
+
 module.exports = {
   obtenerProductoPorNombre,
   obtenerFiltrosPorIdProducto,
@@ -143,4 +164,7 @@ module.exports = {
   obtenerTodos,
   obtenerPorAnimal,
   obtenerPorAnimalYTipo,
+  buscarPorNombre,
+  obtenerEnOferta,
+  obtenerRecomendados
 };

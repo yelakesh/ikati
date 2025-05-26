@@ -4,50 +4,61 @@ import { NgFor } from '@angular/common';
 import { ProductoService } from '../../../../services/producto.service';
 import { HeaderGridService } from '../../../../services/header-grid.service';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-grid-productos',
-  imports: [CardProductoComponent, NgFor],
+  imports: [CardProductoComponent, NgFor,CommonModule],
   templateUrl: './grid-productos.component.html',
   styleUrl: './grid-productos.component.css',
 })
 export class GridProductosComponent {
   constructor(
     private productoService: ProductoService,
-    private header_grid: HeaderGridService,
+    //private header_grid: HeaderGridService,
     private route: ActivatedRoute
   ) {}
   productos: any = [];
+  accion:string|null =''
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
-      const id_animal = this.route.snapshot.paramMap.get('id_animal');
-      const id_tipo = this.route.snapshot.paramMap.get('id_tipo');
+      this.accion = this.route.snapshot.paramMap.get('accion');
+      const filtro1 = this.route.snapshot.paramMap.get('filtro1');
+      const filtro2 = this.route.snapshot.paramMap.get('filtro2');
 
-      if (id_tipo) {
-        this.obtenerProductosPorIdAnimalYTipo(
-          { id: id_animal },
-          { id: id_tipo }
-        );
-      } else if (id_animal) {
-        this.obtenerProductosPorAnimal({ id: id_animal });
+      if (this.accion == 'animal_tipo') {
+        this.obtenerProductosPorIdAnimalYTipo({ id: filtro1 }, { id: filtro2 });
+      } else if (this.accion == 'animal') {
+        this.obtenerProductosPorAnimal({ id: filtro1 });
+      } else if (this.accion == 'buscar') {
+        this.buscarProductosPorNombre(filtro1);
+      } else if (this.accion == 'ofertas') {
+        this.obtenerProductosEnOferta();
       } else {
-        this.obtenerProductos();
-        this.header_grid.porAnimal$.subscribe((data: any) => {
-          if (data.id) {
-            this.obtenerProductosPorAnimal(data);
-          }
-        });
-        this.header_grid.porAnimalYTipo$.subscribe((data: any) => {
-          if (data.objAnimal) {
-            this.obtenerProductosPorIdAnimalYTipo(data.objAnimal, data.objTipo);
-          }
-        });
+        this.obtenerProductosRecomendados()
+        //   this.header_grid.porAnimal$.subscribe((data: any) => {
+        //     if (data.id) {
+        //       this.obtenerProductosPorAnimal(data);
+        //     }
+        //   });
+        //   this.header_grid.porAnimalYTipo$.subscribe((data: any) => {
+        //     if (data.objAnimal) {
+        //       this.obtenerProductosPorIdAnimalYTipo(data.objAnimal, data.objTipo);
+        //     }
+        //   });
       }
-
     });
-    
   }
+  obtenerProductosRecomendados() {
+    this.productoService.obtenerRecomendados().subscribe({
+      next: (res) => {
+        this.productos = res.productos;
+      },
+      error: (err) => {
+        console.error('Error al obtener productos:', err);
+      },
+    });  }
 
   obtenerProductos() {
     this.productoService.obtenerTodos().subscribe({
@@ -64,6 +75,8 @@ export class GridProductosComponent {
     this.productos = [];
     this.productoService.obtenerPorAnimal(objAnimal).subscribe({
       next: (res) => {
+        console.log(res);
+
         this.productos = res.productos;
       },
       error: (err) => {
@@ -83,4 +96,32 @@ export class GridProductosComponent {
       },
     });
   }
+
+  buscarProductosPorNombre(textoBusqueda: string | null) {
+    if (textoBusqueda) {
+      this.productos = [];
+      this.productoService.buscarPorNombre(textoBusqueda).subscribe({
+        next: (res) => {
+          if (res.productos.length) {
+            this.productos = res.productos;
+          } else {
+            alert('No se han encontrado productos con ese nombre');
+            this.obtenerProductos();
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener productos:', err);
+        },
+      });
+    }
+  }
+  obtenerProductosEnOferta() {
+    this.productoService.obtenerEnOferta().subscribe({
+      next: (res) => {
+        this.productos = res.productos;
+      },
+      error: (err) => {
+        console.error('Error al obtener productos:', err);
+      },
+    });  }
 }

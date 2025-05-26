@@ -13,15 +13,20 @@ export class CardProductoComponent {
   precioMin: number = 0;
   precioMax: number = 0;
   valoracion = 0;
+  descuento = 0
   ngOnInit(): void {
+    this.descuento =
+      this.producto.producto.descuento && this.producto.producto.descuento != 0
+        ? (100-this.producto.producto.descuento)
+        : 1;    
     this.calcularPrecios();
-    this.valoracion =100-(this.producto.producto.valoracion*20);
+    this.valoracion = 100 - this.producto.producto.valoracion * 20;
   }
   calcularPrecios() {
     this.precioMin = this.producto.variantes[0].precio;
     this.producto.variantes.forEach((variante: any) => {
       if (parseInt(variante.precio) > this.precioMax) {
-        this.precioMax = variante.precio;        
+        this.precioMax = variante.precio;
       }
       if (parseInt(variante.precio) < this.precioMin) {
         this.precioMin = variante.precio;

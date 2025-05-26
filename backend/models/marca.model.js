@@ -14,7 +14,7 @@ async function obtenerTodo() {
 
 async function obtenerPorId(id) {
   const sql = `SELECT * FROM marcas where id=?`;
-  const resultados = await db.query(sql,id);
+  const resultados = await db.query(sql,[id]);
   return resultados;
 }
 
