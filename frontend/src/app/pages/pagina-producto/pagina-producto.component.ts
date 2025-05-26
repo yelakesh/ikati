@@ -22,6 +22,8 @@ export class PaginaProductoComponent {
   producto: any
   imagenes: any
   valoracion = 0;
+  variantes : any
+  marcas: any
 
 
   ngOnInit() {
@@ -35,6 +37,15 @@ export class PaginaProductoComponent {
 
   }
 
+  scrollToDescripcion(event: Event) {
+  let irEtiqueta = document.getElementById('descrip');
+  event.preventDefault()
+  if (irEtiqueta) {
+    
+    irEtiqueta.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
 
 
   async cargarProducto(id: string) {
@@ -43,10 +54,11 @@ export class PaginaProductoComponent {
         if (respuesta.ok) {
           this.producto = respuesta.producto;
           this.imagenes= respuesta.imagenes
+          this.variantes = respuesta.variantes
 
           this.valoracion = 100 - (this.producto.valoracion * 20);
 
-          console.log(this.imagenes);
+          console.log(this.producto);
 
 
         }

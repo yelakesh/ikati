@@ -5,16 +5,17 @@
     <div class="row g-4">
         <!-- Carrusel de imágenes -->
         <div class="col-md-6">
-            <div id="carouselProducto" class="carousel slide" data-bs-ride="carousel">
+            <div id="carouselProducto" class="carousel slide" data-bs-ride="carousel" style="height: 100%;">
 
-                <div class="carousel-inner">
+                <div class="carousel-inner w-100 h-100">
                     <div *ngFor="let imagen of imagenes; let i = index" class="carousel-item" [class.active]="i===0">
 
-                        <img class="d-block w-100"  [src]="'http://localhost:3000/imagenesProductos/' + imagen.nombre" 
-                        alt="'Imagen ' + (i+1)" style="object-fit: contain; background: #f8f9fa;">
+                        <img class="d-block w-100 h-100 imagen-carrusel"
+                            [src]="'http://localhost:3000/imagenesProductos/' + imagen.nombre" alt="'Imagen ' + (i+1)"
+                            style="object-fit: contain; background: #f8f9fa;">
 
                     </div>
-            
+
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto"
                     data-bs-slide="prev">
@@ -44,16 +45,19 @@
             </div>
 
 
-            <p class="descripcion-corta"  [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
-            <a href="#descrip" class="btn btn-link p-0 mb-3">Continuar a descripción completa</a>
+            <p class="descripcion-corta" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
+            <a href="#descrip" class="btn btn-link p-0 mb-3" (click)="scrollToDescripcion($event); ">
+                Continuar a descripción completa
+            </a>
 
 
-            <!-- <form>
+
+            <form>
                 <div class="mb-3">
                     <label for="selectOpciones" class="form-label">Escoge una opción</label>
-                    <select class="form-select" id="selectOpciones">
-                        <option>Opción 1</option>
-                        <option>Opción 2</option>
+                    <select  class="form-select" id="selectOpciones">
+                        <option *ngFor="let item of variantes">{{item.valor_variacion + " "+item.precio+"€"}}</option>
+                        
                         
 
                     </select>
@@ -63,11 +67,11 @@
                     <input type="number" class="form-control w-auto" id="cantidad" value="1" min="1">
                 </div>
                 <button type="submit" class="btn btn-danger w-100">Añadir al carrito</button>
-            </form> -->
+            </form>
         </div>
     </div>
 
-   
+
     <div class="row mt-5" id="descrip">
         <div class="col-12">
             <ul class="nav nav-tabs" id="productTab" role="tablist">
@@ -79,10 +83,10 @@
             </ul>
             <div class="tab-content p-3 border border-top-0 bg-white" id="productTabContent">
                 <div class="tab-pane fade show active" id="descripcion" role="tabpanel">
-                   
+
                     <p class="text-primary" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
                 </div>
-                
+
             </div>
         </div>
     </div>

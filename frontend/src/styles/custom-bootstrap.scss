@@ -219,6 +219,34 @@ nav[aria-label="breadcrumb"] {
 }
 
 
+//IMAGEN CARRUSEL
+.imagen-carrusel {
+  max-height: 600px; /* Ajusta este valor según el tamaño que desees */
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.imagen-carrusel {
+  max-height: 200px;
+}
+@media (min-width: 768px) {
+  .imagen-carrusel {
+    max-height: 300px;
+  }
+}
+@media (min-width: 1200px) {
+  .imagen-carrusel {
+    max-height: 400px;
+  }
+}
+
+
+
 
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/bootstrap";
