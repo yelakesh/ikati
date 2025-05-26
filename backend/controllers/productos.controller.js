@@ -74,62 +74,19 @@ async function obtenerEnOfertaController(req, res) {
   let resultados = [];
 
   for await (const producto of productos) {
-    try {
-      
-      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
-        producto.id
-      );
-      let animal = await Animal.obtenerPorId(producto.id_animal);
-      let marca = await Marca.obtenerPorId(producto.id_marca);
-      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
-      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-        producto.id
-      );
-      let tipo_variante = null;
-
-      if (variantes.length === 0) {
-        variantes = [
-          {
-            id: 0,
-            id_producto: 0,
-            precio: "",
-            stock: "",
-            id_variacion: 0,
-            valor_variacion: "",
-          },
-        ];
-      } else {
-        tipo_variante = await Tipo_Variante.obtenerPorId(
-          variantes[0].id_variacion
-        );
-      }
-
-      if (imagenes.length === 0) {
-        imagenes = [
-          {
-            id: 0,
-            id_producto: 0,
-            url: "",
-          },
-        ];
-      }
-      resultados.push({
-        producto: producto,
-        animal: animal,
-        marca: marca[0],
-        tipo_producto: tipo_producto[0],
-        variantes: variantes,
-        tipo_variante: tipo_variante[0],
-        imagenes: imagenes,
+    const resultado = await obtenerDatosProducto(producto);
+    if (!resultado.ok) {
+      console.error("Error en la búsqueda del producto:", resultado.error);
+      return res.status(500).json({
+        ok: false,
+        mensaje: "Error del servidor",
+        productos: {},
       });
-      
-    } catch (err) {
-      console.error("Error en la busqueda del producto:", err);
-      return res
-        .status(500)
-        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
     }
-  };
+
+    resultados.push(resultado.datos);
+  }
+
   res.json({
     ok: true,
     mensaje: "Productos encontrados",
@@ -143,62 +100,19 @@ async function obtenerRecomendadosController(req, res) {
   let resultados = [];
 
   for await (const producto of productos) {
-    try {
-      
-      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
-        producto.id
-      );
-      let animal = await Animal.obtenerPorId(producto.id_animal);
-      let marca = await Marca.obtenerPorId(producto.id_marca);
-      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
-      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-        producto.id
-      );
-      let tipo_variante = null;
-
-      if (variantes.length === 0) {
-        variantes = [
-          {
-            id: 0,
-            id_producto: 0,
-            precio: "",
-            stock: "",
-            id_variacion: 0,
-            valor_variacion: "",
-          },
-        ];
-      } else {
-        tipo_variante = await Tipo_Variante.obtenerPorId(
-          variantes[0].id_variacion
-        );
-      }
-
-      if (imagenes.length === 0) {
-        imagenes = [
-          {
-            id: 0,
-            id_producto: 0,
-            url: "",
-          },
-        ];
-      }
-      resultados.push({
-        producto: producto,
-        animal: animal,
-        marca: marca[0],
-        tipo_producto: tipo_producto[0],
-        variantes: variantes,
-        tipo_variante: tipo_variante[0],
-        imagenes: imagenes,
+    const resultado = await obtenerDatosProducto(producto);
+    if (!resultado.ok) {
+      console.error("Error en la búsqueda del producto:", resultado.error);
+      return res.status(500).json({
+        ok: false,
+        mensaje: "Error del servidor",
+        productos: {},
       });
-      
-    } catch (err) {
-      console.error("Error en la busqueda del producto:", err);
-      return res
-        .status(500)
-        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
     }
-  };
+
+    resultados.push(resultado.datos);
+  }
+
   res.json({
     ok: true,
     mensaje: "Productos encontrados",
@@ -206,67 +120,25 @@ async function obtenerRecomendadosController(req, res) {
   });
   
 }
+
 async function obtenerTodosController(req, res) {
   const productos = await ProductoModel.obtenerTodos();
   let resultados = [];
 
   for await (const producto of productos) {
-    try {
-      
-      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
-        producto.id
-      );
-      let animal = await Animal.obtenerPorId(producto.id_animal);
-      let marca = await Marca.obtenerPorId(producto.id_marca);
-      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
-      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-        producto.id
-      );
-      let tipo_variante = null;
-
-      if (variantes.length === 0) {
-        variantes = [
-          {
-            id: 0,
-            id_producto: 0,
-            precio: "",
-            stock: "",
-            id_variacion: 0,
-            valor_variacion: "",
-          },
-        ];
-      } else {
-        tipo_variante = await Tipo_Variante.obtenerPorId(
-          variantes[0].id_variacion
-        );
-      }
-
-      if (imagenes.length === 0) {
-        imagenes = [
-          {
-            id: 0,
-            id_producto: 0,
-            url: "",
-          },
-        ];
-      }
-      resultados.push({
-        producto: producto,
-        animal: animal,
-        marca: marca[0],
-        tipo_producto: tipo_producto[0],
-        variantes: variantes,
-        tipo_variante: tipo_variante[0],
-        imagenes: imagenes,
+    const resultado = await obtenerDatosProducto(producto);
+    if (!resultado.ok) {
+      console.error("Error en la búsqueda del producto:", resultado.error);
+      return res.status(500).json({
+        ok: false,
+        mensaje: "Error del servidor",
+        productos: {},
       });
-      
-    } catch (err) {
-      console.error("Error en la busqueda del producto:", err);
-      return res
-        .status(500)
-        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
     }
-  };
+
+    resultados.push(resultado.datos);
+  }
+
   res.json({
     ok: true,
     mensaje: "Productos encontrados",
@@ -563,60 +435,19 @@ async function obtenerPorAnimalYTipoController(req, res) {
   let resultados = [];
 
   for await (const producto of productos) {
-    try {
-      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
-        producto.id
-      );
-      let animal = await Animal.obtenerPorId(producto.id_animal);
-      let marca = await Marca.obtenerPorId(producto.id_marca);
-      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
-      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-        producto.id
-      );
-      let tipo_variante = null;
-
-      if (variantes.length === 0) {
-        variantes = [
-          {
-            id: 0,
-            id_producto: 0,
-            precio: "",
-            stock: "",
-            id_variacion: 0,
-            valor_variacion: "",
-          },
-        ];
-      } else {
-        tipo_variante = await Tipo_Variante.obtenerPorId(
-          variantes[0].id_variacion
-        );
-      }
-
-      if (imagenes.length === 0) {
-        imagenes = [
-          {
-            id: 0,
-            id_producto: 0,
-            url: "",
-          },
-        ];
-      }
-      resultados.push({
-        producto: producto,
-        animal: animal,
-        marca: marca[0],
-        tipo_producto: tipo_producto[0],
-        variantes: variantes,
-        tipo_variante: tipo_variante[0],
-        imagenes: imagenes,
+    const resultado = await obtenerDatosProducto(producto);
+    if (!resultado.ok) {
+      console.error("Error en la búsqueda del producto:", resultado.error);
+      return res.status(500).json({
+        ok: false,
+        mensaje: "Error del servidor",
+        productos: {},
       });
-    } catch (err) {
-      console.error("Error en la busqueda del producto:", err);
-      return res
-        .status(500)
-        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
     }
+
+    resultados.push(resultado.datos);
   }
+
   res.json({
     ok: true,
     mensaje: "Productos encontrados",
@@ -629,65 +460,80 @@ async function obtenerPorAnimalController(req, res) {
   let resultados = [];
 
   for await (const producto of productos) {
-    try {
-      let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
-        producto.id
-      );
-      let animal = await Animal.obtenerPorId(producto.id_animal);
-      let marca = await Marca.obtenerPorId(producto.id_marca);
-      let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
-      let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-        producto.id
-      );
-      let tipo_variante = null;
-
-      if (variantes.length === 0) {
-        variantes = [
-          {
-            id: 0,
-            id_producto: 0,
-            precio: "",
-            stock: "",
-            id_variacion: 0,
-            valor_variacion: "",
-          },
-        ];
-      } else {
-        tipo_variante = await Tipo_Variante.obtenerPorId(
-          variantes[0].id_variacion
-        );
-      }
-
-      if (imagenes.length === 0) {
-        imagenes = [
-          {
-            id: 0,
-            id_producto: 0,
-            url: "",
-          },
-        ];
-      }
-      resultados.push({
-        producto: producto,
-        animal: animal,
-        marca: marca[0],
-        tipo_producto: tipo_producto[0],
-        variantes: variantes,
-        tipo_variante: tipo_variante[0],
-        imagenes: imagenes,
+    const resultado = await obtenerDatosProducto(producto);
+    if (!resultado.ok) {
+      console.error("Error en la búsqueda del producto:", resultado.error);
+      return res.status(500).json({
+        ok: false,
+        mensaje: "Error del servidor",
+        productos: {},
       });
-    } catch (err) {
-      console.error("Error en la busqueda del producto:", err);
-      return res
-        .status(500)
-        .json({ ok: false, mensaje: "Error del servidor", productos: {} });
     }
+
+    resultados.push(resultado.datos);
   }
+
   res.json({
     ok: true,
     mensaje: "Productos encontrados",
     productos: resultados,
   });
+}
+
+
+async function obtenerDatosProducto(producto) {
+  try {
+    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(producto.id);
+    let animal = await Animal.obtenerPorId(producto.id_animal);
+    let marca = await Marca.obtenerPorId(producto.id_marca);
+    let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
+    let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
+      producto.id
+    );
+    let tipo_variante = null;
+
+    if (variantes.length === 0) {
+      variantes = [
+        {
+          id: 0,
+          id_producto: 0,
+          precio: "",
+          stock: "",
+          id_variacion: 0,
+          valor_variacion: "",
+        },
+      ];
+    } else {
+      tipo_variante = await Tipo_Variante.obtenerPorId(
+        variantes[0].id_variacion
+      );
+    }
+
+    if (imagenes.length === 0) {
+      imagenes = [
+        {
+          id: 0,
+          id_producto: 0,
+          url: "",
+        },
+      ];
+    }
+
+    return {
+      ok: true,
+      datos: {
+        producto,
+        animal,
+        marca: marca[0],
+        tipo_producto: tipo_producto[0],
+        variantes,
+        tipo_variante: tipo_variante ? tipo_variante[0] : null,
+        imagenes,
+      },
+    };
+  } catch (err) {
+    return { ok: false, error: err };
+  }
 }
 
 export {

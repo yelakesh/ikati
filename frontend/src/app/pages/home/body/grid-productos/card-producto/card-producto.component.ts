@@ -18,9 +18,7 @@ export class CardProductoComponent {
     this.descuento =
       this.producto.producto.descuento && this.producto.producto.descuento != 0
         ? (100-this.producto.producto.descuento)
-        : 1;
-    console.log(this.producto.producto.descuento);
-    
+        : 1;    
     this.calcularPrecios();
     this.valoracion = 100 - this.producto.producto.valoracion * 20;
   }
