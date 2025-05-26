@@ -85,7 +85,7 @@
           <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark" [routerLink]="['/home','animal_tipo',animal.id,tipo.id]">{{tipo.tipo}}</a></li>
         </ul>
       <li class="nav-item">
-        <a class="nav-link fw-bold text-danger" routerLink="/ofertas">OFERTAS</a>
+        <a class="nav-link fw-bold text-danger" [routerLink]="['/home','ofertas']">OFERTAS</a>
       </li>
       <li class="nav-item">
         <a class="nav-link fw-bold text-light " routerLink="/servicios">Servicios</a>

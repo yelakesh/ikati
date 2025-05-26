@@ -92,12 +92,12 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  filtrarPorAnimal(objAnimal: object) {
-    this.header_grid.porAnimal$.next(objAnimal);
-  }
+  // filtrarPorAnimal(objAnimal: object) {
+  //   this.header_grid.porAnimal$.next(objAnimal);
+  // }
 
-  filtrarPorAnimalYTipo(objAnimal: object, objTipo: object) {
-    this.header_grid.porAnimalYTipo$.next({objAnimal, objTipo});
-  }
+  // filtrarPorAnimalYTipo(objAnimal: object, objTipo: object) {
+  //   this.header_grid.porAnimalYTipo$.next({objAnimal, objTipo});
+  // }
 }
 

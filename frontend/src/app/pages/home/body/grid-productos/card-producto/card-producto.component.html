@@ -1,6 +1,20 @@
 <div  class="card w-100 h-100 shadow custom-card" >
   
   <a [routerLink]="['/pagina-producto', producto.producto.id]">
+    
+    <div *ngIf="descuento!=1" style="
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: red;
+      color: white;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      z-index: 2;">
+      {{(producto.producto.descuento)}}%
+    </div>
+    
     <img
       [src]="'http://localhost:3000/imagenesProductos/' + producto.imagenes[0].nombre"
       class="card-img-top"
@@ -22,7 +36,7 @@
       </li>
       </div>
     
-    <li *ngIf="precioMin== precioMax" class="list-group-item fw-bold border-0" >{{ precioMin }}€</li>
+    <li *ngIf="precioMin== precioMax" class="list-group-item fw-bold border-0" >{{ precioMin}}€</li>
     <li class="list-group-item">
 
         <p>Valoración(<span class="fw-bold">{{producto.producto.valoracion}}</span>)</p>

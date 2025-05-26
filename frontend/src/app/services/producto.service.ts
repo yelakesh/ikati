@@ -15,11 +15,18 @@ export class ProductoService {
     return this.http.post(this.apiUrl + '/obtenerProductoPorId', objProducto);
   }
 
+  obtenerEnOferta(): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerEnOferta', '');
+  }
+
   obtenerNombres(): Observable<any> {
     return this.http.post(this.apiUrl + '/obtenerNombres', '');
   }
   obtenerTodos(): Observable<any> {
     return this.http.post(this.apiUrl + '/obtenerTodos', '');
+  }
+  obtenerRecomendados(): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerRecomendados', '');
   }
 
   registrarProductoCompleto(formData: object): Observable<any> {
