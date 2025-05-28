@@ -1,0 +1,38 @@
+    <div class=" container d-flex justify-content-center align-items-center gap-xxl-5 gap-md-2 mb-5">
+
+      <div class="d-flex flex-column align-items-center d-none d-md-block">
+        <div class="img-crop d-none d-md-block  rounded-5 overflow-hidden custom-card">
+          <img class="img-fluid" src="/imagenes/selectorAnimal/perro.png" alt="Perro">
+
+        </div>
+        <div class="text-center">
+          <button class="btn btn-link text-center" [routerLink]="['/home','animal',1]">Perros</button>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column align-items-center d-none d-md-block">
+        <div class="img-crop d-none d-md-block rounded-5 overflow-hidden custom-card">
+          <img class="img-fluid" src="/imagenes/selectorAnimal/gato.png" alt="Gato">
+        </div>
+        <div class="w-100 text-center">
+          <button class="btn btn-link" [routerLink]="['/home','animal',2]">Gatos</button>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column align-items-center d-none d-md-block">
+        <div class="img-crop d-none d-md-block rounded-5 overflow-hidden custom-card"[routerLink]="['/home','animal',4]">
+          <img class="img-fluid" src="/imagenes/selectorAnimal/conejo.png" alt="Conejo">
+        </div>
+        <div class="w-100 text-center">
+          <button class="btn btn-link" [routerLink]="['/home','animal',4]">Roedores</button>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column align-items-center d-none d-md-block">
+        <div class="img-crop d-none d-md-block rounded-5 overflow-hidden custom-card">
+          <img class="img-fluid" src="/imagenes/selectorAnimal/pajaro.png" alt="Pájaro">
+        </div>
+        <div class="w-100 text-center">
+          <button class="btn btn-link" [routerLink]="['/home','animal',3]">Pájaros</button>
+        </div>
+      </div>

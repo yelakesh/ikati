@@ -24,18 +24,24 @@ export class PaginaProductoComponent {
   valoracion = 0;
   variantes : any
   marcas: any
+  precio:number=0
 
+
+  pageLoad(){
+    document.addEventListener("load", this.cambiarPrecio)
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.cargarProducto(id);
       
-
     }
     
 
   }
+
+  
 
   scrollToDescripcion(event: Event) {
   let irEtiqueta = document.getElementById('descrip');
@@ -58,16 +64,23 @@ export class PaginaProductoComponent {
 
           this.valoracion = 100 - (this.producto.valoracion * 20);
 
-          console.log(this.producto);
+          console.log(this.variantes);
+
+          this.precio=this.variantes[0].precio
 
 
         }
+            
       },
       error: (error) => {
 
         console.error('Error al cargar el producto:', error);
       },
     });
+  }
+  cambiarPrecio(){
+    let select:any = document.getElementById("selectOpciones")
+    this.precio=select.value
   }
 }
 

@@ -51,6 +51,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/logout']);
   }
 
+  buscar(evento:any){
+    if(evento.key=='Enter'){
+      this.router.navigate(['/home','buscar',this.textoBusquedaFormateado])
+
+    }
+  }
   cargarAnimales() {
     this.animalService.obtenerAnimales().subscribe({
       next: (respuesta) => {

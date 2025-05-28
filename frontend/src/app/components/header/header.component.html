@@ -94,7 +94,7 @@
 
     </ul>
     <form class="d-flex align-items-end ms-auto" style="width: 400px; max-width: 50%;">
-      <input class="form-control rounded-start-pill border-end-0" type="search" placeholder="Busca tu producto..."
+      <input (keypress)="buscar($event)" class="form-control rounded-start-pill border-end-0" type="search" placeholder="Busca tu producto..."
         aria-label="Buscar" [(ngModel)]="textoBusqueda" [name]="textoBusqueda" [ngModelOptions]="{standalone: true}" (ngModelChange)="formatearTexto()">
       <button class="btn btn-info rounded-end-pill border-0" type="button" [routerLink]="['/home','buscar',textoBusquedaFormateado]">
         <img src="imagenes/cabeceraweb/lupa.png" alt="buscar" height="25px">
