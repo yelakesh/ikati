@@ -22,12 +22,17 @@ export class PaginaProductoComponent {
   producto: any
   imagenes: any
   valoracion = 0;
-  variantes : any
+  variantes: any
   marcas: any
-  precio:number=0
+  precio: number = 0
+  descuento: any
+  precioConDto: number = 0
+  varianteSeleccionada: any
+  unidades: any = null
+  stock: any
 
 
-  pageLoad(){
+  pageLoad() {
     document.addEventListener("load", this.cambiarPrecio)
   }
 
@@ -35,22 +40,22 @@ export class PaginaProductoComponent {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.cargarProducto(id);
-      
+
     }
-    
+
 
   }
 
-  
+
 
   scrollToDescripcion(event: Event) {
-  let irEtiqueta = document.getElementById('descrip');
-  event.preventDefault()
-  if (irEtiqueta) {
-    
-    irEtiqueta.scrollIntoView({ behavior: 'smooth' });
+    let etiquetaDestino = document.getElementById('descrip');
+    event.preventDefault()
+    if (etiquetaDestino) {
+
+      etiquetaDestino.scrollIntoView({ behavior: 'smooth' });
+    }
   }
-}
 
 
 
@@ -59,18 +64,23 @@ export class PaginaProductoComponent {
       next: (respuesta) => {
         if (respuesta.ok) {
           this.producto = respuesta.producto;
-          this.imagenes= respuesta.imagenes
+          this.imagenes = respuesta.imagenes
           this.variantes = respuesta.variantes
 
           this.valoracion = 100 - (this.producto.valoracion * 20);
 
-          console.log(this.variantes);
+          this.precio = this.variantes[0].precio
+          this.varianteSeleccionada = this.variantes[0].valor_variacion
+          this.stock = this.variantes[0].stock
+          this.precioConDto = this.precioConDescuento(this.variantes[0].precio)
+          this.descuento = this.darFormatoDescuento()
+        
 
-          this.precio=this.variantes[0].precio
 
+          console.log(this.precioConDto)
 
         }
-            
+
       },
       error: (error) => {
 
@@ -78,9 +88,63 @@ export class PaginaProductoComponent {
       },
     });
   }
-  cambiarPrecio(){
-    let select:any = document.getElementById("selectOpciones")
-    this.precio=select.value
+  cambiarPrecio() {
+    let select: any = document.getElementById("selectOpciones")
+
+    this.precioConDto = this.precioConDescuento(this.variantes[select.value].precio)
+    console.log(this.precioConDto)
+    if (this.producto.descuento != 0) {
+
+      this.precio = this.variantes[select.value].precio - this.precioConDto
+    }
+    this.precio = this.variantes[select.value].precio
+    this.varianteSeleccionada = this.variantes[select.value].valor_variacion
+    this.stock = this.variantes[select.value].stock
+
+
+
+  }
+
+  sumarUno() {
+    let numUnidades: any = document.getElementById("cantidad")
+
+    if (numUnidades) {
+      numUnidades.value++
+      this.unidades = numUnidades.value
+
+    }
+  }
+  restarUno() {
+    let numUnidades: any = document.getElementById("cantidad")
+
+    if (numUnidades.value > 1) {
+      numUnidades.value--
+      this.unidades = numUnidades.value
+
+    }
+  }
+  precioConDescuento(price: string) {
+
+    const precio = parseFloat(price)
+    const dto = parseFloat(this.producto.descuento)
+
+    console.log(precio, dto)
+    const descuentoCalculado = precio * (dto / 100)
+
+    console.log(descuentoCalculado)
+    const resultado= this.precioConDto = precio - descuentoCalculado
+
+    return Math.floor(resultado*100)/100
+
+  }
+
+  darFormatoDescuento(){
+    const d= parseFloat(this.producto.descuento)
+
+    const descuentoFormateado=Math.floor(d)+"%"
+
+    console.log(descuentoFormateado)
+    return descuentoFormateado
   }
 }
 

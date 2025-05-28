@@ -1,0 +1,7 @@
+
+/* Para Chrome, Safari, Edge, Opera */
+.input-cantidad::-webkit-outer-spin-button,
+.input-cantidad::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

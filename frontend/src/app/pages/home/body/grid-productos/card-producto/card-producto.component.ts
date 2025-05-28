@@ -33,4 +33,13 @@ export class CardProductoComponent {
       }
     });
   }
+
+    darFormatoDescuento(price:string){
+    const d= parseFloat(price)
+
+    const descuentoFormateado=Math.floor(d)+"%"
+
+    console.log(descuentoFormateado)
+    return descuentoFormateado
+  }
 }

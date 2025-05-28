@@ -46,29 +46,76 @@
 
 
             <p class="descripcion-corta" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
-            <a href="#descrip" class="btn btn-link p-0 mb-3" (click)="scrollToDescripcion($event); ">
+            <a href="#descrip" class="btn btn-link p-0 mb-5" (click)="scrollToDescripcion($event); ">
                 Continuar a descripción completa
             </a>
 
 
 
             <form>
-                <div class="mb-3">
-                    <label for="selectOpciones" class="form-label fw-bold">Escoge una opción</label>
-                    
-                    <select class="form-select" style="max-width: 30%;" id="selectOpciones" (change)="cambiarPrecio()">
-                        <option *ngFor="let item of variantes; let i = index" value="{{item.precio}}">{{item.valor_variacion}}</option>
-                    </select>
 
-                    
-                    
-                    <label class="alert alert-heading text-start"><span class="fw-bold">Precio: </span>{{precio}}€</label>
+                <div class="container d-flex flex-row justify-content-around">
+
+                    <div *ngIf="variantes.length > 1" class="mb-3">
+                        <label for="selectOpciones" class="form-label fw-bold">Escoge una opción</label>
+
+                        <select class="form-select" style="width: 200px;" id="selectOpciones"
+                            (change)="cambiarPrecio()">
+                            <option *ngFor="let item of variantes; let i = index" value="{{i}}">
+                                {{item.valor_variacion}}</option>
+                        </select>
+
+
+                    </div>
+
+                    <div class=" d-flex justify-content-end align-items-center card   shadow">
+                        <div class="card-body">
+                            <div class="d-flex flex-row align-items-center justify-content-start mb-4 gap-3">
+                                <label class="">Formato Producto</label>
+                                <label class="fw-bold" style="font-size: small;">{{varianteSeleccionada}}</label>
+
+                            </div>
+
+                            <div *ngIf="producto.descuento!=0; else soloPrecio" class="d-flex flex-column align-items-start">
+                                <label  style="font-size: small;">Precio anterior: {{precio}}</label>
+                                <div class="alert alert-info custom-card py-0 mt-2">
+                                     <label  style="font-size: small; font-weight: bold;">Descuento: <span style="color: red;">{{(descuento)}}</span> </label>
+                                </div>
+                               
+                                <label class="fw-bold fs-4" style="color: red;">{{precioConDto}}€</label>
+                            </div>
+
+                            <ng-template #soloPrecio>
+                                    <label class="fw-bold fs-4">{{precio}}€</label>
+                                </ng-template>
+                            
+
+
+                            <div class="mb-3 d-flex align-items-center mt-4">
+
+                                <div class="d-flex flex-row align-items-center gap-0 me-5 ">
+                                    <img src="imagenes/recursos/signoMenos2.png" class="py-0" style="width: 25px;"
+                                        (click)="restarUno()" alt="menos">
+                                    <input type="number" class="form-control me-2 ms-2 input-cantidad text-center"
+                                        style="width: 50px;" id="cantidad" value="1" min="1">
+                                    <img src="imagenes/recursos/signoMas2.png" class="py-0 custom-card" style="width: 25px;"
+                                        (click)="sumarUno()" alt="mas">
+                                </div>
+                                <button type="submit" class="btn btn-danger text-black fw-bold">Añadir a la cesta</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+
                 </div>
-                <div class="mb-3 d-flex align-items-center">
-                    <label for="cantidad" class="form-label me-2 mb-0">Cantidad</label>
-                    <input type="number" class="form-control w-auto " id="cantidad" value="1" min="1">
-                </div>
-                <button type="submit" class="btn btn-danger w-100">Añadir al carrito</button>
+
+
+
+
+
+
+
             </form>
         </div>
     </div>
