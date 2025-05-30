@@ -1,7 +1,7 @@
-<div  class="card w-100 h-100 shadow custom-card" >
-  
+<div class="card w-100 h-100 shadow custom-card">
+
   <a [routerLink]="['/pagina-producto', producto.producto.id]">
-    
+
     <div class="alert custom-card py-2 rounded-pill shadow" *ngIf="descuento!=1" style="
       position: absolute;
       top: 10px;
@@ -14,40 +14,44 @@
       z-index: 2;">
       {{(darFormatoDescuento(producto.producto.descuento))}}
     </div>
-    
-    <img
-      [src]="'http://localhost:3000/imagenesProductos/' + producto.imagenes[0].nombre"
-      class="card-img-top"
-      alt="..."
-    />
+
+    <img [src]="'http://localhost:3000/imagenesProductos/' + producto.imagenes[0].nombre" class="card-img-top"
+      alt="..." />
   </a>
   <div class="card-body">
     <span class="badge text-bg-danger">{{ producto.marca.nombre }}</span>
     <!-- <p style="max-width: 120px; font-size: small;" class="alert alert-warning py-0 text-center"></p> -->
     <p class="card-title mt-2">{{ producto.producto.nombre }}</p>
-    
+
   </div>
   <ul class="list-group list-group-flush border-0">
-    
+
     <div class="d-flex flex-column gap-0">
-   <li *ngIf="precioMin!= precioMax" class="list-group-item border-0 fw-bold py-0 text-success" style="font-size: smaller;" >Varias opciones disponibles 
+      <li *ngIf="precioMin!= precioMax" class="list-group-item border-0 fw-bold py-0 text-success"
+        style="font-size: smaller;">{{producto.variantes.length}} opciones disponibles
       </li>
-    <li *ngIf="precioMin!= precioMax" class="list-group-item border-0 fw-bold" >{{ precioMin }}€ - {{ precioMax }}€ 
+
+      <li *ngIf="precioMin!= precioMax; else ProductoUnico" class="list-group-item border-0 fw-bold">{{ precioMin }}€ -
+        {{ precioMax }}€
       </li>
-      </div>
-    
-    <li *ngIf="precioMin== precioMax" class="list-group-item fw-bold border-0" >{{ precioMin}}€</li>
+    </div>
+
+    <ng-template #ProductoUnico>
+      
+      <li *ngIf="precioMin== precioMax" class="list-group-item fw-bold border-0">{{ precioMin}}€</li>
+    </ng-template>
+
     <li class="list-group-item">
 
-        <p>Valoración(<span class="fw-bold">{{producto.producto.valoracion}}</span>)</p>
-      <div style="width: 40%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'" >
-          <img  src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
-          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-          <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-        
-        </div>
+      <p>Valoración(<span class="fw-bold">{{producto.producto.valoracion}}</span>)</p>
+      <div style="width: 40%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
+        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
+        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+
+      </div>
     </li>
   </ul>
 

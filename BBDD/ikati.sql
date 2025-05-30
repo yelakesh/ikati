@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-05-2025 a las 19:39:39
+-- Tiempo de generación: 30-05-2025 a las 11:00:41
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -69,9 +69,16 @@ INSERT INTO `animales` (`id`, `nombre`) VALUES
 --
 
 CREATE TABLE `aviso_stock` (
-  `id_producto` int(11) NOT NULL,
+  `id_variante` int(11) NOT NULL,
   `email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `aviso_stock`
+--
+
+INSERT INTO `aviso_stock` (`id_variante`, `email`) VALUES
+(123, 'da@da.com');
 
 -- --------------------------------------------------------
 
@@ -81,9 +88,17 @@ CREATE TABLE `aviso_stock` (
 
 CREATE TABLE `carro` (
   `id_usuario` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
+  `id_variante` int(11) NOT NULL,
   `cantidad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carro`
+--
+
+INSERT INTO `carro` (`id_usuario`, `id_variante`, `cantidad`) VALUES
+(69, 79, 1),
+(69, 108, 1);
 
 -- --------------------------------------------------------
 
@@ -107,7 +122,7 @@ CREATE TABLE `compra` (
 
 CREATE TABLE `compra_producto` (
   `id_compra` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
+  `id_variante` int(11) NOT NULL,
   `cantidad` int(11) DEFAULT NULL,
   `descuento` double DEFAULT NULL,
   `precio` double DEFAULT NULL
@@ -153,14 +168,15 @@ INSERT INTO `filtros` (`id`, `id_producto`, `id_filtro`, `valor`) VALUES
 (82, 98, 3, 'Salmón'),
 (85, 102, 2, 'Grande'),
 (87, 99, 2, 'pequeño'),
-(88, 100, 5, 'Gris'),
 (89, 106, 5, 'Negro'),
 (90, 106, 4, 'Metal'),
 (91, 106, 1, 'Novedad'),
 (92, 107, 3, 'Vacuno, pollo, conejo y salmón'),
 (93, 101, 3, 'Frutas'),
 (96, 109, 4, 'Madera'),
-(97, 109, 6, 'Ecológico');
+(97, 109, 6, 'Ecológico'),
+(98, 111, 1, 'Novedad'),
+(100, 100, 5, 'Gris');
 
 -- --------------------------------------------------------
 
@@ -194,9 +210,6 @@ INSERT INTO `imagenes` (`id`, `id_producto`, `nombre`) VALUES
 (136, 99, 'imagenes-1748282603323-739304842.jpg'),
 (137, 99, 'imagenes-1748282603324-688352347.jpg'),
 (138, 99, 'imagenes-1748282603324-120664248.webp'),
-(139, 100, 'imagenes-1748338325844-596306044.webp'),
-(140, 100, 'imagenes-1748338325846-508499718.jpg'),
-(141, 100, 'imagenes-1748338325847-118334772.jpg'),
 (142, 106, 'imagenes-1748423430279-234308381.jpg'),
 (143, 106, 'imagenes-1748423430280-937901817.jpg'),
 (144, 106, 'imagenes-1748423430280-243844981.jpg'),
@@ -208,7 +221,15 @@ INSERT INTO `imagenes` (`id`, `id_producto`, `nombre`) VALUES
 (150, 108, 'imagenes-1748424427373-778214564.jpg'),
 (151, 101, 'imagenes-1748450384638-963097369.jpg'),
 (154, 109, 'imagenes-1748452967403-939162021.jpg'),
-(155, 109, 'imagenes-1748452967404-225232856.jpg');
+(155, 109, 'imagenes-1748452967404-225232856.jpg'),
+(156, 110, 'imagenes-1748463539081-679051207.jpg'),
+(157, 110, 'imagenes-1748463539083-994364073.webp'),
+(158, 110, 'imagenes-1748463539086-16343157.jpg'),
+(159, 110, 'imagenes-1748463539086-538056308.webp'),
+(160, 111, 'imagenes-1748465167870-25869792.jpg'),
+(164, 100, 'imagenes-1748585127094-620423462.webp'),
+(165, 100, 'imagenes-1748585127095-315921725.jpg'),
+(166, 100, 'imagenes-1748585127095-746978574.jpg');
 
 -- --------------------------------------------------------
 
@@ -246,7 +267,8 @@ INSERT INTO `marcas` (`id`, `nombre`, `imagen`) VALUES
 (17, 'Kong', 'kong.png'),
 (18, 'Caesar', ''),
 (19, 'Purina', 'purina.png'),
-(20, 'Anibest', '');
+(20, 'Anibest', ''),
+(21, 'Orijen', 'orijen.png');
 
 -- --------------------------------------------------------
 
@@ -282,7 +304,9 @@ INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `activo`, `id_animal`, `
 (106, 'Jaula Caesar para pájaros', '<p>Preciosa jaula Caesar móvil con estilo antiguo, espacio para vuelo libre, bandeja para recoger excrementos, incluye accesorios. Distancia entre barrotes: 2,6 cm.</p><p>Un hogar espacioso y confortable para tus mascotas. Con esta elegante jaula ofrecerás a tu pájaro una casa amplia, con ruedas y con una protección especial para impedir que los excrementos caigan fuera.<br>La pajarera, de planta rectangular, tiene unas dimensiones de 101 x 61 x 121 cm (L x An x Al) sin la protección y la base con ruedas. Con el arco que forma el techo de la jaula altura es de 178 cm. La jaula te ofrece un sinfín de posibilidades de diseño interior, ya que tiene unas grandes dimensiones. Así podrás ajustarla a las necesidades de tu pájaro para que se encuentre lo más confortable posible.</p><p>En la jaula encontrarás dos barras para posarse y/o dormir. Las rejillas de la parte frontal y trasera son verticales y poseen un espaciado de malla de aproximadamente 2,1 cm, en los laterales posee además rejillas horizontales que forman un espaciado reticular de alrededor de 2,6 cm.</p>', 1, 3, 18, 10, 30.00, 4.5),
 (107, 'Purina Gourmet Perle Finas Láminas en sobres 8 x 85 g - Pack mixto', '<p>Comida húmeda para pequeños sibaritas a base de exquisitos menús gourmet en diferentes y sabrosas variedades. Envase con 4 sabores ideal para mimar el paladar de tu gato.<br><br>Los gatos son animales muy exigentes con la comida y necesitan variedad en su menú diario. Con Purina Gourmet Perle a base de ingredientes seleccionados y finas recetas despertarás los sentidos de tu mascota de una manera única.</p><p>Descubre las variedades de Gourmet Perle Finas Láminas de pescado y carne en delicadas salsas, que mimarán el paladar de los gatos más exigentes aportándoles una vivencia de sabores irresistibles.<br><br><strong>El pack mixto Finas Láminas en Salsa contiene las siguientes variedades:</strong></p><ul><li>2 x con pollo</li><li>2 x con salmón</li><li>2 x con conejo</li><li>2 x con vacuno</li></ul>', 1, 2, 19, 6, 0.00, 4.9),
 (108, 'Versele-Laga Cuni Adult Complete para conejos', '<p>Comida para conejos de Versele-Laga. Extruidos de fibras largas sin moler. Alto contenido en fibras y bajo contenido en almidón. <strong>Sin grano de cereal.</strong></p><p>&nbsp;</p><p>Esta comida con extruidos de fibras largas sin moler, está especialmente adaptada a las necesidades de los conejos. Los productos extruidos permiten una dieta sana y equilibrada, ya que al contener cada croqueta la misma mezcla de ingredientes, tu mascota no seleccionará solamente los que le gustan, dejando de lado los que contienen nutrientes esenciales. Además están elaboradas conforme a las necesidades nutricionales de los conejos, ya que no se incluyen granos. El tratamiento especial extruido hace que las croquetas sean más fáciles de digerir y tienen una gran aceptabilidad. Las fibras son retenidas más tiempo para garantizar una digestión saludable y proporcionar el cuidado dental necesario.</p>', 1, 4, 15, 13, 0.00, 4.0),
-(109, 'Anibest Pellets de Madera Natural', '<p>Lecho muy absorbente para animales pequeños, granulado de madera natural prensada, absorbe los olores, bajo polvo y gérmenes, respetuoso con el medio ambiente y con certificado PEFC, de Alemania</p><p>&nbsp;</p><p>Los pellets de madera natural de Anibest son un producto natural especialmente sostenible y puro, con impresionantes propiedades funcionales como lecho para animales pequeños. Los pellets consisten en<strong> virutas de madera prensadas y no tratadas</strong>. La estructura celular única de la celulosa, así como la densidad óptima de los pellets, garantizan una unión rápida y fiable de líquidos y olores.<br><br>Debido a la absorción de líquidos, los gránulos forman grumos sólidos que pueden retirarse fácilmente del lecho para garantizar un llenado higiénico en todo momento. Gracias al valor de pH naturalmente bajo y a las esencias especiales de la madera, el lecho para animales pequeños también permanece<strong> prácticamente libre de gérmenes</strong>. La materia prima de los Pellets de Madera Natural Anibest de bajo contenido en polvo con certificación PEFC se obtiene <strong>de una gestión forestal sostenible</strong>.</p>', 1, 4, 20, 9, 0.00, 2.1);
+(109, 'Anibest Pellets de Madera Natural', '<p>Lecho muy absorbente para animales pequeños, granulado de madera natural prensada, absorbe los olores, bajo polvo y gérmenes, respetuoso con el medio ambiente y con certificado PEFC, de Alemania</p><p>&nbsp;</p><p>Los pellets de madera natural de Anibest son un producto natural especialmente sostenible y puro, con impresionantes propiedades funcionales como lecho para animales pequeños. Los pellets consisten en<strong> virutas de madera prensadas y no tratadas</strong>. La estructura celular única de la celulosa, así como la densidad óptima de los pellets, garantizan una unión rápida y fiable de líquidos y olores.<br><br>Debido a la absorción de líquidos, los gránulos forman grumos sólidos que pueden retirarse fácilmente del lecho para garantizar un llenado higiénico en todo momento. Gracias al valor de pH naturalmente bajo y a las esencias especiales de la madera, el lecho para animales pequeños también permanece<strong> prácticamente libre de gérmenes</strong>. La materia prima de los Pellets de Madera Natural Anibest de bajo contenido en polvo con certificación PEFC se obtiene <strong>de una gestión forestal sostenible</strong>.</p>', 1, 4, 20, 9, 0.00, 2.1),
+(110, 'Frontline Tri-Act Pipetas Antiparasitarias para perros', '<p>Las pipetas Frontline Tri-Act protegen a los perros de diversas razas y tamaños contra pulgas, garrapatas, mosquitos y más, durante hasta un mes. Apta para cachorros desde las 8 semanas, es ideal para su uso durante la lactancia o gestación.</p><p>&nbsp;</p><p>Las <strong>pipetas Frontline Tri-Ac</strong>t ofrecen un eficaz <strong>tratamiento </strong>y <strong>prevención </strong>de <strong>infestaciones parasitarias </strong>en <strong>perros</strong>, proporcionando protección integral contra <strong>pulgas</strong>, <strong>garrapatas</strong>, <strong>moscas picadoras </strong>y <strong>mosquitos</strong>. Este producto se adapta a perros de diversas razas y tamaños, desde los<strong> 2 hasta los 60 kg</strong>, asegurando una cobertura amplia y efectiva.</p><p>De uso <strong>mensual</strong>, Frontline Tri-Act no solo elimina pulgas y garrapatas, sino que también tiene un potente<strong> efecto repelente</strong> contra el <strong>mosquito transmisor de la leishmaniosis</strong>, así como contra <strong>flebotomos </strong>y <strong>moscas </strong>de los <strong>establos</strong>. Es seguro para su utilización en <strong>cachorros mayores de 8 semanas </strong>y con un peso superior a <strong>2 kg,</strong> además de ser apto para hembras en periodo de <strong>lactancia </strong>o <strong>gestación</strong>.</p>', 1, 1, 2, 4, 5.00, 4.7),
+(111, 'Orijen Original pienso para gatos y gatitos', '<p>Pienso natural para gatos de todas las edades, sin cereales, con un gran aporte de proteínas y elaborado con ingredientes frescos de primera calidad.</p><p>Pienso para gatos Orijen Cat &amp; Kitten</p><p>El <strong>alimento para gatos Orijen Cat &amp; Kitten</strong> es un pienso con pollo para gatos y gatitos. Está producido en Canadá con ingredientes de origen natural.&nbsp;</p><p>Incluye un <strong>extra de hígado en su formato liofilizado</strong>, uno de los<strong> ingredientes favoritos de los gatos</strong> que hará que conviertan Orijen en su alimento favorito.</p><p>La receta del pienso para gatos Orijen Cat &amp; Kitten incluye <strong>carne fresca o cruda en 2/3 de la receta</strong>, que añade los 10 ingredientes principales a la correcta nutrición de nuestro gato. El tercio restante se añade en forma de <strong>carne y pescado deshidratado a 90º</strong> y que incluye una fuente concentrada de proteína nutritiva.</p>', 1, 2, 21, 5, 0.00, 4.2);
 
 -- --------------------------------------------------------
 
@@ -398,7 +422,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido1`, `apellido2`, `usuario`, `contrasena`, `email`, `telefono`, `cp`, `direccion`) VALUES
-(41, 'Juan', 'Lopez', 'Herrero', 'JLH', '123', 'JLH@gmail.com', '666666666', '28050', 'General Margallo');
+(41, 'Juan', 'Lopez', 'Herrero', 'JLH', '123', 'JLH@gmail.com', '666666666', '28050', 'General Margallo'),
+(69, 'David', 'Sampalo', '', 'dav', '111', 'da@da.com', '00000000', '28000', 'Calle no sé');
 
 -- --------------------------------------------------------
 
@@ -431,15 +456,27 @@ INSERT INTO `variantes` (`id`, `id_producto`, `precio`, `stock`, `id_variacion`,
 (100, 99, 5.69, 40, 5, '11 barritas'),
 (101, 99, 9.99, 34, 5, '22 barritas'),
 (102, 99, 15.89, 23, 5, '43 barritas'),
-(103, 100, 19.99, 5, 3, 'Normal'),
-(104, 106, 227.99, 20, 3, '123 x 82 x 178 cm (L x An x Al)'),
+(104, 106, 227.99, 0, 3, '123 x 82 x 178 cm (L x An x Al)'),
 (105, 107, 5.69, 10, 5, '8 x 85 g'),
 (106, 108, 13.49, 5, 2, '1.75 kg'),
 (107, 108, 47.49, 5, 2, '8 kg'),
 (108, 101, 2.29, 35, 5, '2 barritas'),
 (109, 101, 12.64, 54, 5, '12 barritas'),
 (112, 109, 5.79, 10, 5, '10 l'),
-(113, 109, 15.49, 0, 5, '20 l');
+(113, 109, 15.49, 0, 5, '20 l'),
+(114, 110, 22.99, 3, 5, ' 2-5 kg (3 uds)'),
+(115, 110, 40.49, 6, 5, ' 2-5 kg (6 uds)'),
+(116, 110, 24.99, 1, 5, '5-10 kg (3 uds)'),
+(117, 110, 43.99, 3, 5, '5-10 kg (6 uds)'),
+(118, 110, 26.49, 0, 5, '10-20 kg (3 uds)'),
+(119, 110, 44.99, 8, 5, '10-20 kg (3 uds)'),
+(120, 110, 28.49, 7, 5, '20-40 kg (3 uds)'),
+(121, 110, 52.49, 5, 5, '20-40 kg (6 uds)'),
+(122, 110, 32.49, 4, 5, '40-60 kg (3 uds)'),
+(123, 110, 52.49, 0, 5, '40-60 kg (6 uds)'),
+(124, 111, 30.89, 2, 2, '1.8kg'),
+(125, 111, 52.59, 5, 2, '5.4kg'),
+(127, 100, 19.99, 1, 3, 'Mediano');
 
 --
 -- Índices para tablas volcadas
@@ -463,14 +500,14 @@ ALTER TABLE `animales`
 -- Indices de la tabla `aviso_stock`
 --
 ALTER TABLE `aviso_stock`
-  ADD PRIMARY KEY (`id_producto`,`email`);
+  ADD PRIMARY KEY (`id_variante`,`email`);
 
 --
 -- Indices de la tabla `carro`
 --
 ALTER TABLE `carro`
-  ADD PRIMARY KEY (`id_usuario`,`id_producto`),
-  ADD KEY `id_producto` (`id_producto`);
+  ADD PRIMARY KEY (`id_usuario`,`id_variante`),
+  ADD KEY `id_producto` (`id_variante`);
 
 --
 -- Indices de la tabla `compra`
@@ -484,8 +521,8 @@ ALTER TABLE `compra`
 -- Indices de la tabla `compra_producto`
 --
 ALTER TABLE `compra_producto`
-  ADD PRIMARY KEY (`id_compra`,`id_producto`),
-  ADD KEY `id_producto` (`id_producto`);
+  ADD PRIMARY KEY (`id_compra`,`id_variante`),
+  ADD KEY `id_producto` (`id_variante`);
 
 --
 -- Indices de la tabla `cupones`
@@ -601,25 +638,25 @@ ALTER TABLE `cupones`
 -- AUTO_INCREMENT de la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
@@ -649,13 +686,13 @@ ALTER TABLE `tipo_producto`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT de la tabla `variantes`
 --
 ALTER TABLE `variantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- Restricciones para tablas volcadas
@@ -665,14 +702,14 @@ ALTER TABLE `variantes`
 -- Filtros para la tabla `aviso_stock`
 --
 ALTER TABLE `aviso_stock`
-  ADD CONSTRAINT `aviso_stock_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `aviso_stock_ibfk_1` FOREIGN KEY (`id_variante`) REFERENCES `variantes` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `carro`
 --
 ALTER TABLE `carro`
   ADD CONSTRAINT `carro_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `carro_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `carro_ibfk_2` FOREIGN KEY (`id_variante`) REFERENCES `variantes` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `compra`
@@ -686,7 +723,7 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `compra_producto`
   ADD CONSTRAINT `compra_producto_ibfk_1` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_variante`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `filtros`

@@ -16,6 +16,8 @@ const marcaRoutes = require("./routes/marca.routes");
 const tipo_productoRoutes = require("./routes/tipo_producto.routes");
 const tipo_VarianteRoutes = require("./routes/tipo_variante.routes");
 const tipo_FiltroRoutes = require("./routes/tipo_filtros.routes");
+const carroRoutes = require("./routes/carro.routes");
+const avisar_stockRoutes = require("./routes/avisarStock.routes");
 
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/cupones", cuponesRoutes);
@@ -29,7 +31,9 @@ app.use("/api/tipo_variante", tipo_VarianteRoutes);
 app.use("/api/tipo_filtro", tipo_FiltroRoutes);
 app.use("/imagenesProductos", express.static("imagenesProductos"));
 app.use("/imagenesMarcas", express.static("imagenesMarcas"));
-
+app.use("/imagenesMarcas", express.static("imagenesMarcas"));
+app.use("/api/carro", carroRoutes);
+app.use("/api/avisarStock", avisar_stockRoutes);
 
 app.listen(puerto, () => {
   console.log("Servidor corriendo en http://localhost:"+puerto);

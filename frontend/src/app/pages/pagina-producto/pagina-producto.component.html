@@ -17,14 +17,19 @@
                     </div>
 
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselProducto"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </button>
+
+                <div *ngIf="imagenes.length>1">
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselProducto"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -35,7 +40,7 @@
 
             <p class=" mt-2 mb-0">Valoración(<span class="fw-bold">{{producto.valoracion}}</span>)</p>
 
-            <div class="mb-3" style="width: 40%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
+            <div class="mb-3" style="width: 25%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
                 <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
                 <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
                 <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
@@ -46,8 +51,8 @@
 
 
             <p class="descripcion-corta" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
-            <a href="#descrip" class="btn btn-link p-0 mb-5" (click)="scrollToDescripcion($event); ">
-                Continuar a descripción completa
+            <a href="#descrip" class="btn btn-link p-0 " (click)="scrollToDescripcion($event); ">
+                Continuar
             </a>
 
 
@@ -56,8 +61,9 @@
 
                 <div class="container d-flex flex-row justify-content-around">
 
-                    <div *ngIf="variantes.length > 1" class="mb-3">
-                        <label for="selectOpciones" class="form-label fw-bold">Escoge una opción</label>
+                    <div *ngIf="variantes.length > 1" class="mb-3 me-4">
+                        <label for="selectOpciones" class="form-label fw-bold" style="font-size: small;">Escoge producto
+                            ({{variantes.length}} opciones)</label>
 
                         <select class="form-select" style="width: 200px;" id="selectOpciones"
                             (change)="cambiarPrecio()">
@@ -68,40 +74,77 @@
 
                     </div>
 
-                    <div class=" d-flex justify-content-end align-items-center card   shadow">
+                    <div class=" d-flex justify-content-end align-items-start card shadow p-3">
                         <div class="card-body">
-                            <div class="d-flex flex-row align-items-center justify-content-start mb-4 gap-3">
+                            <div class="d-flex flex-row align-items-baseline justify-content-start mb-4 gap-3">
                                 <label class="">Formato Producto</label>
                                 <label class="fw-bold" style="font-size: small;">{{varianteSeleccionada}}</label>
 
                             </div>
 
-                            <div *ngIf="producto.descuento!=0; else soloPrecio" class="d-flex flex-column align-items-start">
-                                <label  style="font-size: small;">Precio anterior: {{precio}}</label>
-                                <div class="alert alert-info custom-card py-0 mt-2">
-                                     <label  style="font-size: small; font-weight: bold;">Descuento: <span style="color: red;">{{(descuento)}}</span> </label>
+                            <div *ngIf="producto.descuento!=0; else soloPrecio"
+                                class="d-flex flex-column align-items-start">
+
+                                <div class="d-flex flex-row gap-4 align-items-baseline">
+                                    <label style="font-size: small; ">Precio anterior: <span style="text-decoration: line-through;">{{precio}}</span></label>
+
+
+                                    <div class="alert alert-info custom-card py-0">
+                                        <label class="text-primary" style="font-size:larger; font-weight: bold;">Dto. <span
+                                                class="text-danger">{{(descuento)}}</span> </label>
+                                    </div>
                                 </div>
-                               
-                                <label class="fw-bold fs-4" style="color: red;">{{precioConDto}}€</label>
+
+
+                                <label class="fw-bold fs-2" style="color: red;">{{precioConDto}}€</label>
                             </div>
 
                             <ng-template #soloPrecio>
-                                    <label class="fw-bold fs-4">{{precio}}€</label>
-                                </ng-template>
-                            
+                                <label class="fw-bold fs-2">{{precio}}€</label>
+                            </ng-template>
 
 
-                            <div class="mb-3 d-flex align-items-center mt-4">
 
-                                <div class="d-flex flex-row align-items-center gap-0 me-5 ">
-                                    <img src="imagenes/recursos/signoMenos2.png" class="py-0" style="width: 25px;"
-                                        (click)="restarUno()" alt="menos">
-                                    <input type="number" class="form-control me-2 ms-2 input-cantidad text-center"
-                                        style="width: 50px;" id="cantidad" value="1" min="1">
-                                    <img src="imagenes/recursos/signoMas2.png" class="py-0 custom-card" style="width: 25px;"
-                                        (click)="sumarUno()" alt="mas">
+                            <div  class="mb-3 d-flex align-items-center mt-4">
+
+                                <div *ngIf="puedeComprar">
+
+                                    <div class="d-flex flex-row align-items-baseline gap-2" *ngIf="stock<=5">
+                                        
+
+
+                                        <p *ngIf="stock<=5" [ngClass]="{'text-danger': stock<=2, 'text-warning': stock>2}" style="font-size: small;">¡Quedan {{stock}}
+                                            {{stock==1?
+                                            "unidad" : "unidades"}}!</p>
+                                    </div>
+
+
+
+                                    <div class="d-flex flex-row align-items-center gap-0 me-5 ">
+                                        <img src="imagenes/recursos/signoMenos2.png" class="py-0"
+                                            style="width: 25px; cursor: pointer;" draggable="false"
+                                            (click)="restarUno()" alt="menos">
+                                        <input type="number" class="form-control me-2 ms-2 input-cantidad text-center"
+                                            style="width: 50px;" type="number" id="cantidad" name="cantidad" [(ngModel)]="unidades"readonly>
+                                        <img  src="imagenes/recursos/signoMas2.png" class="py-0"
+                                            style="width: 25px; cursor: pointer;" draggable="false" (click)="sumarUno()"
+                                            alt="mas"
+                                            [style.visibility]="unidades == stock ? 'hidden' : 'visible'">
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-danger text-black fw-bold">Añadir a la cesta</button>
+
+                                <div *ngIf="stock!=0 ; else SinStock">
+                                    <button type="submit" class="btn btn-danger text-black fw-bold mt-5"(click)="aLaCesta()"[disabled]="rolUsuario=='admin'">Añadir a la
+                                        cesta</button>
+                                </div>
+                                <ng-template #SinStock>
+                                    <div class="d-flex flex-col gap-2 align-items-baseline" style="font-size: small;">
+                                        <p class="fw-bold">¡Producto Agotado!</p>
+                                        <button class="btn btn-warning" style="font-size: small;"[disabled]="rolUsuario=='admin'" (click)="avisarStock()">Avísame cuando haya
+                                            stock</button>
+
+                                    </div>
+                                </ng-template>
                             </div>
 
                         </div>
@@ -109,11 +152,6 @@
 
 
                 </div>
-
-
-
-
-
 
 
             </form>
