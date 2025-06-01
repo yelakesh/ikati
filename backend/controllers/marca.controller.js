@@ -46,6 +46,28 @@ async function obtenerMarcasController(req, res) {
       .json({ ok: false, mensaje: "Error del servidor", marca: {} });
   }
 }
+async function obtenerPorAnimalController(req, res) {
+  try {
+    const resultado = await MarcaModel.obtenerPorAnimal(req.body.idAnimal);
+
+    if (resultado.length === 0) {
+      return res
+        .status(401)
+        .json({ ok: false, mensaje: "Marcas no encontradas", marca: {} });
+    }
+
+    res.json({
+      ok: true,
+      mensaje: "Marca encontrada",
+      marcas: resultado,
+    });
+  } catch (err) {
+    console.error("Error en la busqueda de las marcas:", err);
+    res
+      .status(500)
+      .json({ ok: false, mensaje: "Error del servidor", marca: {} });
+  }
+}
 
 async function registrarController(req, res) {
   const objmarca = req.body;
@@ -128,4 +150,5 @@ module.exports = {
   obtenerPorIdController,
   modificarController,
   obtenerMarcasController,
+  obtenerPorAnimalController,
 };

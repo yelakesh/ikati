@@ -5,10 +5,11 @@ import { ProductoService } from '../../../../services/producto.service';
 import { HeaderGridService } from '../../../../services/header-grid.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FiltrosComponent } from "./filtros/filtros.component";
 
 @Component({
   selector: 'app-grid-productos',
-  imports: [CardProductoComponent, NgFor,CommonModule],
+  imports: [CardProductoComponent, NgFor, CommonModule, FiltrosComponent],
   templateUrl: './grid-productos.component.html',
   styleUrl: './grid-productos.component.css',
 })
@@ -75,8 +76,6 @@ export class GridProductosComponent {
     this.productos = [];
     this.productoService.obtenerPorAnimal(objAnimal).subscribe({
       next: (res) => {
-        console.log(res);
-
         this.productos = res.productos;
       },
       error: (err) => {

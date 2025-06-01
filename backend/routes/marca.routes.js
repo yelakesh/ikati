@@ -24,5 +24,6 @@ router.post(
 router.post("/eliminarPorId", marcaController.eliminarPorIdController);
 router.post("/modificar", marcaController.modificarController);
 router.post("/obtenerTodas", marcaController.obtenerMarcasController);
+router.post("/obtenerPorAnimal", marcaController.obtenerPorAnimalController);
 
 module.exports = router;

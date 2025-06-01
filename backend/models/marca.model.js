@@ -12,6 +12,13 @@ async function obtenerTodo() {
   return resultados;
 }
 
+async function obtenerPorAnimal(idAnimal) {
+  
+  const sql = `SELECT * FROM marcas where id in (select id_marca from productos where id_animal=?)`;
+  const resultados = await db.query(sql,[idAnimal]);
+  return resultados;
+}
+
 async function obtenerPorId(id) {
   const sql = `SELECT * FROM marcas where id=?`;
   const resultados = await db.query(sql,[id]);
@@ -36,4 +43,6 @@ module.exports = {
   eliminarPorId,
   modificar,
   obtenerTodo,
+  obtenerPorAnimal,
+
 };

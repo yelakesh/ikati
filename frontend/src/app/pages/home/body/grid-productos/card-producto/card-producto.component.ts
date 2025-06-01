@@ -38,8 +38,6 @@ export class CardProductoComponent {
     const d= parseFloat(price)
 
     const descuentoFormateado=Math.floor(d)+"%"
-
-    console.log(descuentoFormateado)
     return descuentoFormateado
   }
 }

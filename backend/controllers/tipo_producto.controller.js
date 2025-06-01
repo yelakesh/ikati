@@ -137,7 +137,7 @@ async function modificarController(req, res) {
   }
 }
 async function obtenerPorIdAnimalController(req, res) {
-  const id_animal = req.body.id;
+  const id_animal = req.body.idAnimal;
  
   try {
     const resultado = await Tipo_ProductoModel.obtenerPorIdAnimal(id_animal);

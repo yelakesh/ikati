@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit {
               this.animales.push({
                 id: a.id,
                 nombre: a.nombre,
-                tipos: await this.cargarTipos({ id: a.id, tipo: a.nombre }),
+                tipos: await this.cargarTipos({ idAnimal: a.id, tipo: a.nombre }),
               });
             }
           );
@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
   }
 
   async cargarTipos(objAnimal: {
-    id: number;
+    idAnimal: number;
     tipo: string;
   }): Promise<{ id: number; tipo: string }[]> {
     try {
