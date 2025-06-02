@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { HeaderComponent } from "../../../../components/header/header.component";
 import { UsuarioService } from '../../../../services/usuario.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { HeaderComponent } from "../../../../components/header/header.component";
 
 
 @Component({
   selector: 'app-editpassword',
-  imports: [HeaderComponent, FormsModule, CommonModule, RouterLink],
+  imports: [ FormsModule, CommonModule, RouterLink, HeaderComponent],
   templateUrl: './editpassword.component.html',
   styleUrl: './editpassword.component.css'
 })

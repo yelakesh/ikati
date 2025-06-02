@@ -794,12 +794,7 @@ ALTER TABLE `productos`
 --
 -- Filtros para la tabla `servicios`
 --
-ALTER TABLE `servicios`
-  ADD CONSTRAINT `fk_tipo_servicio` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_servicio` (`id`);
 
---
--- Filtros para la tabla `servicios`
---
 ALTER TABLE `servicios`
   ADD CONSTRAINT `fk_tipo_servicio` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_servicio` (`id`);
 

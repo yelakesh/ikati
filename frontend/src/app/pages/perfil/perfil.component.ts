@@ -26,7 +26,7 @@ export class PerfilComponent implements OnInit {
 
   cargarDatosUsuario() {
     const usuarioGuardado = sessionStorage.getItem('usuario'); 
-    console.log('Usuario cogido'+usuarioGuardado)
+    
     
     if (usuarioGuardado) {
 
@@ -38,7 +38,7 @@ export class PerfilComponent implements OnInit {
           if (respuesta.ok) {
             this.usuario = respuesta.usuario;
             
-            console.log(this.usuario)
+            
           }
         },
         error: (error) => {
@@ -51,4 +51,6 @@ export class PerfilComponent implements OnInit {
       
     }
   }
+
+
 }

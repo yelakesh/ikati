@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-direccion-envio-card',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './direccion-envio-card.component.html',
   styleUrl: './direccion-envio-card.component.css'
 })

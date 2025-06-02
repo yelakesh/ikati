@@ -1,12 +1,18 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-datos-personales-card',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './datos-personales-card.component.html',
-  styleUrl: './datos-personales-card.component.css'
+  styleUrls: ['./datos-personales-card.component.css']
+
 })
 export class DatosPersonalesCardComponent {
 
   @Input() usuario: any
+
 }
+
+

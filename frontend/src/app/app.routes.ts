@@ -11,6 +11,8 @@ import { CambiarPassAdminComponent } from './components/cambiar-pass-admin/cambi
 import { GestionCuentasComponent } from "./pages/gestion-cuentas/gestion-cuentas.component";
 import { PerfilComponent } from "./pages/perfil/perfil.component";
 import { EditpasswordComponent } from "./pages/perfil/contrasena-card/editpassword/editpassword.component";
+import { EditdatospersonalesComponent } from "./pages/perfil/datos-personales-card/editdatospersonales/editdatospersonales.component";
+import { EditdireccionComponent } from "./pages/perfil/direccion-envio-card/editdireccion/editdireccion.component";
 import { PaginaProductoComponent } from "./pages/pagina-producto/pagina-producto.component";
 
 
@@ -72,4 +74,7 @@ export const routes: Routes = [
     component: PaginaProductoComponent,
     data: { breadcrumb: 'Producto' },
   },
+  { path: 'editdatospersonales', component: EditdatospersonalesComponent },
+  { path: 'editdireccion', component: EditdireccionComponent }
+
 ];
