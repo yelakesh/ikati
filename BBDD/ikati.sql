@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2025 a las 03:42:47
+-- Tiempo de generación: 02-06-2025 a las 20:21:26
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -97,6 +97,7 @@ CREATE TABLE `carro` (
 --
 
 INSERT INTO `carro` (`id_usuario`, `id_variante`, `cantidad`) VALUES
+(41, 124, 2),
 (69, 79, 1),
 (69, 108, 1);
 
@@ -325,6 +326,47 @@ CREATE TABLE `servicios` (
   `direccion` varchar(150) NOT NULL,
   `web` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`id`, `nombre`, `id_tipo`, `latitud`, `longitud`, `direccion`, `web`) VALUES
+(1, 'Hospital veterinario Retiro', 1, 40.42178441, -3.67966495, 'Av. de Menéndez Pelayo, 9', 'https://hospitalveterinarioretiro.com/'),
+(2, 'WagWag', 3, 40.45116945, -3.67756645, 'Calle del Dr. Marco Corera', 'https://www.wagwag.es/'),
+(3, 'EncantaDogs', 2, 40.50571260, -3.69057079, 'Pl. Tres Olivos, 2, local posterior', 'http://www.encantadogs.es/'),
+(4, 'CityDog Madrid', 3, 40.62489868, -3.69443582, 'Rda. de Valdecarrizo, 5', 'https://citydogmadrid.com/'),
+(5, 'Canhotel residencia canina', 3, 40.50578571, -3.65282973, 'Cam. Arroyo de Valdebebas, 13', 'https://www.canhotel.es/'),
+(6, 'Medivet 24H Delicias', 1, 40.40815796, -3.69007371, 'Calle de las Delicias, 35', 'https://www.medivetgroup.com/es-es/'),
+(7, 'Villamascota Hotel', 3, 40.30558388, -3.69231571, 'Autovía del Sur, 13, km 14', 'https://www.villamascota.es/'),
+(8, 'DogMadrid', 3, 40.43970877, -3.81590579, 'C. Campomanes, 53', 'https://www.dogmadrid.es/'),
+(9, 'Residencia Canina Malilupus', 3, 40.37722927, -3.81762240, 'Km 10,700 A-5 dirección', 'https://www.malilupus.com/'),
+(10, 'La Petucasa', 3, 40.50693643, -3.66946409, 'C. Quintanapalla, 5', 'https://www.lapetucasa.com/'),
+(11, 'Centro Canino Gufy', 3, 40.50463322, -3.73097421, 'Carretera Fuencarral-El Pardo, Km. 3,5', 'https://www.centrocaninogufy.com/'),
+(12, 'Centro Canino Vallecan', 3, 40.50667059, -3.72029122, 'Carr. de El Pardo a Fuencarral, Km. 2, 200', 'https://www.vallecan.es/'),
+(13, 'Residencia Canina Solycan', 3, 40.57388514, -3.58856074, 'Salida 20 A-1, Km 22.300', 'https://residenciacaninamadridsolycan.com/'),
+(14, 'Cans College', 3, 40.58183500, -3.58048621, 'C. del Abedul', 'https://canscollege.com/'),
+(15, 'Perro Suertudo', 2, 40.51927544, -3.65645757, ' CC Moraleja Green Edificio Norte, Av. de Europa, 13', 'https://perrosuertudo.es/'),
+(16, 'Amor Perruno', 2, 40.48395432, -3.72897796, 'C. de Ramón Gómez de la Serna, 81', 'https://www.amorperruno.es/'),
+(17, 'RíoPets', 2, 40.38185293, -3.69524439, ' C. Añafil, 3', 'https://riopets.es/'),
+(18, 'Gentlecan - Perros estilosos', 2, 40.41965832, -3.67896058, ' C. de Menorca, 1', 'https://gentlecan.es/'),
+(19, 'Medivet Ginzo de Limia', 1, 40.47819253, -3.70418346, 'C. de Ginzo de Limia, 33', 'https://www.medivetgroup.com/es-es/'),
+(20, 'Medivet Puerta de Toledo', 1, 40.40802841, -3.71293983, ' Gran Vía de San Francisco, 9', 'https://www.medivetgroup.com/es-es/'),
+(21, 'Medivet Madrid', 1, 40.43543130, -3.67311860, 'C. de Alonso Heredia, 11', 'https://www.medivetgroup.com/es-es/'),
+(22, 'Medivet Sur Vallecas', 1, 40.38142227, -3.65104400, 'Av. de Pablo Neruda, 69', 'https://www.medivetgroup.com/es-es/'),
+(23, 'Medivet La Estrella', 1, 40.41086089, -3.66832320, 'C. de la Cruz del Sur, 7', 'https://www.medivetgroup.com/es-es/'),
+(25, 'Barbudogs', 2, 40.49064266, -3.64978006, 'C. del Alcalde Redondo Aceña', 'https://www.barbudogs.es/'),
+(26, 'Washcotas', 2, 40.51948086, -3.65347350, 'Calle Cuestablanca, 2', 'https://booksy.com/es-es/'),
+(27, 'Happy Doggies', 2, 40.43465241, -3.70846901, 'C. de Vallehermoso, 40', 'https://happydoggies.es/'),
+(28, 'Medivet 24H Los Sauces', 1, 40.43401424, -3.69857200, 'Calle de Sta Engracia, 63', 'https://www.medivetgroup.com/es-es/'),
+(29, 'Quevedog', 1, 40.43514550, -3.70766081, 'C. de Fernández de los Ríos, 32', 'http://www.quevedog.es/'),
+(30, 'Vive Pets', 3, 40.55525655, -3.61088546, 'Av. del Camino de lo Cortao, 37', 'https://vivepetresort.com/reservas/'),
+(31, 'Medivet 24H La Vaguada', 1, 40.47236294, -3.72806156, 'Calle del Dr. Juan José López Ibor, 30', 'https://www.medivetgroup.com/es-es/'),
+(32, 'Clínica Veterinaria Caramuel', 1, 40.41017159, -3.72795360, 'C. de Caramuel, 36', 'https://veterinarios-madrid.es/'),
+(33, 'ANIMALIA', 1, 40.42517034, -3.65752860, 'C. de Ricardo Ortiz, 51', 'https://veterinarios-madrid.es/'),
+(34, 'Centro Veterinario Alcalá Norte', 1, 40.43675464, -3.63818810, 'C. Alcalá, 414', 'https://veterinarios-madrid.es/'),
+(35, 'Clínica Veterinaria Parque Berlín', 1, 40.45101934, -3.67695623, 'Calle del Príncipe de Vergara, 210', 'https://veterinarios-madrid.es/'),
+(36, ' Mundo Mascota', 1, 40.43351527, -3.64786860, 'C. Alcalá, 339', 'https://veterinarios-madrid.es/');
 
 -- --------------------------------------------------------
 
@@ -569,7 +611,8 @@ ALTER TABLE `productos`
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tipo_servicio` (`id_tipo`);
 
 --
 -- Indices de la tabla `tipos_filtro`
@@ -664,7 +707,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos_filtro`
@@ -746,7 +789,13 @@ ALTER TABLE `imagenes`
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_animal`) REFERENCES `animales` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_producto` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id_marca`) ON DELETE SET NULL;
+  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id`) ON DELETE SET NULL;
+
+--
+-- Filtros para la tabla `servicios`
+--
+ALTER TABLE `servicios`
+  ADD CONSTRAINT `fk_tipo_servicio` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_servicio` (`id`);
 
 --
 -- Filtros para la tabla `variantes`

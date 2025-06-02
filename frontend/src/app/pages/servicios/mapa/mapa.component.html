@@ -1,0 +1,23 @@
+<div class="cabecera">
+    <h1>Red de servicios asociados</h1>
+    <p>Encuentra clínicas veterinarias, peluquerías y otros servicios especializados para el bienestar de tu mascota.
+    </p>
+</div>
+
+<div class="contenedor">
+    <div class="filtros">
+        <h3>Filtrar resultados</h3>
+        <label>Tipo de servicio:</label><br>
+        <select class="form-select" [(ngModel)]="tipoSeleccionado" (change)="filtrarMarcadores()">
+            <option *ngFor="let tipo of TIPOS_SERVICIO" [ngValue]="tipo.id">{{ tipo.nombre }}</option>
+        </select>
+        <br>
+        <label>Código postal:</label><br>
+        <div class="input-group mb-3">
+            <input class="form-control border-end-0" type="search" placeholder="ej: 28013" [(ngModel)]="codPostal">
+            <button class=" border-start-0 " id="button-addon2" type="button"
+                (click)="buscarPorCodPostal()">Buscar</button>
+        </div>
+    </div>
+    <div id="map"></div>
+</div>

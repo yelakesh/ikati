@@ -1,8 +1,9 @@
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { servicioService } from '../../services/servicio.service';
 import { HttpClientModule } from '@angular/common/http';
+import { servicioService } from '../../services/servicio.service';
+import { TipoServicioService } from '../../services/tipo_servicio.service';
 import { Component, Input, SimpleChanges } from '@angular/core';
 
 @Component({
@@ -14,7 +15,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 })
 export class ServicioFormComponent {
 
-  constructor(private router: Router, private servicioService: servicioService) { }
+  constructor(private router: Router, private servicioService: servicioService, private tipoServicioService: TipoServicioService) { }
 
   servicio = {
     nombre: '',
@@ -25,6 +26,23 @@ export class ServicioFormComponent {
     web: ''
   };
   @Input() modo: string = '';
+
+  listaTipos: any[] = [];
+
+  ngOnInit(): void {
+    this.tipoServicioService.obtenerTodos().subscribe({
+      next: (res) => {
+              console.log('Respuesta de obtenerTodos:', res); 
+
+        if (res.ok) {
+          this.listaTipos = res.tipo_servicio;
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar tipos:', err);
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['modo']) {
@@ -65,7 +83,7 @@ export class ServicioFormComponent {
   }
   completarDatosServicio() {
 
-    
+
     this.servicio.tipo = ""
     this.servicio.latitud = 0
     this.servicio.longitud = 0
@@ -90,7 +108,7 @@ export class ServicioFormComponent {
 
     })
 
-    
+
 
   }
 

@@ -12,6 +12,9 @@ export class servicioService {
 
   constructor(private http: HttpClient) { }
 
+  obtenerTodos(): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerTodos', '');
+  }
   crearServicio(objServicio: object): Observable<any> {
     return this.http.post(this.apiUrl + "/nuevoServicio", objServicio)
   }
@@ -23,9 +26,5 @@ export class servicioService {
   }
   eliminarPorNombre(objServicio:object): Observable<any>{
     return this.http.post(this.apiUrl+'/eliminarPorNombre', objServicio)
-
-  
-
-  
   }
 }

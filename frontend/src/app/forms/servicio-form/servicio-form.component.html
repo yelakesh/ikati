@@ -26,8 +26,10 @@
                     <label class="form-label" for="tipo">Tipo</label>
                 </td>
                 <td colspan="2">
-                    <input class="form-control" type="text" name="tipo" [(ngModel)]="servicio.tipo" required>
-
+                    <select class="form-control" name="tipo" [(ngModel)]="servicio.tipo" required>
+                        <option value="" disabled selected>Selecciona un tipo</option>
+                        <option *ngFor="let tipo of listaTipos" [value]="tipo.id">{{ tipo.nombre }}</option>
+                    </select>
                 </td>
             </tr>
             <tr>

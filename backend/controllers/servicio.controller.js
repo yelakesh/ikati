@@ -1,5 +1,26 @@
 const ServicioModel = require('../models/servicio.model');
 
+
+async function obtenerTodosController(req, res) {
+  try {
+    const resultado = await ServicioModel.obtenerTodos();
+
+    res.json({
+      ok: true,
+      mensaje: resultado.length > 0 ? "Servicios encontrados" : "No hay servicios registrados",
+      servicios: resultado,
+    });
+  } catch (err) {
+    console.error("Error en la búsqueda de servicios:", err);
+    res.status(500).json({
+      ok: false,
+      mensaje: "Error del servidor",
+      servicios: [],
+    });
+  }
+}
+
+
 async function nuevoServicioController(req, res) {
     const objServicio = req.body;
 
@@ -76,4 +97,4 @@ async function modificarPorNombreController(req, res) {
             res.status(500).json({ ok: true, mensaje: 'Error en el servidor', servicio: {} })
           }
         }
-module.exports = { nuevoServicioController, modificarPorNombreController, obtenerPorNombreController, eliminarPorNombreController };
+module.exports = { obtenerTodosController, nuevoServicioController, modificarPorNombreController, obtenerPorNombreController, eliminarPorNombreController };
