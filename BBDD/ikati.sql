@@ -443,6 +443,22 @@ INSERT INTO `tipo_producto` (`id`, `tipo`) VALUES
 (8, 'Transportín');
 
 -- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `tipo_servicio`
+--
+CREATE TABLE `tipo_servicio` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+-- Volcado de datos para la tabla `tipo_servicio`
+--
+INSERT INTO `tipo_servicio` (`id`, `nombre`) VALUES
+(1, 'Veterinaria'),
+(2, 'Peluquería'),
+(3, 'Guardería');
+
+-- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `usuarios`
@@ -635,6 +651,12 @@ ALTER TABLE `tipo_producto`
   ADD UNIQUE KEY `tipo` (`tipo`);
 
 --
+-- Indices de la tabla `tipo_servicio`
+--
+ALTER TABLE `tipo_servicio`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -728,6 +750,12 @@ ALTER TABLE `tipo_producto`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT de la tabla `tipo_servicio`
+--
+ALTER TABLE `tipo_servicio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -789,14 +817,7 @@ ALTER TABLE `imagenes`
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_animal`) REFERENCES `animales` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_producto` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id`) ON DELETE SET NULL;
-
---
--- Filtros para la tabla `servicios`
---
-
-ALTER TABLE `servicios`
-  ADD CONSTRAINT `fk_tipo_servicio` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_servicio` (`id`);
+  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id_marca`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `variantes`
