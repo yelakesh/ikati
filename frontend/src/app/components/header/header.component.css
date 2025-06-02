@@ -1,0 +1,19 @@
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100vh;
+  background-color: #20687a; /* igual que el nav */
+  z-index: 2000;
+  overflow-y: auto;
+  padding: 1.5rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Ocultar aside en escritorio */
+@media (min-width: 768px) {
+  .menu-lateral {
+    display: none !important;
+  }
+}

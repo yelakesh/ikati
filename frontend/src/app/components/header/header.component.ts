@@ -19,7 +19,9 @@ import { CarritoComponent } from "./carrito/carrito.component";
 export class HeaderComponent implements OnInit {
   usuario!: Observable<any>;
   open = false;
-  carritoVisible = false
+  carritoVisible = false;
+  menuAbierto: boolean = false;
+
 
   constructor(
     private router: Router,

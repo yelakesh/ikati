@@ -13,7 +13,6 @@
 
 
 <!-- Navbar principal -->
- 
 <div class="sticky-top">
   <nav class=" navbar bg-body-secondary py-0" style="z-index: 1040;">
     <div class=" container d-flex align-items-center py-0 justify-content-between">
@@ -31,8 +30,7 @@
 
       <!-- Acceso usuario a la derecha -->
 
-      <div *ngIf="(usuario | async) as usuario; else noUsuario"
-        class="d-flex flex-row align-items-center gap-2 justify-content-between">
+      <div *ngIf="(usuario | async) as usuario; else noUsuario" class="d-flex align-items-center">
 
         <div class="d-flex align-items-center">
 
@@ -66,52 +64,52 @@
           </div>
 
         </div>
-        <div>
-
-          <img src="imagenes/recursos/carrito.svg" style="height: 32px; cursor: pointer;" (click)="toogleCarrito()" alt="Carrito">
-          <app-carrito [visible]="carritoVisible" (cerrado)="carritoVisible = false"></app-carrito>
-        </div>
-
       </div>
 
-      <!-- Si no hay usuario -->
+      <!-- Si hay usuario -->
       <ng-template #noUsuario>
-        <div class="d-flex flex-row align-items-center gap-2 justify-content-between">
+        <div class="d-flex align-items-center">
           <img src="imagenes/cabeceraweb/iniciarsesion.png" height="20" alt="login">
           <button class="btn btn-link text-decoration-none" routerLink="/gestion-cuentas">
             Identifícate
           </button>
-
         </div>
-        
       </ng-template>
     </div>
 
   </nav>
 
-  <nav class="bg-primary sticky-below shadow-sm border-bottom ">
-    <div class="container d-flex align-items-center">
+  <nav class="bg-primary shadow-sm border-bottom">
+    <div class="container d-flex align-items-center justify-content-between py-2">
 
-      <ul class="nav gap-1 flex-grow-1 justify-content-center py-2 mb-0">
+      <!-- Botón hamburguesa visible solo en móvil -->
+      <button class="btn btn-primary d-md-none me-2" type="button" (click)="menuAbierto = !menuAbierto">
+        <i class="bi bi-list fs-2 text-white"></i>
+      </button>
+
+      <!-- Menú horizontal visible solo en escritorio -->
+      <ul class="nav gap-1 flex-grow-1 justify-content-center mb-0 d-none d-md-flex">
         <li class="nav-item dropdown" *ngFor="let animal of animales">
-          <a class="nav-link dropdown-toggle fw-bold text-light" [routerLink]="['/home','animal',animal.id]"
-            id="perrosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{animal.nombre}}
+          <a class="nav-link dropdown-toggle fw-bold text-light" [routerLink]="['/home','animal',animal.id]">
+            {{ animal.nombre }}
           </a>
-
-          <ul class="dropdown-menu bg-secondary-subtle " aria-labelledby="perrosDropdown">
-            <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark"
-                [routerLink]="['/home','animal_tipo',animal.id,tipo.id]">{{tipo.tipo}}</a></li>
+          <ul class="dropdown-menu bg-secondary-subtle">
+            <li *ngFor="let tipo of animal.tipos">
+              <a class="dropdown-item text-dark" [routerLink]="['/home','animal_tipo',animal.id,tipo.id]">{{ tipo.tipo
+                }}</a>
+            </li>
           </ul>
+        </li>
         <li class="nav-item">
           <a class="nav-link fw-bold text-danger" [routerLink]="['/home','ofertas']">OFERTAS</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-bold text-light " routerLink="/servicios">Servicios</a>
+          <a class="nav-link fw-bold text-light" routerLink="/servicios">Servicios</a>
         </li>
-
       </ul>
-      <form class="d-flex align-items-end ms-auto" style="width: 400px; max-width: 50%;">
+
+      <!-- Buscador (siempre visible, adaptado en móvil) -->
+      <form class="d-flex align-items-end ms-auto" style="width: 100%; max-width: 400px;">
         <input (keypress)="buscar($event)" class="form-control rounded-start-pill border-end-0" type="search"
           placeholder="Busca tu producto..." aria-label="Buscar" [(ngModel)]="textoBusqueda" [name]="textoBusqueda"
           [ngModelOptions]="{standalone: true}" (ngModelChange)="formatearTexto()">
@@ -122,5 +120,27 @@
       </form>
     </div>
   </nav>
-  
+
+  <aside class="menu-lateral" [class.d-none]="!menuAbierto">
+    <button class="btn-close btn-close-white mb-4" (click)="menuAbierto = false"></button>
+
+    <ul class="nav flex-column">
+      <li class="nav-item dropdown" *ngFor="let animal of animales">
+        <a class="nav-link text-light fw-bold" [routerLink]="['/home','animal',animal.id]">
+          {{ animal.nombre }}
+        </a>
+        <ul class="nav flex-column ms-3">
+          <li *ngFor="let tipo of animal.tipos">
+            <a class="nav-link text-light" [routerLink]="['/home','animal_tipo',animal.id,tipo.id]">{{ tipo.tipo }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fw-bold text-danger" [routerLink]="['/home','ofertas']">OFERTAS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fw-bold text-light" routerLink="/servicios">Servicios</a>
+      </li>
+    </ul>
+  </aside>
 </div>

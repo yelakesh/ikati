@@ -47,3 +47,25 @@ button:hover {
   border: 2px solid #ddd;
   border-radius: 10px;
 }
+
+@media (max-width: 768px) {
+  .contenedor {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cabecera p {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+  .filtros {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+
+  #map {
+    width: 90%;
+    height: 360px;
+  }
+}
