@@ -5,6 +5,7 @@ async function obtenerProductoPorNombre(nombre) {
   const resultados = await db.query(sql, [nombre]);
   return resultados;
 }
+
 async function obtenerProductoPorId(id) {
   const sql = "SELECT * FROM productos WHERE id_producto=?";
   const resultados = await db.query(sql, [id]);
@@ -87,7 +88,7 @@ async function registrarVariante(
 }
 
 async function obtenerNombres() {
-  const sql = `SELECT id,nombre FROM productos`;
+  const sql = `SELECT id_producto,nombre FROM productos`;
   const resultados = await db.query(sql);
   return resultados;
 }

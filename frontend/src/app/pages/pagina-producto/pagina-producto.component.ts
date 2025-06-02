@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pagina-producto',
-  imports: [HeaderComponent, BreadcrumbComponent, CommonModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, FormsModule],
   templateUrl: './pagina-producto.component.html',
   styleUrl: './pagina-producto.component.css'
 })
@@ -129,7 +129,7 @@ export class PaginaProductoComponent {
   }
 
   async cargarProducto(id: string) {
-    this.ProductoService.obtenerProductoPorId({ id }).subscribe({
+    this.ProductoService.obtenerProductoPorId({ id_producto:id }).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
           this.producto = respuesta.producto;

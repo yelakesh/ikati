@@ -51,7 +51,7 @@ export class ProductoFormComponent {
   nombreTipo_Variante = '';
 
   producto = {
-    id: 0,
+    id_producto: 0,
     nombre: '',
     descripcion: '',
     activo: 1,
@@ -71,8 +71,8 @@ export class ProductoFormComponent {
 
   imagenes = [{ file: null as null | File, base64: '' }];
 
-  productosSelect: { id: number; nombre: string }[] = [];
-  productosFiltrados: { id: number; nombre: string }[] = [];
+  productosSelect: { id_producto: number; nombre: string }[] = [];
+  productosFiltrados: { id_producto: number; nombre: string }[] = [];
 
   tipos_productoSelect: { id: number; tipo: string }[] = [];
   tipos_productoFiltrados: { id: number; tipo: string }[] = [];
@@ -213,7 +213,7 @@ export class ProductoFormComponent {
 
   vaciarInputs() {
     this.producto = {
-      id: 0,
+      id_producto: 0,
       nombre: '',
       descripcion: '',
       activo: 1,
@@ -243,6 +243,7 @@ export class ProductoFormComponent {
       },
     ];
     this.imagenes = [{ file: null, base64: '' }];
+    this.productosFiltrados=this.productosSelect
     this.filtrarTipos_Producto();
   }
 
@@ -402,20 +403,20 @@ export class ProductoFormComponent {
     this.productoService.obtenerNombres().subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          respuesta.productos.forEach((n: { id: number; nombre: string }) => {
-            this.productosSelect.push({ id: n.id, nombre: n.nombre });
+          respuesta.productos.forEach((p: { id_producto: number; nombre: string }) => {
+            this.productosSelect.push({ id_producto: p.id_producto, nombre: p.nombre });
           });
         }
       },
       error: () => {
-        alert('Cupón no encontrado');
+        alert('Error al cargar nombres');
       },
     });
     this.productosFiltrados = this.productosSelect;
   }
 
   cambiarId(id: number) {
-    this.producto.id = id;
+    this.producto.id_producto = id;
   }
 
   filtrarProductos() {

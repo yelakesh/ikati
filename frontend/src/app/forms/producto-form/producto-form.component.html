@@ -47,7 +47,7 @@
             <mat-autocomplete #auto="matAutocomplete" class="bg-danger-subtle">
               @for (p of productosFiltrados; track p) {
               <mat-option class="text-black"
-                (click)="producto.id = p.id; this.completarDatos()"
+                (click)="producto.id_producto = p.id_producto; this.completarDatos()"
                 [value]="p.nombre"
                 >{{ p.nombre }}</mat-option
               >

@@ -264,53 +264,85 @@ export class FiltrosComponent {
 
   filtrar() {
     let productosFiltrados: any[] = [];
+    
 
     for (let i = 0; i < this.productos.length; i++) {
-      let valido = true;
+      let marcaValido = false;
+      let tipoValido = false;
+      let valoracionValido = false;
+      let filtrosValido = false;
+
+      let hayMarcas=false
+      let hayTipos=false
+      let hayFiltros=false
+
       this.marcas.forEach((marca: { check: any; productos: any[] }) => {
         if (marca.check) {
+          hayMarcas=true
           if (
-            marca.productos.indexOf(this.productos[i].producto.id_producto) ==
+            marca.productos.indexOf(this.productos[i].producto.id_producto) !=
             -1
           ) {
-            valido = false;
+            marcaValido = true;
           }
         }
       });
-
-      this.tipos.forEach((tipo: { check: any; productos: string | any[] }) => {
-        if (tipo.check) {
-          if (
-            tipo.productos.indexOf(this.productos[i].producto.id_producto) == -1
-          ) {
-            valido = false;
+      if (!hayMarcas) {
+        marcaValido=true
+      }
+      
+      if (this.tipos) {
+        this.tipos.forEach(
+          (tipo: { check: any; productos: string | any[] }) => {
+            if (tipo.check) {
+              hayTipos = true;
+              if (
+                tipo.productos.indexOf(
+                  this.productos[i].producto.id_producto
+                ) != -1
+              ) {
+                tipoValido = true;
+              }
+            }
           }
+        );
+        
+        
+      }
+      if (!hayTipos) {
+          tipoValido = true;
         }
-      });
+        
+      
 
-      if (this.productos[i].producto.valoracion < this.valoracion) {
-        valido = false;
+      if (this.productos[i].producto.valoracion >= this.valoracion) {
+        valoracionValido = true;
       }
 
-      this.filtrosTotales.forEach((f: { filtros: any[]; }) => {
+      this.filtrosTotales.forEach((f: { filtros: any[] }) => {
         f.filtros.forEach((filtro) => {
           if (filtro.check) {
+            hayFiltros=true
             if (
               filtro.productos.indexOf(
                 this.productos[i].producto.id_producto
-              ) == -1
+              ) != -1
             ) {
-              valido = false;
+              filtrosValido = true;
             }
           }
         });
       });
+      if (!hayFiltros) {
+        filtrosValido = true;
+      }
 
-      if (valido) {
+      if (tipoValido && marcaValido && valoracionValido && filtrosValido) {
         productosFiltrados.push(this.productos[i]);
       }
     }
 
     this.productosChange.emit(productosFiltrados);
   }
+  
 }

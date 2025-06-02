@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 async function obtenerProductoPorIdController(req, res) {
-  const id = req.body.id;
+  const id = req.body.id_producto;
 
   try {
     let producto = await ProductoModel.obtenerProductoPorId(id);
@@ -334,7 +334,7 @@ async function eliminarImagenes(id_producto) {
 
 async function eliminarProductoController(req, res) {
   const producto = req.body;
-  const id_producto = producto.id;
+  const id_producto = producto.id_producto;
   try {
     if (!(await ProductoModel.obtenerProductoPorId(id_producto))[0]) {
       return res
@@ -372,7 +372,7 @@ async function buscarPorNombreController(req, res) {
       let marca = await Marca.obtenerPorId(producto.id_marca);
       let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
       let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-        producto.id
+        producto.id_producto
       );
       let tipo_variante = null;
 
