@@ -1,8 +1,10 @@
-<div class="container-fluid mb-5 d-flex flex-row">
+
+<div class="container mb-5 d-flex flex-row">
   <aside class="me-5"><app-filtros *ngIf="accion" [productos]="productos" (productosChange)="filtrar($event)"></app-filtros></aside>
 
   <div>
-    <div *ngIf="accion == null"><h1>Productos Recomendados</h1></div>
+    <div class="mb-3 mx-auto" *ngIf="accion == null"><h3>Productos Recomendados</h3></div>
+
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 mx-3">
       <div class="col d-flex" *ngFor="let producto of productosFiltrados">
         <app-card-producto

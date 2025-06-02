@@ -7,17 +7,19 @@ import { AnimalService } from '../../services/animal.service';
 import { TipoProductoService } from '../../services/tipo_producto.service';
 import { HeaderGridService } from '../../services/header-grid.service';
 import { Observable } from 'rxjs';
+import { CarritoComponent } from "./carrito/carrito.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule,FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, CarritoComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
   usuario!: Observable<any>;
   open = false;
+  carritoVisible = false
 
   constructor(
     private router: Router,
@@ -96,6 +98,10 @@ export class HeaderComponent implements OnInit {
       console.error('Error cargando tipos:', error);
       return [];
     }
+  }
+
+  toogleCarrito(){
+    this.carritoVisible = !this.carritoVisible
   }
 
   // filtrarPorAnimal(objAnimal: object) {

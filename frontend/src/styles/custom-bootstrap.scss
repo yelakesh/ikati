@@ -221,19 +221,17 @@ nav[aria-label="breadcrumb"] {
 
 //IMAGEN CARRUSEL
 .imagen-carrusel {
-  max-height: 600px; /* Ajusta este valor según el tamaño que desees */
-  max-width: 100%;
+ max-width: 75%;
   width: auto;
   height: auto;
   object-fit: contain;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  max-height: 200px; 
 }
 
-.imagen-carrusel {
-  max-height: 200px;
-}
+
 @media (min-width: 768px) {
   .imagen-carrusel {
     max-height: 300px;
@@ -265,6 +263,30 @@ nav[aria-label="breadcrumb"] {
   object-position: top;       /* Muestra la parte superior, recorta por abajo */
   display: block;
 }
+
+
+//ESTILOS PARA EL CARRITO
+
+.carrito-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1040;
+}
+
+.carrito-panel {
+  position: fixed;
+  top: 0; right: 0;
+  width: 35vw;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -4px 0 8px rgba(0,0,0,0.1);
+  z-index: 1050;
+  padding: 2rem 1rem 1rem 1rem;
+  overflow-y: auto;
+  transition: right 0.3s;
+}
+
 
 
 @import "../../node_modules/bootstrap/scss/variables";

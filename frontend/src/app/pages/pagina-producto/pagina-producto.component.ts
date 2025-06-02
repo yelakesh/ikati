@@ -21,9 +21,9 @@ export class PaginaProductoComponent {
 
 
 
-  constructor(private route: ActivatedRoute, private ProductoService: ProductoService, 
+  constructor(private route: ActivatedRoute, private ProductoService: ProductoService,
     private CarroService: CarroService, private usuarioService: UsuarioService,
-  private AvisarStockService: AvisarStockService) { }
+    private AvisarStockService: AvisarStockService) { }
 
   id_usuario: any
   producto: any
@@ -36,21 +36,21 @@ export class PaginaProductoComponent {
   descuento: any
   precioConDto: number = 0
   varianteSeleccionada: any
-  unidades: number =1
+  unidades: number = 1
   stock: any
   rolUsuario: any
-  
-  
 
-  productoAlCarro={
+
+
+  productoAlCarro = {
     id_usuario: "",
     id_variante: "",
     cantidad: 0
   }
 
-  datosAvisarStock ={
+  datosAvisarStock = {
     id_variante: "",
-    emailUsuario:""
+    emailUsuario: ""
   }
 
 
@@ -65,27 +65,27 @@ export class PaginaProductoComponent {
     if (id) {
       this.cargarProducto(id);
     }
-    
-    const usuarioSesion = sessionStorage.getItem('usuario'); 
+
+    const usuarioSesion = sessionStorage.getItem('usuario');
     if (usuarioSesion) {
 
       const usuarioObj = JSON.parse(usuarioSesion)
       this.rolUsuario = usuarioObj.rol
-      
- 
 
- 
-    if (this.rolUsuario!="admin") {
-      this.cargarDatosUsuario();
+
+
+
+      if (this.rolUsuario != "admin") {
+        this.cargarDatosUsuario();
+      }
+
+
+
+
+
+
     }
-
-    
-
-    
-
-
   }
-}
 
 
 
@@ -98,10 +98,10 @@ export class PaginaProductoComponent {
     }
   }
 
-cargarDatosUsuario() {
-    const usuarioGuardado = sessionStorage.getItem('usuario'); 
-    
-    
+  cargarDatosUsuario() {
+    const usuarioGuardado = sessionStorage.getItem('usuario');
+
+
     if (usuarioGuardado) {
 
       const usuarioObj = JSON.parse(usuarioGuardado)
@@ -112,9 +112,9 @@ cargarDatosUsuario() {
           if (respuesta.ok) {
             this.productoAlCarro.id_usuario = respuesta.usuario.id;
             this.datosAvisarStock.emailUsuario = respuesta.usuario.email
-            
-            
-            
+
+
+
           }
         },
         error: (error) => {
@@ -124,7 +124,7 @@ cargarDatosUsuario() {
       });
     } else {
       alert('Usuario no autenticado');
-      
+
     }
   }
 
@@ -143,7 +143,7 @@ cargarDatosUsuario() {
           this.stock = this.variantes[0].stock
           this.precioConDto = this.precioConDescuento(this.variantes[0].precio)
           this.descuento = this.darFormatoDescuento()
-          this.productoAlCarro.id_variante =this.variantes[0].id
+          this.productoAlCarro.id_variante = this.variantes[0].id
           this.datosAvisarStock.id_variante = this.variantes[0].id
 
 
@@ -174,18 +174,19 @@ cargarDatosUsuario() {
     this.stock = this.variantes[select.value].stock
     this.productoAlCarro.id_variante = this.variantes[select.value].id
     this.datosAvisarStock.id_variante = this.variantes[select.value].id
+    this.unidades = 1
 
 
 
   }
 
   sumarUno() {
-   this.unidades++
+    this.unidades++
   }
 
   restarUno() {
 
-    if (this.unidades>1) {
+    if (this.unidades > 1) {
       this.unidades--
     }
   }
@@ -194,10 +195,10 @@ cargarDatosUsuario() {
     const precio = parseFloat(price)
     const dto = parseFloat(this.producto.descuento)
 
-    
+
     const descuentoCalculado = precio * (dto / 100)
 
-    
+
     const resultado = this.precioConDto = precio - descuentoCalculado
 
     return Math.floor(resultado * 100) / 100
@@ -209,7 +210,7 @@ cargarDatosUsuario() {
 
     const descuentoFormateado = Math.floor(d) + "%"
 
-   
+
     return descuentoFormateado
   }
 
@@ -236,7 +237,7 @@ cargarDatosUsuario() {
     });
   }
 
-  async avisarStock(){
+  async avisarStock() {
 
     console.log(this.datosAvisarStock)
 
@@ -246,7 +247,7 @@ cargarDatosUsuario() {
           alert(respuesta.mensaje)
 
         }
-        
+
 
       },
       error: (error) => {

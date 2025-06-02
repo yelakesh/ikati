@@ -13,93 +13,114 @@
 
 
 <!-- Navbar principal -->
- <div class="sticky-top">
-<nav class=" navbar bg-body-secondary py-0" style="z-index: 1040;">
-  <div class=" container d-flex align-items-center py-0 justify-content-between">
+ 
+<div class="sticky-top">
+  <nav class=" navbar bg-body-secondary py-0" style="z-index: 1040;">
+    <div class=" container d-flex align-items-center py-0 justify-content-between">
 
 
 
-    <!-- Logo -->
-    <a class="navbar-brand py-0" routerLink="/home">
-      <img src="imagenes/logo/ikatilogo3.png" alt="logo" height="90px">
-    </a>
+      <!-- Logo -->
+      <a class="navbar-brand py-0" routerLink="/home">
+        <img src="imagenes/logo/ikatilogo3.png" alt="logo" height="90px">
+      </a>
 
 
 
 
 
-    <!-- Acceso usuario a la derecha -->
+      <!-- Acceso usuario a la derecha -->
 
-    <div *ngIf="(usuario | async) as usuario; else noUsuario" class="d-flex align-items-center">
+      <div *ngIf="(usuario | async) as usuario; else noUsuario"
+        class="d-flex flex-row align-items-center gap-2 justify-content-between">
 
-      <div class="d-flex align-items-center">
-        
-        <div class="dropdown" (mouseenter)="open=true" (mouseleave)="open=false">
-          <img class="mb-1" src="imagenes/cabeceraweb/iniciarsesion.png" height="16" alt="Mi Perfil">
-          
-          <button *ngIf="usuario.rol=='admin';else botonUser" class="btn btn-link dropdown-toggle text-decoration-none" style="font-size: small;" [class.show]="open" [attr.aria-expanded]="open">
-            Hola {{ usuario.usuario }} <span class="text-danger">({{usuario.rol}})</span> 
-          </button>
-          <ng-template #botonUser>
-            <button class="btn btn-link dropdown-toggle text-decoration-none" style="font-size: small;" [class.show]="open" [attr.aria-expanded]="open">
-              Hola {{ usuario.nombre }}
+        <div class="d-flex align-items-center">
+
+          <div class="dropdown" (mouseenter)="open=true" (mouseleave)="open=false">
+            <img class="mb-1" src="imagenes/cabeceraweb/iniciarsesion.png" height="16" alt="Mi Perfil">
+
+            <button *ngIf="usuario.rol=='admin';else botonUser"
+              class="btn btn-link dropdown-toggle text-decoration-none" style="font-size: small;" [class.show]="open"
+              [attr.aria-expanded]="open">
+              Hola {{ usuario.usuario }} <span class="text-danger">({{usuario.rol}})</span>
             </button>
-          </ng-template>
-          <div class="dropdown-menu dropdown-menu-end" [class.show]="open">
+            <ng-template #botonUser>
+              <button class="btn btn-link dropdown-toggle text-decoration-none" style="font-size: small;"
+                [class.show]="open" [attr.aria-expanded]="open">
+                Hola {{ usuario.nombre }}
+              </button>
+            </ng-template>
+            <div class="dropdown-menu dropdown-menu-end" [class.show]="open">
 
-            <a *ngIf="usuario.rol=='admin'" class="dropdown-item" routerLink="/administracion" style="font-size: small;">Ir a Panel Admin</a>
-            <a *ngIf="usuario.rol=='admin'" class="dropdown-item" style="font-size: small;" routerLink="/cambiar-pass-admin">Cambiar Password</a>
-            <a *ngIf="usuario.rol=='user'" class="dropdown-item" style="font-size: small;" routerLink="/perfil">Mi perfil</a>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item text-danger " style="font-size: small;"  (click)="logOut()">Cerrar Sesión</button>
+              <a *ngIf="usuario.rol=='admin'" class="dropdown-item" routerLink="/administracion"
+                style="font-size: small;">Ir a Panel Admin</a>
+              <a *ngIf="usuario.rol=='admin'" class="dropdown-item" style="font-size: small;"
+                routerLink="/cambiar-pass-admin">Cambiar Password</a>
+              <a *ngIf="usuario.rol=='user'" class="dropdown-item" style="font-size: small;" routerLink="/perfil">Mi
+                perfil</a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item text-danger " style="font-size: small;" (click)="logOut()">Cerrar
+                Sesión</button>
+            </div>
+
           </div>
-         
+
+        </div>
+        <div>
+
+          <img src="imagenes/recursos/carrito.svg" style="height: 32px; cursor: pointer;" (click)="toogleCarrito()" alt="Carrito">
+          <app-carrito [visible]="carritoVisible" (cerrado)="carritoVisible = false"></app-carrito>
         </div>
 
       </div>
+
+      <!-- Si no hay usuario -->
+      <ng-template #noUsuario>
+        <div class="d-flex flex-row align-items-center gap-2 justify-content-between">
+          <img src="imagenes/cabeceraweb/iniciarsesion.png" height="20" alt="login">
+          <button class="btn btn-link text-decoration-none" routerLink="/gestion-cuentas">
+            Identifícate
+          </button>
+
+        </div>
+        
+      </ng-template>
     </div>
 
-    <!-- Si hay usuario -->
-    <ng-template #noUsuario>
-      <div class="d-flex align-items-center">
-        <img src="imagenes/cabeceraweb/iniciarsesion.png" height="20" alt="login">
-        <button class="btn btn-link text-decoration-none" routerLink="/gestion-cuentas">
-          Identifícate
+  </nav>
+
+  <nav class="bg-primary sticky-below shadow-sm border-bottom ">
+    <div class="container d-flex align-items-center">
+
+      <ul class="nav gap-1 flex-grow-1 justify-content-center py-2 mb-0">
+        <li class="nav-item dropdown" *ngFor="let animal of animales">
+          <a class="nav-link dropdown-toggle fw-bold text-light" [routerLink]="['/home','animal',animal.id]"
+            id="perrosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{animal.nombre}}
+          </a>
+
+          <ul class="dropdown-menu bg-secondary-subtle " aria-labelledby="perrosDropdown">
+            <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark"
+                [routerLink]="['/home','animal_tipo',animal.id,tipo.id]">{{tipo.tipo}}</a></li>
+          </ul>
+        <li class="nav-item">
+          <a class="nav-link fw-bold text-danger" [routerLink]="['/home','ofertas']">OFERTAS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold text-light " routerLink="/servicios">Servicios</a>
+        </li>
+
+      </ul>
+      <form class="d-flex align-items-end ms-auto" style="width: 400px; max-width: 50%;">
+        <input (keypress)="buscar($event)" class="form-control rounded-start-pill border-end-0" type="search"
+          placeholder="Busca tu producto..." aria-label="Buscar" [(ngModel)]="textoBusqueda" [name]="textoBusqueda"
+          [ngModelOptions]="{standalone: true}" (ngModelChange)="formatearTexto()">
+        <button class="btn btn-info rounded-end-pill border-0" type="button"
+          [routerLink]="['/home','buscar',textoBusquedaFormateado]">
+          <img src="imagenes/cabeceraweb/lupa.png" alt="buscar" height="25px">
         </button>
-      </div>
-    </ng-template>
-  </div>
-
-</nav>
-
-<nav class="bg-primary sticky-below shadow-sm border-bottom ">
-  <div class="container d-flex align-items-center">
-
-    <ul class="nav gap-1 flex-grow-1 justify-content-center py-2 mb-0">
-      <li class="nav-item dropdown" *ngFor="let animal of animales">
-        <a class="nav-link dropdown-toggle fw-bold text-light" [routerLink]="['/home','animal',animal.id]" id="perrosDropdown" role="button"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          {{animal.nombre}}
-        </a>
-
-        <ul class="dropdown-menu bg-secondary-subtle " aria-labelledby="perrosDropdown">
-          <li *ngFor="let tipo of animal.tipos"><a class="dropdown-item text-dark" [routerLink]="['/home','animal_tipo',animal.id,tipo.id]">{{tipo.tipo}}</a></li>
-        </ul>
-      <li class="nav-item">
-        <a class="nav-link fw-bold text-danger" [routerLink]="['/home','ofertas']">OFERTAS</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link fw-bold text-light " routerLink="/servicios">Servicios</a>
-      </li>
-
-    </ul>
-    <form class="d-flex align-items-end ms-auto" style="width: 400px; max-width: 50%;">
-      <input (keypress)="buscar($event)" class="form-control rounded-start-pill border-end-0" type="search" placeholder="Busca tu producto..."
-        aria-label="Buscar" [(ngModel)]="textoBusqueda" [name]="textoBusqueda" [ngModelOptions]="{standalone: true}" (ngModelChange)="formatearTexto()">
-      <button class="btn btn-info rounded-end-pill border-0" type="button" [routerLink]="['/home','buscar',textoBusquedaFormateado]">
-        <img src="imagenes/cabeceraweb/lupa.png" alt="buscar" height="25px">
-      </button>
-    </form>
-  </div>
-</nav>
+      </form>
+    </div>
+  </nav>
+  
 </div>

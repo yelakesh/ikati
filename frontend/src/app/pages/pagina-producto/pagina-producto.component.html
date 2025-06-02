@@ -2,24 +2,22 @@
 
 
 <div class="container my-5">
-    <div class="row g-4">
-        <!-- Carrusel de imágenes -->
-        <div class="col-md-6">
-            <div id="carouselProducto" class="carousel slide" data-bs-ride="carousel" style="height: 100%;">
+    <div class="row g-4 align-items-start">
+        
+        <div class="col-md-7">
+            
+            <h3 class="mb-4 text-center">{{producto.nombre}}</h3>
 
-                <div class="carousel-inner w-100 h-100">
+            <!-- Carrusel de fotos -->
+            <div id="carouselProducto" class="carousel slide mb-4" style="max-width: 100%; margin: 0 auto;" data-bs-ride="carousel">
+                <div class="carousel-inner">
                     <div *ngFor="let imagen of imagenes; let i = index" class="carousel-item" [class.active]="i===0">
-
                         <img class="d-block w-100 h-100 imagen-carrusel"
                             [src]="'http://localhost:3000/imagenesProductos/' + imagen.nombre" alt="'Imagen ' + (i+1)"
                             style="object-fit: contain; background: #f8f9fa;">
-
                     </div>
-
                 </div>
-
                 <div *ngIf="imagenes.length>1">
-
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
@@ -29,136 +27,121 @@
                         <span class="carousel-control-next-icon"></span>
                     </button>
                 </div>
+            </div>
+
+           
+            <div class="d-flex flex-column align-items-center mb-4">
+                
+                <div>
+                    <span class="fw-bold">Valoración ({{producto.valoracion}})</span>
+                    <div class="mb-3" style="width: 20%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+
+                    </div>
+
+                    <p class="descripcion-corta" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
+                    <a href="#descrip" class="btn btn-link p-0 " (click)="scrollToDescripcion($event); ">
+                        Continuar
+                    </a>
+                </div>
+                
 
             </div>
         </div>
 
-        <!-- Info producto -->
-        <div class="col-md-6">
-            <h4>{{producto.nombre}}</h4>
-
-
-            <p class=" mt-2 mb-0">Valoración(<span class="fw-bold">{{producto.valoracion}}</span>)</p>
-
-            <div class="mb-3" style="width: 25%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
-                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
-                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-                <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-
-            </div>
-
-
-            <p class="descripcion-corta" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
-            <a href="#descrip" class="btn btn-link p-0 " (click)="scrollToDescripcion($event); ">
-                Continuar
-            </a>
-
-
-
+        
+        <div class="col-md-5">
             <form>
 
-                <div class="container d-flex flex-row justify-content-around">
-
-                    <div *ngIf="variantes.length > 1" class="mb-3 me-4">
-                        <label for="selectOpciones" class="form-label fw-bold" style="font-size: small;">Escoge producto
-                            ({{variantes.length}} opciones)</label>
-
-                        <select class="form-select" style="width: 200px;" id="selectOpciones"
-                            (change)="cambiarPrecio()">
-                            <option *ngFor="let item of variantes; let i = index" value="{{i}}">
-                                {{item.valor_variacion}}</option>
-                        </select>
-
-
-                    </div>
-
-                    <div class=" d-flex justify-content-end align-items-start card shadow p-3">
-                        <div class="card-body">
-                            <div class="d-flex flex-row align-items-baseline justify-content-start mb-4 gap-3">
-                                <label class="">Formato Producto</label>
-                                <label class="fw-bold" style="font-size: small;">{{varianteSeleccionada}}</label>
+                <div class="card shadow p-3 mt-5">
+                    <div class="card-body">
+                        <div *ngIf="variantes.length > 1" class="mb-3 w-100 d-flex flex-column align-items-start">
+                            <label for="selectOpciones" class="form-label fw-bold" style="font-size: small;">Escoge
+                                producto ({{variantes.length}} opciones)</label>
+                            <select class="form-select" style="width: 90%;" id="selectOpciones"
+                                (change)="cambiarPrecio()">
+                                <option *ngFor="let item of variantes; let i = index" value="{{i}}">
+                                    {{item.valor_variacion}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="variantes.length == 1"
+                            class="d-flex flex-row align-items-baseline justify-content-start mb-4 gap-3">
+                            <label>Formato Producto</label>
+                            <label class="fw-bold" style="font-size: small;">{{varianteSeleccionada}}</label>
+                        </div>
+                        <div *ngIf="producto.descuento!=0; else soloPrecio"
+                            class="d-flex flex-column align-items-start">
+                            <div class="mb-1" >
+                                <label style="font-size: small;">Precio anterior: <span
+                                        style="text-decoration: line-through;">{{precio}}</span></label>
 
                             </div>
-
-                            <div *ngIf="producto.descuento!=0; else soloPrecio"
-                                class="d-flex flex-column align-items-start">
-
-                                <div class="d-flex flex-row gap-4 align-items-baseline">
-                                    <label style="font-size: small; ">Precio anterior: <span style="text-decoration: line-through;">{{precio}}</span></label>
-
-
-                                    <div class="alert alert-info custom-card py-0">
-                                        <label class="text-primary" style="font-size:larger; font-weight: bold;">Dto. <span
-                                                class="text-danger">{{(descuento)}}</span> </label>
-                                    </div>
+                            <div class="d-flex flex-row gap-4 align-items-baseline">
+                                <label class=" alert shadow fw-bold fs-2 text-white py-1"
+                                    style="color: rgb(246, 57, 57); background-color: rgb(227, 17, 17);">{{precioConDto}}€</label>
+                                <div class="alert alert-dark custom-card py-0">
+                                    <label class="text-primary" style="font-size:larger; font-weight: bold;">Dto. <span
+                                            class="text-danger">{{(descuento)}}</span> </label>
                                 </div>
-
-
-                                <label class="fw-bold fs-2" style="color: red;">{{precioConDto}}€</label>
                             </div>
+                        </div>
+                        <ng-template #soloPrecio>
+                            <label class=" alert shadow fw-bold fs-2 text-white py-1"
+                                    style="color: rgb(246, 57, 57); background-color: #2C6E7F;">{{precio}}€</label>
+                        </ng-template>
+                        <div class="mb-3 d-flex align-items-center mt-4">
+                            <div *ngIf="puedeComprar">
+                                <div class="d-flex flex-row align-items-baseline gap-1">
+                                    <p *ngIf="stock<=5; else Enstock" [ngClass]="{
+                                        'text-danger': stock<=2, 'text-warning': stock>2}"
+                                        style="font-size: small;">¡Quedan {{stock}} {{stock==1? "unidad" : "unidades"}}!
 
-                            <ng-template #soloPrecio>
-                                <label class="fw-bold fs-2">{{precio}}€</label>
-                            </ng-template>
-
-
-
-                            <div  class="mb-3 d-flex align-items-center mt-4">
-
-                                <div *ngIf="puedeComprar">
-
-                                    <div class="d-flex flex-row align-items-baseline gap-2" *ngIf="stock<=5">
                                         
-
-
-                                        <p *ngIf="stock<=5" [ngClass]="{'text-danger': stock<=2, 'text-warning': stock>2}" style="font-size: small;">¡Quedan {{stock}}
-                                            {{stock==1?
-                                            "unidad" : "unidades"}}!</p>
-                                    </div>
-
-
-
-                                    <div class="d-flex flex-row align-items-center gap-0 me-5 ">
-                                        <img src="imagenes/recursos/signoMenos2.png" class="py-0"
-                                            style="width: 25px; cursor: pointer;" draggable="false"
-                                            (click)="restarUno()" alt="menos">
-                                        <input type="number" class="form-control me-2 ms-2 input-cantidad text-center"
-                                            style="width: 50px;" type="number" id="cantidad" name="cantidad" [(ngModel)]="unidades"readonly>
-                                        <img  src="imagenes/recursos/signoMas2.png" class="py-0"
-                                            style="width: 25px; cursor: pointer;" draggable="false" (click)="sumarUno()"
-                                            alt="mas"
-                                            [style.visibility]="unidades == stock ? 'hidden' : 'visible'">
-                                    </div>
-                                </div>
-
-                                <div *ngIf="stock!=0 ; else SinStock">
-                                    <button type="submit" class="btn btn-danger text-black fw-bold mt-5"(click)="aLaCesta()"[disabled]="rolUsuario=='admin'">Añadir a la
-                                        cesta</button>
-                                </div>
-                                <ng-template #SinStock>
-                                    <div class="d-flex flex-col gap-2 align-items-baseline" style="font-size: small;">
-                                        <p class="fw-bold">¡Producto Agotado!</p>
-                                        <button class="btn btn-warning" style="font-size: small;"[disabled]="rolUsuario=='admin'" (click)="avisarStock()">Avísame cuando haya
-                                            stock</button>
-
-                                    </div>
+                                    </p>
+                                    <ng-template #Enstock>
+                                    <p class="text-primary ms-2"
+                                        style="font-size: small;">En stock
+                                    </p>
                                 </ng-template>
+                                </div>
+                                
+                                <div class="d-flex flex-row align-items-center gap-0 me-5 ">
+                                    <img src="imagenes/recursos/signoMenos2.png" class="py-0"
+                                        style="width: 25px; cursor: pointer;" draggable="false" (click)="restarUno()"
+                                        alt="menos">
+                                    <input type="number" class="form-control me-2 ms-2 input-cantidad text-center"
+                                        style="width: 50px;" id="cantidad" name="cantidad" [(ngModel)]="unidades"
+                                        readonly>
+                                    <img src="imagenes/recursos/signoMas2.png" class="py-0"
+                                        style="width: 25px; cursor: pointer;" draggable="false" (click)="sumarUno()"
+                                        alt="mas" [style.visibility]="unidades == stock ? 'hidden' : 'visible'">
+                                </div>
                             </div>
-
+                            <div *ngIf="stock!=0 ; else SinStock">
+                                <button type="submit" class="btn btn-danger text-black fw-bold mt-5"
+                                    (click)="aLaCesta()" [disabled]="rolUsuario=='admin'">Añadir a la cesta</button>
+                            </div>
+                            <ng-template #SinStock>
+                                <div class="d-flex flex-column align-items-baseline" style="font-size: small;">
+                                    <p class="fw-bold fs-4">¡Producto Agotado!</p>
+                                    <button class="btn btn-warning py-2 shadow" style="font-size:medium;"
+                                        [disabled]="rolUsuario=='admin'" (click)="avisarStock()">Avísame cuando haya
+                                        stock</button>
+                                </div>
+                            </ng-template>
                         </div>
                     </div>
-
-
                 </div>
-
-
             </form>
         </div>
     </div>
 
-
+   
     <div class="row mt-5" id="descrip">
         <div class="col-12">
             <ul class="nav nav-tabs" id="productTab" role="tablist">
@@ -166,14 +149,11 @@
                     <button class="nav-link active bg-warning text-light" id="descripcion-tab" data-bs-toggle="tab"
                         data-bs-target="#descripcion" type="button" role="tab">Descripción</button>
                 </li>
-
             </ul>
             <div class="tab-content p-3 border border-top-0 bg-white" id="productTabContent">
                 <div class="tab-pane fade show active" id="descripcion" role="tabpanel">
-
                     <p class="text-primary" [innerHTML]="producto.descripcion">{{producto.descripcion}}</p>
                 </div>
-
             </div>
         </div>
     </div>
