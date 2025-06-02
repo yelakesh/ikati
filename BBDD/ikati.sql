@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 30-05-2025 a las 11:00:41
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 02-06-2025 a las 03:42:47
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -161,22 +161,24 @@ CREATE TABLE `filtros` (
 --
 
 INSERT INTO `filtros` (`id`, `id_producto`, `id_filtro`, `valor`) VALUES
-(65, 103, 2, 'pequeño'),
+(65, 103, 2, 'Pequeño'),
 (67, 104, 5, 'Gris'),
-(79, 105, 2, 'grande'),
-(80, 105, 5, 'amarillo'),
+(79, 105, 2, 'Grande'),
+(80, 105, 5, 'Amarillo'),
 (82, 98, 3, 'Salmón'),
 (85, 102, 2, 'Grande'),
-(87, 99, 2, 'pequeño'),
+(87, 99, 2, 'Pequeño'),
 (89, 106, 5, 'Negro'),
 (90, 106, 4, 'Metal'),
 (91, 106, 1, 'Novedad'),
-(92, 107, 3, 'Vacuno, pollo, conejo y salmón'),
+(92, 107, 3, 'Conejo'),
 (93, 101, 3, 'Frutas'),
 (96, 109, 4, 'Madera'),
 (97, 109, 6, 'Ecológico'),
 (98, 111, 1, 'Novedad'),
-(100, 100, 5, 'Gris');
+(100, 100, 5, 'Gris'),
+(101, 107, 3, 'Vacuno'),
+(102, 107, 3, 'Pollo');
 
 -- --------------------------------------------------------
 
@@ -238,7 +240,7 @@ INSERT INTO `imagenes` (`id`, `id_producto`, `nombre`) VALUES
 --
 
 CREATE TABLE `marcas` (
-  `id` int(11) NOT NULL,
+  `id_marca` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `imagen` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -247,7 +249,7 @@ CREATE TABLE `marcas` (
 -- Volcado de datos para la tabla `marcas`
 --
 
-INSERT INTO `marcas` (`id`, `nombre`, `imagen`) VALUES
+INSERT INTO `marcas` (`id_marca`, `nombre`, `imagen`) VALUES
 (1, 'Seresto', 'Seresto.png'),
 (2, 'Frontline', 'Frontline.png'),
 (3, 'Acana Classic', 'Acana_Classic.png'),
@@ -277,7 +279,7 @@ INSERT INTO `marcas` (`id`, `nombre`, `imagen`) VALUES
 --
 
 CREATE TABLE `productos` (
-  `id` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `activo` tinyint(4) DEFAULT NULL,
@@ -292,7 +294,7 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `activo`, `id_animal`, `id_marca`, `id_tipo`, `descuento`, `valoracion`) VALUES
+INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `activo`, `id_animal`, `id_marca`, `id_tipo`, `descuento`, `valoracion`) VALUES
 (98, 'True Origins Wild Adult Pacific Salmón pienso para perros', '<p>Pienso con prebioticos, sin cereales y sabor a salmón para perros adultos.</p><p>Comida seca rica en salmón para mantener a tu perro adulto saludable</p><p>El <strong>pienso para perros </strong>Pacific Adult ha sido formulado para cubrir todas las necesidades de los perros adultos y contribuir a su óptimo desarrollo para que crezcan sanos y fuertes.<br>Alimento completo para perros adultos, rico en salmón, un pescado que cuenta con cantidad de propiedades beneficiosas para el organismo. Es una fuente excepcional de proteínas y un aporte de ácidos grasos Omega 3 y Omega 6, que ayudan a reducir los niveles de colesterol y al fortalecimiento de huesos y articulaciones. El consumo de alimentos ricos en Omega 3, como el salmón, ayudan al fortalecimiento del sistema inmunológico y favorecen el mantenimiento de la piel y el pelo sanos.<br>La fruta y verdura son una excelente fuente de minerales y vitaminas, actuando como antioxidantes naturales y ayudando a conservar el sistema inmunitario de tu perro en pleno funcionamiento.</p><p>•&nbsp;&nbsp; &nbsp;La combinación de<strong> fuentes naturales de proteínas</strong> y favorece una alta digestibilidad.<br>•&nbsp;&nbsp; &nbsp;<strong>Prebioticos</strong>: Estimulación de la microflora intestinal.&nbsp;<br>•&nbsp;&nbsp; &nbsp;<strong>Cáscaras de crustáceos </strong>y extracto de cartílago: Ayudan a mantener fuertes los huesos, las articulaciones y los tendones y favorecen a la movilidad.<br>•&nbsp;&nbsp;&nbsp;<strong> Garbanzos</strong>: Fuente natural de proteínas y minerales, como sodio, magnesio, hierro, calcio, los cuales, son necesarios para fortalecer los huesos.<br>•&nbsp;&nbsp; &nbsp;<strong>Omega 3: </strong>Incluye aceite de salmón, rico en omega 3, para el cuidado de la piel y el pelaje.</p><p><strong>Composición</strong><i><strong>:&nbsp;</strong></i>Salmón deshidratado (25 %), pescado blanco deshidratado (18 %), aceite de salmón (12 %), salmón fresco (10 %), patatas (10 %), guisantes (10 %), proteína de salmón hidrolizada (3 %), pulpa de manzana deshidratada (3%), calabaza (3%), huevos hidrolizados (2%), zanahorias (1%), linaza (1%), garbanzos (1%), cáscaras de crustáceos hidrolizados (fuente de glucosamina, 0,026%) , extracto de cartílago (fuente de condroitina, 0,016%), levadura de cerveza (fuente de manano-oligosacáridos, 0,015%), raíz de achicoria seca (fuente de fructo-oligosacáridos, 0,01%), yucca schidigera (0,01%) , algas secas (0,01%), romero seco (0,01%)</p>', 1, 1, 11, 5, 0.00, 3.5),
 (99, 'Greenies Teenie Snacks Dentales Naturales para perros pequeños', '<p>Snacks para perros de razas pequeñas de 2 a 7kg, elaborado para lograr una salud dental completa de tu mascota.</p><p>Deliciosos snacks dentales para perros</p><p>Greenies actúa eficazmente en cuatro frentes clave para la higiene oral: el sarro, la placa, el mal aliento y la salud de las encías. El Consejo de la Salud oral veterinaria en USA lo aprueba como el complemento para controlar el sarro y la placa.</p><p><strong>Características:</strong></p><ul><li>Proporciona unas encías sanas.&nbsp;</li><li>Gran palatabilidad, altamente soluble y digestible.&nbsp;</li><li>Reduce el sarro, la placa bacteriana y el mal aliento.&nbsp;</li><li>Creados en base a la forma de la mandíbula y la mordida.&nbsp;</li><li>Fabricado para ajustarse a los hábitos de masticación de los perros.&nbsp;</li></ul>', 1, 1, 12, 7, 0.00, 4.0),
 (100, 'Catshion Pole Rascador Gris para gatos', '<p>Rascador gris en varios tamaños de color gris de la marca Catshion.</p><p>Rascador para gatos Catshion Pole</p><p>El Rascador para Gatos Catshion es un accesorio esencial que tu gato amará. Este poste rascador no solo permite a tu felino afilar sus uñas de forma segura, sino que también le brinda diversión y estimula sus instintos naturales. Además, protege tus muebles, cortinas, alfombras y paredes de posibles daños causados por las afiladas garras de tu compañero peludo.</p><p>&nbsp;</p><p>El Rascador Catshion combina un diseño elegante con colores neutros que se integran armoniosamente en tu hogar. Su tamaño compacto garantiza que ocupe muy poco espacio, y su facilidad de limpieza lo convierte en la elección perfecta para mantener tu casa en orden.</p>', 1, 2, 13, 14, 20.00, 3.0),
@@ -550,14 +552,14 @@ ALTER TABLE `imagenes`
 -- Indices de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_marca`),
   ADD UNIQUE KEY `nombre` (`nombre`);
 
 --
 -- Indices de la tabla `productos`
 --
 ALTER TABLE `productos`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_producto`),
   ADD UNIQUE KEY `nombre` (`nombre`),
   ADD KEY `id_animal` (`id_animal`,`id_marca`,`id_tipo`),
   ADD KEY `id_tipo` (`id_tipo`),
@@ -638,7 +640,7 @@ ALTER TABLE `cupones`
 -- AUTO_INCREMENT de la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes`
@@ -650,13 +652,13 @@ ALTER TABLE `imagenes`
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
@@ -723,20 +725,20 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `compra_producto`
   ADD CONSTRAINT `compra_producto_ibfk_1` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_variante`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_variante`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  ADD CONSTRAINT `filtros_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `filtros_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE,
   ADD CONSTRAINT `filtros_ibfk_2` FOREIGN KEY (`id_filtro`) REFERENCES `tipos_filtro` (`id`);
 
 --
 -- Filtros para la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  ADD CONSTRAINT `imagenes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `imagenes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `productos`
@@ -744,13 +746,13 @@ ALTER TABLE `imagenes`
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_animal`) REFERENCES `animales` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_producto` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id_marca`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `variantes`
 --
 ALTER TABLE `variantes`
-  ADD CONSTRAINT `variantes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `variantes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE,
   ADD CONSTRAINT `variantes_ibfk_2` FOREIGN KEY (`id_variacion`) REFERENCES `tipos_variacion` (`id`);
 COMMIT;
 

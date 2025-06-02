@@ -1,15 +1,30 @@
-<div><H4>Marcas</H4></div>
-<ul *ngFor="let marca of marcas; let i = index" style="margin: 0%;"> <mat-checkbox  [(ngModel)]="marca.check">{{marca.marca}}</mat-checkbox>
-</ul>
-
-<div><h4>Tipo de producto</h4></div>
-<ul  *ngFor="let tipo of tipos; let i = index" ><mat-checkbox [(ngModel)]="tipo.check">{{tipo.tipo}}</mat-checkbox></ul>
-
-<div><h4>Valoración mínima</h4></div>
-<mat-slider min="0" max="5" step="0.1" discrete>
-    <input matSliderThumb [(ngModel)]="valoracion">
-</mat-slider>
-
-<div *ngFor="let filtros of filtrosTotales">{{filtros.tipoFiltro}}
-    <mat-checkbox *ngFor="let filtro of filtros.filtros" [(ngModel)]="filtro.check">{{filtro.filtro}}</mat-checkbox>
+<div *ngIf="marcas">
+  <H5>Marcas</H5>
+  <ul *ngFor="let marca of marcas; let i = index" style="margin: 0%">
+    <mat-checkbox [(ngModel)]="marca.check" (change)="filtrar()">{{ marca.marca }}</mat-checkbox>
+  </ul>
 </div>
+
+<div *ngIf="tipos">
+  <h5>Tipo de producto</h5>
+  <ul *ngFor="let tipo of tipos; let i = index">
+    <mat-checkbox [(ngModel)]="tipo.check" (change)="filtrar()">{{ tipo.tipo }}</mat-checkbox>
+  </ul>
+</div>
+
+<div *ngIf="marcas">
+  <h5>Valoración mínima</h5>
+  <mat-slider min="0" max="5" step="0.1" discrete (change)="filtrar()">
+    <input matSliderThumb [(ngModel)]="valoracion" />
+  </mat-slider>
+</div>
+
+<div *ngFor="let filtros of filtrosTotales">
+  <h5>
+    {{ filtros.tipoFiltro }}
+  </h5>
+  <ul *ngFor="let filtro of filtros.filtros">
+    <mat-checkbox [(ngModel)]="filtro.check" (change)="filtrar()">{{ filtro.filtro }}</mat-checkbox>
+  </ul>
+</div>
+

@@ -1,6 +1,6 @@
 <div class="card w-100 h-100 shadow custom-card">
 
-  <a [routerLink]="['/pagina-producto', producto.producto.id]">
+  <a [routerLink]="['/pagina-producto', producto.producto.id_producto]">
 
     <div class="alert custom-card py-2 rounded-pill shadow" *ngIf="descuento!=1" style="
       position: absolute;
@@ -20,7 +20,6 @@
   </a>
   <div class="card-body">
     <span class="badge text-bg-danger">{{ producto.marca.nombre }}</span>
-    <!-- <p style="max-width: 120px; font-size: small;" class="alert alert-warning py-0 text-center"></p> -->
     <p class="card-title mt-2">{{ producto.producto.nombre }}</p>
 
   </div>

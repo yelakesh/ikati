@@ -6,25 +6,27 @@ async function obtenerProductoPorNombre(nombre) {
   return resultados;
 }
 async function obtenerProductoPorId(id) {
-  const sql = "SELECT * FROM productos WHERE id=?";
+  const sql = "SELECT * FROM productos WHERE id_producto=?";
   const resultados = await db.query(sql, [id]);
   return resultados;
 }
 
 async function obtenerTodos() {
-  const sql = "SELECT * FROM productos";
+  const sql = "SELECT * FROM productos where activo=1";
   const resultados = await db.query(sql);
   return resultados;
 }
 
 async function obtenerRecomendados() {
-  const sql = "SELECT * FROM productos order by valoracion DESC LIMIT 10;";
+  const sql =
+    "SELECT * FROM productos where activo=1 order by valoracion DESC LIMIT 10 ";
   const resultados = await db.query(sql);
   return resultados;
 }
 
 async function obtenerEnOferta() {
-  const sql = "SELECT * FROM productos where descuento!=0 and descuento is not null";
+  const sql =
+    "SELECT * FROM productos where descuento!=0 and descuento is not null and activo=1";
   const resultados = await db.query(sql);
   return resultados;
 }
@@ -93,7 +95,7 @@ async function obtenerNombres() {
 async function modificarProducto(objProducto) {
   const sql = `UPDATE productos set
       descripcion=?, activo=?, id_animal=?, id_marca=?, id_tipo=?, descuento=?, valoracion=?, nombre=?
-      WHERE id=?`;
+      WHERE id_producto=?`;
 
   const resultados = await db.query(sql, [
     objProducto.descripcion,
@@ -123,25 +125,26 @@ async function eliminarVariantes(id_producto) {
 }
 
 async function eliminarProducto(id) {
-  const sql = "DELETE FROM productos WHERE id=?";
+  const sql = "DELETE FROM productos WHERE id_producto=?";
   const resultados = await db.query(sql, [id]);
   return resultados;
 }
 
 async function obtenerPorAnimal(id_animal) {
-  const sql = "SELECT * FROM productos where id_animal=?";
+  const sql = "SELECT * FROM productos where id_animal=? and activo=1";
   const resultados = await db.query(sql,[id_animal]);
   return resultados;
 }
 async function obtenerPorAnimalYTipo(id_animal,id_tipo) {
-  const sql = "SELECT * FROM productos where id_animal=? and id_tipo=?";
+  const sql =
+    "SELECT * FROM productos where id_animal=? and id_tipo=? and activo=1";
   const resultados = await db.query(sql,[id_animal,id_tipo]);
   return resultados;
 }
 
 async function buscarPorNombre(textoBusqueda) {
  
-  const sql = "SELECT * FROM productos where nombre like ? ";
+  const sql = "SELECT * FROM productos where nombre like ? and activo=1";
   const resultados = await db.query(sql, [textoBusqueda.textoBusqueda]);
   console.log(resultados);
   

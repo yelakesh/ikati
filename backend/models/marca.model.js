@@ -12,27 +12,27 @@ async function obtenerTodo() {
   return resultados;
 }
 
-async function obtenerPorAnimal(idAnimal) {
+async function obtenerFiltroPorAnimal(idAnimal) {
   
-  const sql = `SELECT * FROM marcas where id in (select id_marca from productos where id_animal=?)`;
+  const sql = `SELECT m.*,p.id_producto FROM marcas m join productos p on m.id_marca=p.id_marca where m.id_marca in (select id_marca from productos where id_animal=?)`;
   const resultados = await db.query(sql,[idAnimal]);
   return resultados;
 }
 
 async function obtenerPorId(id) {
-  const sql = `SELECT * FROM marcas where id=?`;
+  const sql = `SELECT * FROM marcas where id_marca=?`;
   const resultados = await db.query(sql,[id]);
   return resultados;
 }
 
 async function modificar(objMarca) {
-  const sql = ` UPDATE marcas set nombre=?,imagen=? WHERE id=?`;
+  const sql = ` UPDATE marcas set nombre=?,imagen=? WHERE id_marca=?`;
   const resultados = await db.query(sql, [objMarca.nombre,objMarca.imagen, objMarca.id]);
   return resultados;
 }
 
 async function eliminarPorId(id) {
-  const sql = "DELETE FROM marcas WHERE id=?";
+  const sql = "DELETE FROM marcas WHERE id_marca=?";
   const resultados = await db.query(sql, [id]);
   return resultados;
 }
@@ -43,6 +43,5 @@ module.exports = {
   eliminarPorId,
   modificar,
   obtenerTodo,
-  obtenerPorAnimal,
-
+  obtenerFiltroPorAnimal,
 };

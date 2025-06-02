@@ -483,12 +483,13 @@ async function obtenerPorAnimalController(req, res) {
 
 async function obtenerDatosProducto(producto) {
   try {
-    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(producto.id);
+   
+    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(producto.id_producto);
     let animal = await Animal.obtenerPorId(producto.id_animal);
     let marca = await Marca.obtenerPorId(producto.id_marca);
     let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
     let variantes = await ProductoModel.obtenerVariantesPorIdProducto(
-      producto.id
+      producto.id_producto
     );
     let tipo_variante = null;
 
@@ -514,7 +515,7 @@ async function obtenerDatosProducto(producto) {
         {
           id: 0,
           id_producto: 0,
-          url: "",
+          nombre: "",
         },
       ];
     }

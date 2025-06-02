@@ -17,8 +17,8 @@ export class MarcaService {
   obtenerTodas(): Observable<any> {
     return this.http.post(this.apiUrl + '/obtenerTodas', '');
   }
-  obtenerPorAnimal(idAnimal: any): Observable<any> {
-    return this.http.post(this.apiUrl + '/obtenerPorAnimal', idAnimal);
+  obtenerFiltroPorAnimal(idAnimal: any): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerFiltroPorAnimal', idAnimal);
   }
   registrar(formData: object): Observable<any> {
     return this.http.post(this.apiUrl + '/registrar', formData);

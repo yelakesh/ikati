@@ -46,9 +46,9 @@ async function obtenerMarcasController(req, res) {
       .json({ ok: false, mensaje: "Error del servidor", marca: {} });
   }
 }
-async function obtenerPorAnimalController(req, res) {
+async function obtenerFiltroPorAnimalController(req, res) {
   try {
-    const resultado = await MarcaModel.obtenerPorAnimal(req.body.idAnimal);
+    const resultado = await MarcaModel.obtenerFiltroPorAnimal(req.body.idAnimal);
 
     if (resultado.length === 0) {
       return res
@@ -150,5 +150,5 @@ module.exports = {
   obtenerPorIdController,
   modificarController,
   obtenerMarcasController,
-  obtenerPorAnimalController,
+  obtenerFiltroPorAnimalController,
 };

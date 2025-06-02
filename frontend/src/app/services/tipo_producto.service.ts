@@ -33,4 +33,7 @@ export class TipoProductoService {
   obtenerPorIdAnimal(objAnimal: object): Observable<any> {
     return this.http.post(this.apiUrl + '/obtenerPorIdAnimal', objAnimal);
   }
+  obtenerFiltroPorIdAnimal(objAnimal: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerFiltroPorIdAnimal', objAnimal);
+  }
 }

@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { CarroService } from '../../services/carro.service';
 import { UsuarioService } from '../../services/usuario.service';
-import { AvisarStockService } from '../../services/avisarstock.service';
+import { AvisarStockService } from '../../services/avisarStock.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -27,7 +27,7 @@ export class PaginaProductoComponent {
 
   id_usuario: any
   producto: any
-  imagenes: any
+  imagenes: any=[]
   valoracion = 0;
   id_variante: any
   variantes: any
@@ -56,13 +56,14 @@ export class PaginaProductoComponent {
 
   pageLoad() {
     document.addEventListener("load", this.cambiarPrecio)
+    
   }
 
-  ngOnInit() {
+   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    
     if (id) {
       this.cargarProducto(id);
-
     }
     
     const usuarioSesion = sessionStorage.getItem('usuario'); 

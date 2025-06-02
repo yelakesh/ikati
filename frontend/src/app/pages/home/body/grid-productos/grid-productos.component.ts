@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  EventEmitter,
+  Input,
+  input,
+  Output,
+  signal,
+} from '@angular/core';
 import { CardProductoComponent } from './card-producto/card-producto.component';
 import { NgFor } from '@angular/common';
 import { ProductoService } from '../../../../services/producto.service';
-import { HeaderGridService } from '../../../../services/header-grid.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FiltrosComponent } from "./filtros/filtros.component";
+import { FiltrosComponent } from './filtros/filtros.component';
 
 @Component({
   selector: 'app-grid-productos',
@@ -16,11 +24,11 @@ import { FiltrosComponent } from "./filtros/filtros.component";
 export class GridProductosComponent {
   constructor(
     private productoService: ProductoService,
-    //private header_grid: HeaderGridService,
     private route: ActivatedRoute
   ) {}
   productos: any = [];
-  accion:string|null =''
+  productosFiltrados: any = [];
+  accion: string | null = '';
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -37,34 +45,30 @@ export class GridProductosComponent {
       } else if (this.accion == 'ofertas') {
         this.obtenerProductosEnOferta();
       } else {
-        this.obtenerProductosRecomendados()
-        //   this.header_grid.porAnimal$.subscribe((data: any) => {
-        //     if (data.id) {
-        //       this.obtenerProductosPorAnimal(data);
-        //     }
-        //   });
-        //   this.header_grid.porAnimalYTipo$.subscribe((data: any) => {
-        //     if (data.objAnimal) {
-        //       this.obtenerProductosPorIdAnimalYTipo(data.objAnimal, data.objTipo);
-        //     }
-        //   });
+        this.obtenerProductosRecomendados();
+        
       }
     });
+    
   }
   obtenerProductosRecomendados() {
     this.productoService.obtenerRecomendados().subscribe({
       next: (res) => {
         this.productos = res.productos;
+        this.productosFiltrados = this.productos;
+
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
       },
-    });  }
+    });
+  }
 
   obtenerProductos() {
     this.productoService.obtenerTodos().subscribe({
       next: (res) => {
         this.productos = res.productos;
+        this.productosFiltrados = this.productos;
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
@@ -77,6 +81,7 @@ export class GridProductosComponent {
     this.productoService.obtenerPorAnimal(objAnimal).subscribe({
       next: (res) => {
         this.productos = res.productos;
+        this.productosFiltrados = this.productos;
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
@@ -89,6 +94,7 @@ export class GridProductosComponent {
     this.productoService.obtenerPorAnimalYTipo(objAnimal, objTipo).subscribe({
       next: (res) => {
         this.productos = res.productos;
+        this.productosFiltrados = this.productos;
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
@@ -103,6 +109,7 @@ export class GridProductosComponent {
         next: (res) => {
           if (res.productos.length) {
             this.productos = res.productos;
+            this.productosFiltrados = this.productos;
           } else {
             alert('No se han encontrado productos con ese nombre');
             this.obtenerProductos();
@@ -118,9 +125,14 @@ export class GridProductosComponent {
     this.productoService.obtenerEnOferta().subscribe({
       next: (res) => {
         this.productos = res.productos;
+        this.productosFiltrados = this.productos;
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
       },
-    });  }
+    });
+  }
+  filtrar(productosFiltrados: any){
+    this.productosFiltrados=productosFiltrados
+  }
 }

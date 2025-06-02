@@ -39,11 +39,18 @@ async function obtenerPorIdAnimal(id_animal) {
   return resultados;
 }
 
+async function obtenerFiltroPorIdAnimal(id_animal) {
+  const sql = `SELECT t.*, p.id_producto FROM tipo_producto t join productos p on t.id=p.id_tipo where id in (select id_tipo from productos where id_animal=?)`;
+  const resultados = await db.query(sql, [id_animal]);
+  return resultados;
+}
+
 module.exports = {
   registrar,
   obtenerTodos,
   eliminar,
   modificar,
   obtenerPorId,
-  obtenerPorIdAnimal
+  obtenerPorIdAnimal,
+  obtenerFiltroPorIdAnimal
 };
