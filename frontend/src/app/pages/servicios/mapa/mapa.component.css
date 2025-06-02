@@ -1,0 +1,49 @@
+.cabecera {
+  background-color: #f5f5f5;
+  text-align: center;
+  margin-bottom: 40px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+.cabecera p {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.contenedor {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-bottom: 20px; 
+}
+
+.filtros {
+  background-color: #f5f5f5;
+  padding: 20px;
+  width: 100%;
+  margin: auto 0;
+  max-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button{
+  border-radius: 8px;
+  background-color: #f4b060;
+  padding: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  border: #dee2e6 1px solid;
+}
+
+button:hover {
+  background-color: #f6c378;
+}
+
+#map {
+  width: 65%;
+  height: 420px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+}
