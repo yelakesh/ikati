@@ -1,0 +1,92 @@
+<app-header />
+
+<div class=" d-flex justify-content-start align-items-center mt-2 ms-5 py-2">
+    <img class="" style="height: 20px;" src="imagenes/recursos/flechaizq.png" alt="Volver">
+    <button class="btn btn-link text-decoration-none" routerLink="/perfil">Volver a Mi Perfil</button>
+</div>
+
+<div class="container d-flex justify-content-center min-vh-40">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class=" border-0">
+            <div class="card-body p-5">
+                <h3 class="text-center text-primary mb-4 fw-bold">Modifica tu dirección de envío</h3>
+                <form #miFormulario="ngForm" (ngSubmit)="modificar()">
+
+                    <!-- Usuario -->
+                    <div class="mb-3" hidden>
+                        <label class="form-label fw-bold" for="usuario">Usuario</label>
+                        <input class="form-control" type="text" id="usuario" name="usuario"
+                            [(ngModel)]="usuario.usuario" required>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <input type="password" name="contrasena" [(ngModel)]="usuario.contrasena" hidden>
+
+                    <!-- Nombre -->
+                    <div class="mb-3" hidden>
+                        <label class="form-label fw-bold" for="nombre">Nombre</label>
+                        <input class="form-control" type="text" id="nombre" name="nombre" [(ngModel)]="usuario.nombre"
+                            required>
+                    </div>
+
+                    <!-- Primer Apellido -->
+                    <div class="mb-3" hidden>
+                        <label class="form-label fw-bold" for="apellido1">Primer apellido</label>
+                        <input class="form-control" type="text" id="apellido1" name="apellido1"
+                            [(ngModel)]="usuario.apellido1" required>
+                    </div>
+
+                    <div *ngIf="!tieneSegundoApe">
+                        <button class="btn btn-outline-warning" (click)="anadirSegundoApe()">Añadir Segundo
+                            Apellido</button>
+                    </div>
+
+                    <!-- Segundo Apellido -->
+                    <div *ngIf="tieneSegundoApe" class="mb-3" hidden>
+                        <label class="form-label fw-bold" for="apellido2">Segundo apellido</label>
+                        <input class="form-control" type="text" id="apellido2" name="apellido2"
+                            [(ngModel)]="usuario.apellido2">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3" hidden>
+                        <label class="form-label fw-bold" for="email">Email</label>
+                        <input class="form-control" type="email" id="email" name="email" [(ngModel)]="usuario.email"
+                            required>
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div class="mb-3" hidden>
+                        <label class="form-label fw-bold" for="telefono">Teléfono</label>
+                        <input class="form-control" type="text" id="telefono" name="telefono"
+                            [(ngModel)]="usuario.telefono" required>
+                    </div>
+
+                    <!-- Código Postal-->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="cp">Código Postal</label>
+                        <input class="form-control" type="text" name="cp" [(ngModel)]="usuario.cp">
+                    </div>
+                    <!-- Dirección-->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" for="direccion">Dirección</label>
+                        <input class="form-control" type="text" name="direccion" [(ngModel)]="usuario.direccion">
+                    </div>
+                    <!-- Botón -->
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow" [hidden]="modificado">
+                            Guardar cambios
+                        </button>
+                    </div>
+
+                    <div *ngIf="modificado" class="d-flex flex-column">
+                        <p class="alert alert-success text-primary text-center mt-2" style="font-size: larger;">¡Has
+                            modificado tus datos con éxito!</p>
+                        <button class="btn btn-link" routerLink="/perfil">Vuelve a tu perfil</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
