@@ -132,9 +132,9 @@ export class PaginaProductoComponent {
     this.ProductoService.obtenerProductoPorId({ id_producto:id }).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          this.producto = respuesta.producto;
-          this.imagenes = respuesta.imagenes
-          this.variantes = respuesta.variantes
+          this.producto = respuesta.producto.producto;
+          this.imagenes = respuesta.producto.imagenes;
+          this.variantes = respuesta.producto.variantes;
 
           this.valoracion = 100 - (this.producto.valoracion * 20);
 

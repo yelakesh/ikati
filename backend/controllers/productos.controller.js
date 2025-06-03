@@ -14,59 +14,26 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 async function obtenerProductoPorIdController(req, res) {
-  const id = req.body.id_producto;
 
-  try {
-    let producto = await ProductoModel.obtenerProductoPorId(id);
-    let variantes = await ProductoModel.obtenerVariantesPorIdProducto(id);
-    let filtros = await ProductoModel.obtenerFiltrosPorIdProducto(id);
-    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(id);
-    let nombre_variacion = "";
+  const producto = await ProductoModel.obtenerProductoPorId(req.body.id_producto);
 
-    if (filtros.length === 0) {
-      filtros = [
-        {
-          id_filtro: 0,
-          valor: "",
-        },
-      ];
+    const resultado = await obtenerDatosProducto(producto);
+    if (!resultado.ok) {
+      console.error("Error en la búsqueda del producto:", resultado.error);
+      return res.status(500).json({
+        ok: false,
+        mensaje: "Error del servidor",
+        producto: {},
+      });
     }
 
-    if (variantes.length === 0) {
-      variantes = [
-        {
-          valor_variacion: "",
-          precio: "",
-          stock: "",
-        },
-      ];
-    } else {
-      nombre_variacion = variantes[0].nombre_variacion;
-    }
-
-    if (imagenes.length === 0) {
-      imagenes = [
-        {
-          url: "",
-        },
-      ];
-    }
-
-    res.json({
-      ok: true,
-      mensaje: "Producto encontrado",
-      producto: producto[0],
-      nombre_variacion: nombre_variacion,
-      filtros: filtros,
-      variantes: variantes,
-      imagenes: imagenes,
-    });
-  } catch (err) {
-    console.error("Error en la busqueda del producto:", err);
-    return res
-      .status(500)
-      .json({ ok: false, mensaje: "Error del servidor", producto: {} });
-  }
+    resultados=resultado.datos;
+  
+  res.json({
+    ok: true,
+    mensaje: "Producto encontrado",
+    producto: resultado
+  });
 }
 
 async function obtenerEnOfertaController(req, res) {

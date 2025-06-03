@@ -1,24 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  EventEmitter,
-  Input,
-  input,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlider, MatSliderModule } from '@angular/material/slider';
 import { TipoProductoService } from '../../../../../services/tipo_producto.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { HeaderGridService } from '../../../../../services/header-grid.service';
 import { MarcaService } from '../../../../../services/marca.service';
-import { TipoFiltroService } from '../../../../../services/tipo_filtro.service';
 import { FiltrosService } from '../../../../../services/filtros.service';
-import { interval, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-filtros',
@@ -48,17 +36,40 @@ export class FiltrosComponent {
         {
           tipoFiltro: string;
           filtros: [
-            { id: number; filtro: string; check: boolean; productos: [number] }
+            {
+              id: number;
+              filtro: string;
+              check: boolean;
+              productos: [number];
+              visible: boolean;
+            }
           ];
         }
       ]
     | any;
   marcas:
-    | [{ id: number; marca: string; check: boolean; productos: [number] }]
+    | [
+        {
+          id: number;
+          marca: string;
+          check: boolean;
+          productos: [number];
+          visible: boolean;
+        }
+      ]
     | any;
   tipos:
-    | [{ id: number; tipo: string; check: boolean; productos: [number] }]
+    | [
+        {
+          id: number;
+          tipo: string;
+          check: boolean;
+          productos: [number];
+          visible: boolean;
+        }
+      ]
     | any;
+
   oferta?: { oferta: 'En oferta'; check: boolean };
   valoracion: number = 0;
   accion: string | null = '';
@@ -116,6 +127,7 @@ export class FiltrosComponent {
                     marca: a.nombre,
                     check: false,
                     productos: [a.id_producto],
+                    visible: true,
                   });
                 }
               }
@@ -149,6 +161,7 @@ export class FiltrosComponent {
                     tipo: a.tipo,
                     check: false,
                     productos: [a.id_producto],
+                    visible: true,
                   });
                 }
               }
@@ -184,6 +197,7 @@ export class FiltrosComponent {
                   filtro: a.valor,
                   check: false,
                   productos: [a.id_producto],
+                  visible: true,
                 });
               } else {
                 tipoExistente.filtros
@@ -199,6 +213,7 @@ export class FiltrosComponent {
                     filtro: a.valor,
                     check: false,
                     productos: [a.id_producto],
+                    visible: true,
                   },
                 ],
               });
@@ -262,9 +277,8 @@ export class FiltrosComponent {
       });
   }
 
-  filtrar() {
+  filtrar(check:string) {
     let productosFiltrados: any[] = [];
-    
 
     for (let i = 0; i < this.productos.length; i++) {
       let marcaValido = false;
@@ -272,13 +286,13 @@ export class FiltrosComponent {
       let valoracionValido = false;
       let filtrosValido = false;
 
-      let hayMarcas=false
-      let hayTipos=false
-      let hayFiltros=false
+      let hayMarcas = false;
+      let hayTipos = false;
+      let hayFiltros = false;
 
       this.marcas.forEach((marca: { check: any; productos: any[] }) => {
         if (marca.check) {
-          hayMarcas=true
+          hayMarcas = true;
           if (
             marca.productos.indexOf(this.productos[i].producto.id_producto) !=
             -1
@@ -288,9 +302,9 @@ export class FiltrosComponent {
         }
       });
       if (!hayMarcas) {
-        marcaValido=true
+        marcaValido = true;
       }
-      
+
       if (this.tipos) {
         this.tipos.forEach(
           (tipo: { check: any; productos: string | any[] }) => {
@@ -306,14 +320,10 @@ export class FiltrosComponent {
             }
           }
         );
-        
-        
       }
       if (!hayTipos) {
-          tipoValido = true;
-        }
-        
-      
+        tipoValido = true;
+      }
 
       if (this.productos[i].producto.valoracion >= this.valoracion) {
         valoracionValido = true;
@@ -322,7 +332,7 @@ export class FiltrosComponent {
       this.filtrosTotales.forEach((f: { filtros: any[] }) => {
         f.filtros.forEach((filtro) => {
           if (filtro.check) {
-            hayFiltros=true
+            hayFiltros = true;
             if (
               filtro.productos.indexOf(
                 this.productos[i].producto.id_producto
@@ -341,8 +351,50 @@ export class FiltrosComponent {
         productosFiltrados.push(this.productos[i]);
       }
     }
-
+    this.ocultarFiltros(productosFiltrados,check);
     this.productosChange.emit(productosFiltrados);
   }
-  
+
+  ocultarFiltros(productosFiltrados: any[], check: string) {
+    if (check != 'marca') {
+      this.marcas.forEach(
+        (marca: { visible: boolean; productos: string | any[] }) => {
+          marca.visible = false;
+          productosFiltrados.forEach((producto) => {
+            if (marca.productos.includes(producto.producto.id_producto)) {
+              marca.visible = true;
+            }
+          });
+        }
+      );
+    }
+
+    if (check != 'tipo') {
+      this.tipos.forEach(
+        (tipo: { visible: boolean; productos: string | any[] }) => {
+          tipo.visible = false;
+          productosFiltrados.forEach((producto) => {
+            if (tipo.productos.includes(producto.producto.id_producto)) {
+              tipo.visible = true;
+            }
+          });
+        }
+      );
+    }
+
+    this.filtrosTotales.forEach(
+      (filtroGeneral: { filtros: any[]; tipoFiltro: string }) => {
+        if (check != filtroGeneral.tipoFiltro) {
+          filtroGeneral.filtros.forEach((filtro) => {
+            filtro.visible = false;
+            productosFiltrados.forEach((producto) => {
+              if (filtro.productos.includes(producto.producto.id_producto)) {
+                filtro.visible = true;
+              }
+            });
+          });
+        }
+      }
+    );
+  }
 }
