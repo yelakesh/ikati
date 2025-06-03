@@ -7,6 +7,7 @@ import {
   input,
   Output,
   signal,
+  AfterViewInit
 } from '@angular/core';
 import { CardProductoComponent } from './card-producto/card-producto.component';
 import { NgFor } from '@angular/common';
@@ -21,7 +22,7 @@ import { FiltrosComponent } from './filtros/filtros.component';
   templateUrl: './grid-productos.component.html',
   styleUrl: './grid-productos.component.css',
 })
-export class GridProductosComponent {
+export class GridProductosComponent{
   constructor(
     private productoService: ProductoService,
     private route: ActivatedRoute
@@ -29,6 +30,8 @@ export class GridProductosComponent {
   productos: any = [];
   productosFiltrados: any = [];
   accion: string | null = '';
+
+  
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -49,14 +52,43 @@ export class GridProductosComponent {
         
       }
     });
-    
+  
   }
+  private hacerScroll() {
+    setTimeout(() => { 
+      if (this.accion) {
+        const grid = document.getElementById('grid-productos');
+      if (grid) {
+        grid.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest' 
+        });
+      }
+        
+      }
+      else{
+        const body = document.getElementsByTagName('body')[0];
+      if (body) {
+        body.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest' 
+        });
+      }
+
+      }
+      
+    }, 10);
+  }
+
+  
   obtenerProductosRecomendados() {
     this.productoService.obtenerRecomendados().subscribe({
       next: (res) => {
         this.productos = res.productos;
         this.productosFiltrados = this.productos;
-
+        this.hacerScroll()
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
@@ -69,6 +101,7 @@ export class GridProductosComponent {
       next: (res) => {
         this.productos = res.productos;
         this.productosFiltrados = this.productos;
+        this.hacerScroll()
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
@@ -82,6 +115,7 @@ export class GridProductosComponent {
       next: (res) => {
         this.productos = res.productos;
         this.productosFiltrados = this.productos;
+        this.hacerScroll();
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
@@ -95,6 +129,7 @@ export class GridProductosComponent {
       next: (res) => {
         this.productos = res.productos;
         this.productosFiltrados = this.productos;
+        this.hacerScroll();
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);
@@ -110,6 +145,7 @@ export class GridProductosComponent {
           if (res.productos.length) {
             this.productos = res.productos;
             this.productosFiltrados = this.productos;
+            this.hacerScroll();
           } else {
             alert('No se han encontrado productos con ese nombre');
             this.obtenerProductos();
@@ -126,6 +162,7 @@ export class GridProductosComponent {
       next: (res) => {
         this.productos = res.productos;
         this.productosFiltrados = this.productos;
+        this.hacerScroll();
       },
       error: (err) => {
         console.error('Error al obtener productos:', err);

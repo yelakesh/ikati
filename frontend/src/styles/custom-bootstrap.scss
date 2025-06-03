@@ -288,6 +288,11 @@ nav[aria-label="breadcrumb"] {
 }
 
 
+#grid-productos {
+  scroll-margin-top: 150px; /* Ajusta según altura de tu header */
+}
+
+
 
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/bootstrap";

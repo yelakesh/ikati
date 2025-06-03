@@ -36,10 +36,6 @@
                             [(ngModel)]="usuario.apellido1" required>
                     </div>
 
-                    <div *ngIf="!tieneSegundoApe">
-                        <button class="btn btn-outline-warning" (click)="anadirSegundoApe()">Añadir Segundo
-                            Apellido</button>
-                    </div>
 
                     <!-- Segundo Apellido -->
                     <div *ngIf="tieneSegundoApe" class="mb-3" hidden>
