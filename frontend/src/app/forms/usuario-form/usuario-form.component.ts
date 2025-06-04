@@ -1,16 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
-import emailjs from '@emailjs/browser';
+import { EmailService } from '../../services/email.service';
 
 import {
-  MatAutocomplete,
   MatAutocompleteModule,
 } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
@@ -21,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './usuario-form.component.css',
 })
 export class UsuarioFormComponent {
-  constructor(private router: Router, private usuarioService: UsuarioService) {}
+  constructor(private router: Router, private usuarioService: UsuarioService, private emailService:EmailService) {}
   usuario = {
     usuario: '',
     contrasena: '',
@@ -76,7 +73,7 @@ export class UsuarioFormComponent {
     if (this.formularioValido()) {
       this.usuarioService.registrar(this.usuario).subscribe({
         next: (respuesta) => {
-          //this.enviarEmail();
+          this.emailService.emailRegistro(this.usuario.usuario,this.usuario.email)
           if (this.origen === 'registro') {
             this.router.navigate(['/registro-exito']);
           } else {
@@ -172,17 +169,5 @@ export class UsuarioFormComponent {
     this.usuario.direccion = '';
   }
 
-  enviarEmail() {
-    emailjs.init({
-      publicKey: '8bfO8ErXlSa136U6E',
-    });
-
-    const params = {
-      name: 'Ikati',
-      user_name: this.usuario.usuario,
-      email: this.usuario.email,
-    };
-
-    emailjs.send('service_mnppien', 'template_dqfcmd2', params);
-  }
+  
 }
