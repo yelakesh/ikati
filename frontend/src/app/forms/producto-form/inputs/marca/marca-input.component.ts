@@ -36,8 +36,8 @@ export class MarcaInputComponent {
   @Input() id_marca_padre: number = 0;
   @Output() IdMarca = new EventEmitter<number>();
 
-  marcasSelect: { id: number; nombre: string; imagen: string }[] = [];
-  marcasFiltrados: { id: number; nombre: string; imagen: string }[] = [];
+  marcasSelect: { id_marca: number; nombre: string; imagen: string }[] = [];
+  marcasFiltrados: { id_marca: number; nombre: string; imagen: string }[] = [];
   nombreMarca = '';
 
   async ngOnInit(): Promise<void> {
@@ -68,9 +68,15 @@ export class MarcaInputComponent {
     this.marcaService.obtenerTodas().subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          respuesta.marcas.forEach((a: { id: number; nombre: string; imagen:string }) => {
-            this.marcasSelect.push({ id: a.id, nombre: a.nombre, imagen:a.imagen });
-          });
+          respuesta.marcas.forEach(
+            (a: { id_marca: number; nombre: string; imagen: string }) => {
+              this.marcasSelect.push({
+                id_marca: a.id_marca,
+                nombre: a.nombre,
+                imagen: a.imagen,
+              });
+            }
+          );
         }
         this.marcasFiltrados = this.marcasSelect;
       },
@@ -81,7 +87,10 @@ export class MarcaInputComponent {
   }
 
   obtenerNombre() {
-    const marca = this.marcasSelect.find((a) => a.id === this.id_marca_padre);
+
+    const marca = this.marcasSelect.find(
+      (a) => a.id_marca === this.id_marca_padre
+    );
     if (marca) {
       this.nombreMarca = marca?.nombre;
     }

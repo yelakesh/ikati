@@ -9,30 +9,30 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { log } from "console";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 async function obtenerProductoPorIdController(req, res) {
+  const producto = await ProductoModel.obtenerProductoPorId(
+    req.body.id_producto
+  );
 
-  const producto = await ProductoModel.obtenerProductoPorId(req.body.id_producto);
+  const resultado = await obtenerDatosProducto(producto[0]);
+  if (!resultado.ok) {
+    console.error("Error en la búsqueda del producto:", resultado.error);
+    return res.status(500).json({
+      ok: false,
+      mensaje: "Error del servidor",
+      producto: {},
+    });
+  }
 
-    const resultado = await obtenerDatosProducto(producto);
-    if (!resultado.ok) {
-      console.error("Error en la búsqueda del producto:", resultado.error);
-      return res.status(500).json({
-        ok: false,
-        mensaje: "Error del servidor",
-        producto: {},
-      });
-    }
-
-    resultados=resultado.datos;
-  
   res.json({
     ok: true,
     mensaje: "Producto encontrado",
-    producto: resultado
+    producto: resultado.datos,
   });
 }
 
@@ -59,7 +59,6 @@ async function obtenerEnOfertaController(req, res) {
     mensaje: "Productos encontrados",
     productos: resultados,
   });
-  
 }
 
 async function obtenerRecomendadosController(req, res) {
@@ -85,7 +84,6 @@ async function obtenerRecomendadosController(req, res) {
     mensaje: "Productos encontrados",
     productos: resultados,
   });
-  
 }
 
 async function obtenerTodosController(req, res) {
@@ -111,7 +109,6 @@ async function obtenerTodosController(req, res) {
     mensaje: "Productos encontrados",
     productos: resultados,
   });
-  
 }
 
 async function obtenerNombresController(_req, res) {
@@ -146,8 +143,6 @@ async function registrarProductoCompletoController(req, res) {
     try {
       let filtros = JSON.parse(objProducto.filtros);
       for (const filtro of filtros) {
-        console.log(filtro);
-        
         if (filtro.id_filtro != 0) {
           await ProductoModel.registrarFiltro(id_producto, filtro);
         }
@@ -210,14 +205,14 @@ async function registrarProductoCompletoController(req, res) {
 }
 
 async function modificarProductoController(req, res) {
-  const objProducto =  req.body;
-  let id_producto = JSON.parse(objProducto.producto).id;
   
+  const objProducto = req.body;
+  let id_producto = JSON.parse(objProducto.producto).id_producto;
+
   try {
     let resultado = await ProductoModel.modificarProducto(
       JSON.parse(objProducto.producto)
     );
-    
 
     if (resultado.affectedRows != 0) {
       try {
@@ -235,14 +230,22 @@ async function modificarProductoController(req, res) {
 
       try {
         let variantes = JSON.parse(objProducto.variantes);
-        await ProductoModel.eliminarVariantes(id_producto);
+
         for (const variante of variantes) {
-         
-          await ProductoModel.registrarVariante(
-            id_producto,
-            variante.id_variacion,
-            variante
-          );
+          
+          
+          if (variante.id < 0) {
+            await ProductoModel.eliminarVariante(variante.id*-1)
+            
+          } else if (variante.id === 0) {
+            await ProductoModel.registrarVariante(
+              id_producto,
+              variante.id_variacion,
+              variante
+            );
+          } else if (variante.id > 0) {
+            await ProductoModel.modificarVariante(variante);
+          }
         }
       } catch (err) {
         console.error("Error en la modificacion de las variantes:", err);
@@ -283,16 +286,12 @@ async function modificarProductoController(req, res) {
 
 async function eliminarImagenes(id_producto) {
   const imagenes = await ImagenModel.obtenerImagenesPorIdProducto(id_producto);
-  console.log(imagenes);
-  
+
   imagenes.forEach((imagen) => {
     const ruta = path.join(__dirname, "..", "imagenesProductos", imagen.nombre);
-    console.log(ruta);
     fs.unlink(ruta, (err) => {
       if (err) {
         console.error("Error al eliminar archivo:", err);
-      } else {
-        console.log("Archivo eliminado:", imagen.nombre);
       }
     });
   });
@@ -310,7 +309,7 @@ async function eliminarProductoController(req, res) {
     }
 
     await eliminarImagenes(id_producto);
-    
+
     await ProductoModel.eliminarProducto(id_producto);
     return res.status(200).json({
       ok: true,
@@ -326,7 +325,6 @@ async function eliminarProductoController(req, res) {
 }
 
 async function buscarPorNombreController(req, res) {
-  
   const productos = await ProductoModel.buscarPorNombre(req.body);
   let resultados = [];
 
@@ -378,7 +376,6 @@ async function buscarPorNombreController(req, res) {
         tipo_variante: tipo_variante[0],
         imagenes: imagenes,
       });
-
     } catch (err) {
       console.error("Error en la busqueda del producto:", err);
       return res
@@ -394,7 +391,6 @@ async function buscarPorNombreController(req, res) {
 }
 
 async function obtenerPorAnimalYTipoController(req, res) {
-  
   const productos = await ProductoModel.obtenerPorAnimalYTipo(
     req.body.objAnimal.id,
     req.body.objTipo.id
@@ -447,11 +443,11 @@ async function obtenerPorAnimalController(req, res) {
   });
 }
 
-
 async function obtenerDatosProducto(producto) {
   try {
-   
-    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(producto.id_producto);
+    let imagenes = await ImagenModel.obtenerImagenesPorIdProducto(
+      producto.id_producto
+    );
     let animal = await Animal.obtenerPorId(producto.id_animal);
     let marca = await Marca.obtenerPorId(producto.id_marca);
     let tipo_producto = await Tipo_Producto.obtenerPorId(producto.id_tipo);
@@ -459,6 +455,9 @@ async function obtenerDatosProducto(producto) {
       producto.id_producto
     );
     let tipo_variante = null;
+    let filtros = await ProductoModel.obtenerFiltrosPorIdProducto(
+      producto.id_producto
+    );
 
     if (variantes.length === 0) {
       variantes = [
@@ -487,6 +486,16 @@ async function obtenerDatosProducto(producto) {
       ];
     }
 
+    if (filtros.length === 0) {
+      filtros = [
+        {
+          id_filtro: 0,
+          valor: "",
+          nombre: "",
+        },
+      ];
+    }
+
     return {
       ok: true,
       datos: {
@@ -497,6 +506,7 @@ async function obtenerDatosProducto(producto) {
         variantes,
         tipo_variante: tipo_variante ? tipo_variante[0] : null,
         imagenes,
+        filtros,
       },
     };
   } catch (err) {
@@ -515,5 +525,5 @@ export {
   obtenerPorAnimalYTipoController,
   buscarPorNombreController,
   obtenerEnOfertaController,
-  obtenerRecomendadosController
+  obtenerRecomendadosController,
 };

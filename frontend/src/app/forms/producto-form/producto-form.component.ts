@@ -12,8 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { AnimalInputComponent } from "./inputs/animal/animal-input.component";
-import { MarcaInputComponent } from "./inputs/marca/marca-input.component";
+import { AnimalInputComponent } from './inputs/animal/animal-input.component';
+import { MarcaInputComponent } from './inputs/marca/marca-input.component';
 
 @Component({
   selector: 'app-producto-form',
@@ -29,7 +29,7 @@ import { MarcaInputComponent } from "./inputs/marca/marca-input.component";
     ReactiveFormsModule,
     CKEditorModule,
     AnimalInputComponent,
-    MarcaInputComponent
+    MarcaInputComponent,
   ],
   templateUrl: './producto-form.component.html',
   styleUrl: './producto-form.component.css',
@@ -40,7 +40,7 @@ export class ProductoFormComponent {
     private tipoProductoService: TipoProductoService,
     private tipoVarianteService: TipoVarianteService,
     private tipoFiltroService: TipoFiltroService
-  ) { }
+  ) {}
 
   public Editor: any = ClassicEditor;
 
@@ -64,7 +64,13 @@ export class ProductoFormComponent {
 
   id_tipo_variante = 0;
   variantes = [
-    { id_tipo_variante: 0, valor_variacion: '', precio: 0, stock: 0 },
+    {
+      id: 0,
+      id_tipo_variante: 0,
+      valor_variacion: '',
+      precio: 0,
+      stock: 0,
+    },
   ];
 
   filtros = [{ id_filtro: 0, valor: '', nombre: '' }];
@@ -82,7 +88,6 @@ export class ProductoFormComponent {
 
   filtrosSelect: { id: number; nombre: string }[] = [];
   filtrosFiltrados: { id: number; nombre: string }[] = [];
-
 
   displayProducto(producto: any): string {
     return producto && producto.nombre ? producto.nombre : '';
@@ -116,6 +121,7 @@ export class ProductoFormComponent {
 
   nuevaVariante() {
     this.variantes.push({
+      id: 0,
       id_tipo_variante: 0,
       valor_variacion: '',
       precio: 0,
@@ -124,7 +130,13 @@ export class ProductoFormComponent {
   }
 
   eliminarVariante(i: number) {
-    this.variantes.splice(i, 1);
+    if (this.variantes[i].id===0) {
+      this.variantes.splice(i, 1);
+    }
+    else{
+      this.variantes[i].id *= -1;
+    }
+    
   }
 
   nuevaImagen() {
@@ -146,6 +158,7 @@ export class ProductoFormComponent {
       (this.id_tipo_variante = 0),
       (this.variantes = [
         {
+          id: 0,
           id_tipo_variante: 0,
           valor_variacion: '',
           precio: 0,
@@ -164,22 +177,27 @@ export class ProductoFormComponent {
       this.productoService.obtenerProductoPorId(this.producto).subscribe({
         next: async (respuesta) => {
           if (respuesta.ok) {
-            (this.producto.descripcion = respuesta.producto.descripcion),
-              (this.producto.activo = respuesta.producto.activo),
-              (this.producto.id_animal = respuesta.producto.id_animal),
-              (this.producto.id_marca = respuesta.producto.id_marca),
-              (this.producto.id_tipo_producto = respuesta.producto.id_tipo),
-              (this.producto.descuento = respuesta.producto.descuento),
-              (this.producto.valoracion = respuesta.producto.valoracion);
+            this.producto.descripcion = respuesta.producto.producto.descripcion;
+            this.producto.activo = respuesta.producto.producto.activo;
+            this.producto.id_animal = respuesta.producto.producto.id_animal;
+            this.producto.id_marca = respuesta.producto.producto.id_marca;
+            this.producto.id_tipo_producto =
+              respuesta.producto.producto.id_tipo;
+            this.producto.descuento = respuesta.producto.producto.descuento;
+            this.producto.valoracion = respuesta.producto.producto.valoracion;
 
-            this.id_tipo_variante = respuesta.variantes[0].id_variacion;
-            this.variantes = respuesta.variantes;
-            this.filtros = respuesta.filtros;
+            this.id_tipo_variante =
+              respuesta.producto.variantes[0].id_variacion;
+            this.variantes = respuesta.producto.variantes;
+            this.filtros = respuesta.producto.filtros;
+            
             this.obtenerTipos_Producto();
             this.obtenerTipos_Variante();
             this.obtenerTipos_Filtro();
-
-            for (const imagen of respuesta.imagenes) {
+            
+            for (const imagen of respuesta.producto.imagenes) {
+              
+              
               if (imagen.nombre) {
                 fetch(
                   'http://localhost:3000/imagenesProductos/' + imagen.nombre
@@ -228,6 +246,7 @@ export class ProductoFormComponent {
 
     this.variantes = [
       {
+        id: 0,
         id_tipo_variante: 0,
         valor_variacion: '',
         precio: 0,
@@ -243,7 +262,7 @@ export class ProductoFormComponent {
       },
     ];
     this.imagenes = [{ file: null, base64: '' }];
-    this.productosFiltrados=this.productosSelect
+    this.productosFiltrados = this.productosSelect;
     this.filtrarTipos_Producto();
   }
 
@@ -382,7 +401,6 @@ export class ProductoFormComponent {
         },
       });
     }
-
   }
 
   eliminar() {
@@ -404,9 +422,14 @@ export class ProductoFormComponent {
     this.productoService.obtenerNombres().subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          respuesta.productos.forEach((p: { id_producto: number; nombre: string }) => {
-            this.productosSelect.push({ id_producto: p.id_producto, nombre: p.nombre });
-          });
+          respuesta.productos.forEach(
+            (p: { id_producto: number; nombre: string }) => {
+              this.productosSelect.push({
+                id_producto: p.id_producto,
+                nombre: p.nombre,
+              });
+            }
+          );
         }
       },
       error: () => {
@@ -429,7 +452,6 @@ export class ProductoFormComponent {
     );
   }
 
-
   filtrarTipos_Producto() {
     this.tipos_productoFiltrados = this.tipos_productoSelect.filter((f) =>
       f.tipo.toLowerCase().includes(this.nombreTipo_Producto.toLowerCase())
@@ -443,6 +465,7 @@ export class ProductoFormComponent {
     if (tipo) {
       this.nombreTipo_Producto = tipo?.tipo;
     }
+    
   }
 
   async cargarTipos_Producto() {
@@ -481,6 +504,7 @@ export class ProductoFormComponent {
     if (tipo) {
       this.nombreTipo_Variante = tipo?.tipo;
     }
+    
   }
 
   async cargarTipos_Variante() {
@@ -511,7 +535,7 @@ export class ProductoFormComponent {
     );
   }
 
-  obtenerTipos_Filtro() {
+  obtenerTipos_Filtro() {   
     for (let i = 0; i < this.filtros.length; i++) {
       const tipo = this.filtrosSelect.find(
         (m) => m.id === this.filtros[i].id_filtro
@@ -520,7 +544,7 @@ export class ProductoFormComponent {
       if (tipo) {
         this.filtros[i].nombre = tipo?.nombre;
       }
-    }
+    }    
   }
 
   async cargarTipos_Filtro() {
@@ -555,5 +579,4 @@ export class ProductoFormComponent {
   cambiarIdMarca($event: number) {
     this.producto.id_marca = $event;
   }
-
 }

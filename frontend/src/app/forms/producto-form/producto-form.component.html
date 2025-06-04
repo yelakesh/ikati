@@ -227,6 +227,8 @@
       </tr>
 
       <tr *ngFor="let v of variantes; let i = index">
+        <ng-container *ngIf="v.id>=0">
+        
         <td>
           <label class="form-label" for="valor_variacion">Valor*</label>
         </td>
@@ -281,6 +283,7 @@
             Eliminar
           </button>
         </td>
+      </ng-container>
       </tr>
       <tr>
         <td>
@@ -305,7 +308,7 @@
         <td>
           <label class="form-label" for="filtro">Filtro</label>
         </td>
-        <td>
+        <td >
           <mat-form-field class="w-100 custom-autocomplete">
             <input
               [disabled]="modo == 'eliminar'"

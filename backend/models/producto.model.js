@@ -87,6 +87,8 @@ async function registrarVariante(
   return resultados;
 }
 
+
+
 async function obtenerNombres() {
   const sql = `SELECT id_producto,nombre FROM productos`;
   const resultados = await db.query(sql);
@@ -107,8 +109,20 @@ async function modificarProducto(objProducto) {
     objProducto.descuento,
     objProducto.valoracion,
     objProducto.nombre,
-    objProducto.id,
+    objProducto.id_producto,
   ]);
+
+  return resultados;
+}
+
+
+
+async function modificarVariante({ id, precio, stock, valor_variacion }) {
+  const sql = `UPDATE variantes set
+      precio=?, stock=?, valor_variacion=?
+      WHERE id=?`;
+
+  const resultados = await db.query(sql, [precio,stock,valor_variacion,id]);
 
   return resultados;
 }
@@ -119,9 +133,9 @@ async function eliminarFiltros(id_producto) {
   return resultados;
 }
 
-async function eliminarVariantes(id_producto) {
-  const sql = "DELETE FROM variantes WHERE id_producto=?";
-  const resultados = await db.query(sql, [id_producto]);
+async function eliminarVariante(id_variante) {
+  const sql = "DELETE FROM variantes WHERE id=?";
+  const resultados = await db.query(sql, [id_variante]);
   return resultados;
 }
 
@@ -162,7 +176,7 @@ module.exports = {
   registrarVariante,
   modificarProducto,
   eliminarFiltros,
-  eliminarVariantes,
+  eliminarVariante,
   eliminarProducto,
   obtenerNombres,
   obtenerTodos,
@@ -170,5 +184,6 @@ module.exports = {
   obtenerPorAnimalYTipo,
   buscarPorNombre,
   obtenerEnOferta,
-  obtenerRecomendados
+  obtenerRecomendados,
+  modificarVariante,
 };
