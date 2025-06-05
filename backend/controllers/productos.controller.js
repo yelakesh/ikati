@@ -513,6 +513,28 @@ async function obtenerDatosProducto(producto) {
     return { ok: false, error: err };
   }
 }
+async function obtenerProductoPorIdVarianteController(req, res) {
+
+const producto = await ProductoModel.obtenerTodos();
+  
+
+    const resultado = await obtenerDatosProducto(producto);
+    if (!resultado.ok) {
+      console.error("Error en la búsqueda del producto:", resultado.error);
+      return res.status(500).json({
+        ok: false,
+        mensaje: "Error del servidor",
+        productos: {},
+      });
+    }
+
+    resultados=resultado.datos;
+  
+  res.json({
+    ok: true,
+    mensaje: "Productos encontrados",
+    productos: resultados,
+  });}
 
 export {
   obtenerProductoPorIdController,
@@ -526,4 +548,5 @@ export {
   buscarPorNombreController,
   obtenerEnOfertaController,
   obtenerRecomendadosController,
+  obtenerProductoPorIdVarianteController,
 };

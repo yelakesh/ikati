@@ -44,6 +44,12 @@ async function obtenerVariantesPorIdProducto(id_producto) {
   return resultados;
 }
 
+async function obtenerProductoPorIdVariante(id_variante){
+  const sql = "SELECT * FROM productos WHERE id_producto= (SELECT id_producto FROM variantes where id=?)"
+  const resultados = await db.query(sql, [id_variante])
+  return resultados;
+}
+
 async function registrarProducto(objProducto) {
   const sql = `INSERT INTO productos 
       (nombre, descripcion, activo, id_animal, id_marca, id_tipo, descuento, valoracion) 
@@ -185,5 +191,6 @@ module.exports = {
   buscarPorNombre,
   obtenerEnOferta,
   obtenerRecomendados,
+  obtenerProductoPorIdVariante,
   modificarVariante,
 };

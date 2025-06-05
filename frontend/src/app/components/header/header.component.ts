@@ -7,7 +7,7 @@ import { AnimalService } from '../../services/animal.service';
 import { TipoProductoService } from '../../services/tipo_producto.service';
 import { HeaderGridService } from '../../services/header-grid.service';
 import { Observable } from 'rxjs';
-import { CarritoComponent } from "./carrito/carrito.component";
+import { CarritoComponent } from "../../pages/pagina-producto/carrito/carrito.component";
 
 @Component({
   selector: 'app-header',

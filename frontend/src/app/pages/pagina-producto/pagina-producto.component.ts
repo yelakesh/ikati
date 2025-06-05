@@ -72,17 +72,9 @@ export class PaginaProductoComponent {
       const usuarioObj = JSON.parse(usuarioSesion)
       this.rolUsuario = usuarioObj.rol
 
-
-
-
       if (this.rolUsuario != "admin") {
         this.cargarDatosUsuario();
       }
-
-
-
-
-
 
     }
   }

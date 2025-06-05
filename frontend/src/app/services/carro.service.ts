@@ -17,4 +17,8 @@ export class CarroService {
     return this.http.post(this.apiUrl + '/anadiraCarro', objCarro);
   }
 
+  obtenerProductosCarritoPorIdUsuario(objCarro: object): Observable<any>{
+    return this.http.post(this.apiUrl + '/obtenerProductosCarritoPorIdUsuario', objCarro)
+  }
+
 }
