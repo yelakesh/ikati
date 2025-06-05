@@ -24,29 +24,7 @@ async function anadiraCarroController(req, res) {
         });
     }
 }
-// async function obtenerProductoPorIdVarianteController(req, res) {
 
-//     const productos = await ProductoModel.obtenerTodos();
-
-
-//     const resultado = await obtenerDatosProducto(producto);
-//     if (!resultado.ok) {
-//         console.error("Error en la búsqueda del producto:", resultado.error);
-//         return res.status(500).json({
-//             ok: false,
-//             mensaje: "Error del servidor",
-//             productos: {},
-//         });
-//     }
-
-//     resultados = resultado.datos;
-
-//     res.json({
-//         ok: true,
-//         mensaje: "Productos encontrados",
-//         productos: resultados,
-//     });
-// }
 
 
 
@@ -81,6 +59,5 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
 
 module.exports = {
     anadiraCarroController,
-    // obtenerProductoPorIdVarianteController,
     obtenerProductosCarritoPorIdUsuarioController
 };

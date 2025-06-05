@@ -1,4 +1,4 @@
-import ProductoModel from "../models/producto.model.js";
+import ProductoModel, { obtenerProductoPorIdVariante } from "../models/producto.model.js";
 import ImagenModel from "../models/imagen.model.js";
 import Tipo_Variante from "../models/tipo_variante.model.js";
 import Tipo_Producto from "../models/tipo_producto.model.js";
@@ -205,7 +205,7 @@ async function registrarProductoCompletoController(req, res) {
 }
 
 async function modificarProductoController(req, res) {
-  
+
   const objProducto = req.body;
   let id_producto = JSON.parse(objProducto.producto).id_producto;
 
@@ -232,11 +232,11 @@ async function modificarProductoController(req, res) {
         let variantes = JSON.parse(objProducto.variantes);
 
         for (const variante of variantes) {
-          
-          
+
+
           if (variante.id < 0) {
-            await ProductoModel.eliminarVariante(variante.id*-1)
-            
+            await ProductoModel.eliminarVariante(variante.id * -1)
+
           } else if (variante.id === 0) {
             await ProductoModel.registrarVariante(
               id_producto,
@@ -513,28 +513,72 @@ async function obtenerDatosProducto(producto) {
     return { ok: false, error: err };
   }
 }
+
 async function obtenerProductoPorIdVarianteController(req, res) {
+  const productos = req.body.productos;
+  let resultados = [];
 
-const producto = await ProductoModel.obtenerTodos();
-  
+  try {
+    for (const producto of productos) {
+      const resultado = await obtenerProductoPorIdVariante(producto.id_variante);
+      if (!resultado || resultado.length === 0) {
+        console.error("Producto no encontrado para id_variante:", producto.id_variante);
 
-    const resultado = await obtenerDatosProducto(producto);
-    if (!resultado.ok) {
-      console.error("Error en la búsqueda del producto:", resultado.error);
-      return res.status(500).json({
-        ok: false,
-        mensaje: "Error del servidor",
-        productos: {},
-      });
+      }
+      resultados.push(resultado[0]); 
+      console.log(resultados);
+      
     }
 
-    resultados=resultado.datos;
+    res.json({
+      ok: true,
+      mensaje: "Productos encontrados",
+      productos: resultados,
+    });
+  } catch (error) {
+    console.error("Error en la búsqueda del producto:", error);
+    res.status(500).json({
+      ok: false,
+      mensaje: "Error del servidor",
+      productos: [],
+    });
+  }
+}
+async function obtenerVariantePorIdVarianteController(req, res) {
+  const {id_variante} = req.body;
   
-  res.json({
-    ok: true,
-    mensaje: "Productos encontrados",
-    productos: resultados,
-  });}
+
+  try {
+    
+      const resultado = await obtenerVariantePorIdVariante(id_variante);
+      if (!resultado || resultado.length === 0) {
+      console.error("Variante no encontrada para id_variante:", id_variante);
+      return res.status(404).json({
+        ok: false,
+        mensaje: "Variante no encontrada",
+        productos: [],
+      });
+    }
+      
+      console.log(resultado);
+      
+    
+
+    res.json({
+      ok: true,
+      mensaje: "Variante encontrada",
+      productos: [resultado[0]],
+    });
+  } catch (error) {
+    console.error("Error en la búsqueda de la variante:", error);
+    res.status(500).json({
+      ok: false,
+      mensaje: "Error del servidor",
+      productos: [],
+    });
+  }
+}
+
 
 export {
   obtenerProductoPorIdController,
@@ -549,4 +593,5 @@ export {
   obtenerEnOfertaController,
   obtenerRecomendadosController,
   obtenerProductoPorIdVarianteController,
+  obtenerVariantePorIdVarianteController
 };

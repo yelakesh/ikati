@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -7,7 +7,9 @@ import { AnimalService } from '../../services/animal.service';
 import { TipoProductoService } from '../../services/tipo_producto.service';
 import { HeaderGridService } from '../../services/header-grid.service';
 import { Observable } from 'rxjs';
-import { CarritoComponent } from "../../pages/pagina-producto/carrito/carrito.component";
+import { CarritoComponent } from "./carrito/carrito.component";
+import { CarroService } from '../../services/carro.service';
+
 
 @Component({
   selector: 'app-header',
@@ -16,11 +18,13 @@ import { CarritoComponent } from "../../pages/pagina-producto/carrito/carrito.co
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   usuario!: Observable<any>;
   open = false;
   carritoVisible = false;
   menuAbierto: boolean = false;
+  cantidadEnCarrito = 0
+  private sub: any
 
 
   constructor(
@@ -28,8 +32,10 @@ export class HeaderComponent implements OnInit {
     private usuarioService: UsuarioService,
     private animalService: AnimalService,
     private tiposervice: TipoProductoService,
-    private header_grid: HeaderGridService
-  ) {}
+    private header_grid: HeaderGridService,
+    private carroService: CarroService
+
+  ) { }
 
   showBanner = true;
   animales: {
@@ -37,17 +43,24 @@ export class HeaderComponent implements OnInit {
     nombre: string;
     tipos: { id: number; tipo: string }[];
   }[] = [];
-  textoBusqueda=''
-  textoBusquedaFormateado=''
+  textoBusqueda = ''
+  textoBusquedaFormateado = ''
 
-  formatearTexto(){
-    this.textoBusquedaFormateado='%'+(this.textoBusqueda.trim()).replace(' ','%')+'%'
+  formatearTexto() {
+    this.textoBusquedaFormateado = '%' + (this.textoBusqueda.trim()).replace(' ', '%') + '%'
   }
-    
-  
+
+
   ngOnInit() {
     this.usuario = this.usuarioService.usuario;
+    this.sub = this.carroService.cantidad$.subscribe(cantidad => {
+      this.cantidadEnCarrito = cantidad;
+    });
     this.cargarAnimales();
+  }
+
+  ngOnDestroy(): void {
+      this.sub.unsubscribe();
   }
 
   logOut() {
@@ -55,9 +68,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/logout']);
   }
 
-  buscar(evento:any){
-    if(evento.key=='Enter'){
-      this.router.navigate(['/home','buscar',this.textoBusquedaFormateado])
+  buscar(evento: any) {
+    if (evento.key == 'Enter') {
+      this.router.navigate(['/home', 'buscar', this.textoBusquedaFormateado])
 
     }
   }
@@ -102,8 +115,12 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  toogleCarrito(){
+  toogleCarrito() {
     this.carritoVisible = !this.carritoVisible
+  }
+
+  actualizarCantidadCarrito(nuevaCantidad: number) {
+    this.cantidadEnCarrito = nuevaCantidad;
   }
 
   // filtrarPorAnimal(objAnimal: object) {

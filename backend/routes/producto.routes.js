@@ -41,5 +41,7 @@ router.post("/obtenerPorAnimalYTipo", productoController.obtenerPorAnimalYTipoCo
 router.post("/buscarPorNombre", productoController.buscarPorNombreController);
 router.post("/obtenerEnOferta", productoController.obtenerEnOfertaController);
 router.post("/obtenerRecomendados", productoController.obtenerRecomendadosController);
+router.post("/obtenerProductoPorIdVariante", productoController.obtenerProductoPorIdVarianteController);
+router.post("/obtenerVariantePorIdVariante", productoController.obtenerVariantePorIdVarianteController);
 
 module.exports = router;

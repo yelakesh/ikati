@@ -67,13 +67,15 @@
 
         <div style="position: relative; display: inline-block;">
 
+          
           <img src="imagenes/recursos/carrito.svg" style="height: 32px; cursor: pointer;" (click)="toogleCarrito()"
             alt="Carrito">
-          <span class="position-absolute top-0 start-150 translate-middle badge rounded-pill bg-dark" style="font-size: 0.60rem;">
-            99+
-            
+            <app-carrito [visible]="carritoVisible" (cerrado)="carritoVisible = false" 
+            (cantidadProductosChange)="actualizarCantidadCarrito($event)"></app-carrito>
+          <span *ngIf="cantidadEnCarrito!=0" class="position-absolute top-0 start-150 translate-middle badge rounded-pill bg-dark" style="font-size: 0.60rem;">
+            {{cantidadEnCarrito}}
           </span>
-          <app-carrito [visible]="carritoVisible" (cerrado)="carritoVisible = false"></app-carrito>
+          
         </div>
 
 

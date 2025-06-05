@@ -43,6 +43,11 @@ async function obtenerVariantesPorIdProducto(id_producto) {
   const resultados = await db.query(sql, [id_producto]);
   return resultados;
 }
+async function obtenerVariantePorIdVariante(id_variante) {
+  const sql = "SELECT * FROM variantes WHERE variante=?";
+  const resultados = await db.query(sql, [id_variante]);
+  return resultados;
+}
 
 async function obtenerProductoPorIdVariante(id_variante){
   const sql = "SELECT * FROM productos WHERE id_producto= (SELECT id_producto FROM variantes where id=?)"
@@ -193,4 +198,5 @@ module.exports = {
   obtenerRecomendados,
   obtenerProductoPorIdVariante,
   modificarVariante,
+  obtenerVariantePorIdVariante
 };
