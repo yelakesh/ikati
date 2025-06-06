@@ -245,6 +245,7 @@ async function modificarProductoController(req, res) {
             );
           } else if (variante.id > 0) {
             await ProductoModel.modificarVariante(variante);
+            
           }
         }
       } catch (err) {

@@ -1,4 +1,4 @@
-<div *ngIf="marcas">
+<div>
   <H5>Marcas</H5>
   <ul *ngFor="let marca of marcas; let i = index" style="margin: 0%">
     <ng-container *ngIf="marca.visible">
@@ -9,7 +9,7 @@
 </div>
 
 <div *ngIf="tipos">
-  <h5>Tipo de producto</h5>
+  <h5 *ngIf="!tipo">Tipo de producto</h5>
   <ul *ngFor="let tipo of tipos; let i = index" >
     <ng-container *ngIf="tipo.visible">
       <mat-checkbox [(ngModel)]="tipo.check" (change)="filtrar('tipo')">{{ tipo.tipo }}</mat-checkbox>
@@ -25,7 +25,7 @@
 </div>
 
 <div *ngFor="let filtros of filtrosTotales">
-  <h5>
+  <h5 *ngIf="">
     {{ filtros.tipoFiltro }}
   </h5>
   <ul *ngFor="let filtro of filtros.filtros">

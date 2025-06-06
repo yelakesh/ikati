@@ -57,7 +57,7 @@ export class FiltrosComponent {
           visible: boolean;
         }
       ]
-    | any;
+    | any = [];
   tipos:
     | [
         {
@@ -68,13 +68,16 @@ export class FiltrosComponent {
           visible: boolean;
         }
       ]
-    | any;
+    | any=[];
 
   oferta?: { oferta: 'En oferta'; check: boolean };
   valoracion: number = 0;
   accion: string | null = '';
   animal: string | null = '';
   tipo: string | null = '';
+
+  hayMarcasVisibles: boolean = this.marcas.some((x: { visible: any; }) => x.visible);
+  hayTiposVisibles: boolean = this.tipos.some((x: { visible: any; }) => x.visible);
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(async () => {
@@ -90,137 +93,163 @@ export class FiltrosComponent {
 
       if (this.animal) {
         await this.cargarMarcasPorAnimal();
-      }
-      if (!this.tipo && this.animal) {
-        await this.cargarTiposPorAnimal();
         await this.cargarFiltrosPorAnimal();
+        await this.cargarTiposPorAnimal();
+        if (this.tipo) {
+          var posicionTipo = this.tipos.findIndex(
+            (x: { id: string | null; tipo: any }) => x.id == this.tipo
+          );
+          this.tipos[posicionTipo].check = true;
+          this.tipos[posicionTipo].visible = false;
+          this.filtrar('tipo');
+          this.ocultarFiltros(this.productos, '');
+        }
       }
-      if (this.tipo) {
-        await this.cargarFiltrosPorAnimalYTipo();
-      }
+    });
+
+    
+  }
+
+  async cargarMarcasPorAnimal(): Promise<void> {
+    this.marcas = [];
+
+    await new Promise<void>((resolve, reject) => {
+      this.marcaService
+        .obtenerFiltroPorAnimal({ idAnimal: this.animal })
+        .subscribe({
+          next: (respuesta) => {
+            if (respuesta.ok) {
+              respuesta.marcas.forEach(
+                (a: {
+                  id_marca: number;
+                  nombre: string;
+                  id_producto: number;
+                }) => {
+                  const marcaEncontrada = this.marcas.find(
+                    (m: { id: number }) => m.id === a.id_marca
+                  );
+
+                  if (marcaEncontrada) {
+                    marcaEncontrada.productos.push(a.id_producto);
+                  } else {
+                    this.marcas.push({
+                      id: a.id_marca,
+                      marca: a.nombre,
+                      check: false,
+                      productos: [a.id_producto],
+                      visible: true,
+                    });
+                  }
+                }
+              );
+            }
+            resolve();
+          },
+          error: (err) => {
+            alert('Error en la carga de marcas');
+            reject(err);
+          },
+        });
     });
   }
 
-  async cargarMarcasPorAnimal() {
-    this.marcas = [];
-    this.marcaService
-      .obtenerFiltroPorAnimal({ idAnimal: this.animal })
-      .subscribe({
-        next: (respuesta) => {
-          if (respuesta.ok) {
-            respuesta.marcas.forEach(
-              (a: {
-                id_marca: number;
-                nombre: string;
-                id_producto: number;
-              }) => {
-                const marcaEncontrada = this.marcas.find(
-                  (m: { id: number }) => {
-                    return m.id == a.id_marca;
-                  }
-                );
-                if (marcaEncontrada) {
-                  marcaEncontrada.productos.push(a.id_producto);
-                } else {
-                  this.marcas.push({
-                    id: a.id_marca,
-                    marca: a.nombre,
-                    check: false,
-                    productos: [a.id_producto],
-                    visible: true,
-                  });
-                }
-              }
-            );
-          }
-        },
-        error: () => {
-          alert('Error en la carga de marcas');
-        },
-      });
-  }
-
-  async cargarTiposPorAnimal() {
+  async cargarTiposPorAnimal(): Promise<void> {
     this.tipos = [];
-    this.tipoProductoService
-      .obtenerFiltroPorIdAnimal({ idAnimal: this.animal })
-      .subscribe({
-        next: (respuesta) => {
-          if (respuesta.ok) {
-            respuesta.tipo_Producto.forEach(
-              (a: { id: number; id_producto: number; tipo: string }) => {
-                const tipoEncontrado = this.tipos.find((m: { id: number }) => {
-                  return m.id == a.id;
-                });
+    await new Promise<void>((resolve, reject) => {
+      this.tipoProductoService
+        .obtenerFiltroPorIdAnimal({ idAnimal: this.animal })
+        .subscribe({
+          next: (respuesta) => {
+            if (respuesta.ok) {
+              respuesta.tipo_Producto.forEach(
+                (a: { id: number; id_producto: number; tipo: string }) => {
+                  const tipoEncontrado = this.tipos.find(
+                    (m: { id: number }) => {
+                      return m.id == a.id;
+                    }
+                  );
 
-                if (tipoEncontrado) {
-                  tipoEncontrado.productos.push(a.id_producto);
-                } else {
-                  this.tipos.push({
-                    id: a.id,
-                    tipo: a.tipo,
-                    check: false,
-                    productos: [a.id_producto],
-                    visible: true,
-                  });
+                  if (tipoEncontrado) {
+                    tipoEncontrado.productos.push(a.id_producto);
+                  } else {
+                    this.tipos.push({
+                      id: a.id,
+                      tipo: a.tipo,
+                      check: false,
+                      productos: [a.id_producto],
+                      visible: true,
+                    });
+                  }
                 }
-              }
-            );
-          }
-        },
-      });
+              );
+            }
+            resolve();
+          },
+        });
+    });
   }
 
-  async cargarFiltrosPorAnimal() {
+  async cargarFiltrosPorAnimal(): Promise<void> {
     this.filtrosTotales = [];
-    this.filtrosService.obtenerPorAnimal({ idAnimal: this.animal }).subscribe({
-      next: (respuesta) => {
-        respuesta.filtros.forEach(
-          (a: {
-            nombre: string;
-            id: number;
-            valor: string;
-            id_producto: number;
-          }) => {
-            const tipoExistente = this.filtrosTotales.find(
-              (f: { tipoFiltro: any }) => f.tipoFiltro === a.nombre
-            );
 
-            if (tipoExistente) {
-              if (
-                !tipoExistente.filtros.find(
-                  (f: { filtro: any }) => f.filtro === a.valor
-                )
-              ) {
-                tipoExistente.filtros.push({
-                  id: a.id,
-                  filtro: a.valor,
-                  check: false,
-                  productos: [a.id_producto],
-                  visible: true,
-                });
-              } else {
-                tipoExistente.filtros
-                  .find((f: { filtro: any }) => f.filtro === a.valor)
-                  .productos.push(a.id_producto);
-              }
-            } else {
-              this.filtrosTotales.push({
-                tipoFiltro: a.nombre,
-                filtros: [
-                  {
-                    id: a.id,
-                    filtro: a.valor,
-                    check: false,
-                    productos: [a.id_producto],
-                    visible: true,
-                  },
-                ],
-              });
+    await new Promise<void>((resolve, reject) => {
+      this.filtrosService
+        .obtenerPorAnimal({ idAnimal: this.animal })
+        .subscribe({
+          next: (respuesta) => {
+            if (respuesta && respuesta.filtros) {
+              respuesta.filtros.forEach(
+                (a: {
+                  nombre: string;
+                  id: number;
+                  valor: string;
+                  id_producto: number;
+                }) => {
+                  const tipoExistente = this.filtrosTotales.find(
+                    (f: { tipoFiltro: string }) => f.tipoFiltro === a.nombre
+                  );
+
+                  if (tipoExistente) {
+                    const filtroExistente = tipoExistente.filtros.find(
+                      (f: { filtro: string }) => f.filtro === a.valor
+                    );
+
+                    if (filtroExistente) {
+                      filtroExistente.productos.push(a.id_producto);
+                    } else {
+                      tipoExistente.filtros.push({
+                        id: a.id,
+                        filtro: a.valor,
+                        check: false,
+                        productos: [a.id_producto],
+                        visible: true,
+                      });
+                    }
+                  } else {
+                    this.filtrosTotales.push({
+                      tipoFiltro: a.nombre,
+                      filtros: [
+                        {
+                          id: a.id,
+                          filtro: a.valor,
+                          check: false,
+                          productos: [a.id_producto],
+                          visible: true,
+                        },
+                      ],
+                    });
+                  }
+                }
+              );
             }
-          }
-        );
-      },
+
+            resolve();
+          },
+          error: (err) => {
+            console.error('Error al cargar filtros:', err);
+            reject(err);
+          },
+        });
     });
   }
 
@@ -328,11 +357,11 @@ export class FiltrosComponent {
       if (this.productos[i].producto.valoracion >= this.valoracion) {
         valoracionValido = true;
       }
-      
+
       this.filtrosTotales.forEach((f: { filtros: any[] }) => {
         hayFiltros = false;
-        var filtrosParcial=false;
-        
+        var filtrosParcial = false;
+
         f.filtros.forEach((filtro) => {
           if (filtro.check) {
             hayFiltros = true;
@@ -348,10 +377,8 @@ export class FiltrosComponent {
         if (!hayFiltros) {
           filtrosParcial = true;
         }
-        filtrosValido=filtrosParcial&&filtrosValido
+        filtrosValido = filtrosParcial && filtrosValido;
       });
-      
-      
 
       if (tipoValido && marcaValido && valoracionValido && filtrosValido) {
         productosFiltrados.push(this.productos[i]);
@@ -359,6 +386,8 @@ export class FiltrosComponent {
     }
     this.ocultarFiltros(productosFiltrados, check);
     this.productosChange.emit(productosFiltrados);
+
+    
   }
 
   ocultarFiltros(productosFiltrados: any[], check: string) {
@@ -380,7 +409,10 @@ export class FiltrosComponent {
         (tipo: { visible: boolean; productos: string | any[] }) => {
           tipo.visible = false;
           productosFiltrados.forEach((producto) => {
-            if (tipo.productos.includes(producto.producto.id_producto)) {
+            if (
+              tipo.productos.includes(producto.producto.id_producto) &&
+              !this.tipo
+            ) {
               tipo.visible = true;
             }
           });
@@ -403,10 +435,15 @@ export class FiltrosComponent {
       }
     );
 
-    const algunaMarcaSeleccionada = this.marcas.some((m: { check: any; }) => m.check);
-    const algunTipoSeleccionado = this.tipos.some((t: { check: any; }) => t.check);
-    const algunFiltroSeleccionado = this.filtrosTotales.some((fg: { filtros: any[]; }) =>
-      fg.filtros.some((f: { check: any; }) => f.check)
+    const algunaMarcaSeleccionada = this.marcas.some(
+      (m: { check: any }) => m.check
+    );
+    const algunTipoSeleccionado = this.tipos.some(
+      (t: { check: any }) => t.check
+    );
+    const algunFiltroSeleccionado = this.filtrosTotales.some(
+      (fg: { filtros: any[] }) =>
+        fg.filtros.some((f: { check: any }) => f.check)
     );
 
     if (
@@ -416,6 +453,8 @@ export class FiltrosComponent {
     ) {
       this.mostrarTodos();
     }
+
+    
   }
 
   mostrarTodos() {
@@ -425,11 +464,13 @@ export class FiltrosComponent {
       }
     );
 
-    this.tipos.forEach(
-      (tipo: { visible: boolean; productos: string | any[] }) => {
-        tipo.visible = true;
-      }
-    );
+    if (!this.tipo) {
+      this.tipos.forEach(
+        (tipo: { visible: boolean; productos: string | any[] }) => {
+          tipo.visible = true;
+        }
+      );
+    }
 
     this.filtrosTotales.forEach(
       (filtroGeneral: { filtros: any[]; tipoFiltro: string }) => {
