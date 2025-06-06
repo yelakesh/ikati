@@ -595,5 +595,6 @@ export {
   obtenerEnOfertaController,
   obtenerRecomendadosController,
   //obtenerProductoPorIdVarianteController,
-  obtenerVariantePorIdVarianteController
+  obtenerVariantePorIdVarianteController,
+  obtenerDatosProducto,
 };

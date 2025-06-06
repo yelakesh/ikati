@@ -60,9 +60,11 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
 
     
     if (variantes.length > 0) {
-      const producto = (
+      var producto = (
         await ProductoModel.obtenerProductoPorId(variantes[0].id_producto)
       )[0];
+      producto = (await ProductoController.obtenerDatosProducto(producto)).datos
+      
       resultados.push({
         producto: producto,
         variantes: [variantes[0]],
@@ -71,16 +73,18 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
       for (let i = 1; i < variantes.length; i++) {
         if (
           resultados.some((x) => {
-            return x.producto.id_producto == variantes[i].id_producto;
+            return x.producto.producto.id_producto == variantes[i].id_producto;
           })
         ) {
-            var posicion= resultados.findIndex((x) => x.producto.id_producto == variantes[i].id_producto)
+            var posicion= resultados.findIndex((x) => x.producto.producto.id_producto == variantes[i].id_producto)
             resultados[posicion].variantes.push(variantes[i]);
             
         } else {
-          const producto = (await ProductoModel.obtenerProductoPorId(
+          var producto = (await ProductoModel.obtenerProductoPorId(
             variantes[i].id_producto
           ))[0];
+          producto = (await ProductoController.obtenerDatosProducto(producto))
+            .datos;
           
           resultados.push({ producto: producto, variantes: [variantes[i]] });
         }
