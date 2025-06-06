@@ -284,7 +284,7 @@ export class FiltrosComponent {
       let marcaValido = false;
       let tipoValido = false;
       let valoracionValido = false;
-      let filtrosValido = false;
+      let filtrosValido = true;
 
       let hayMarcas = false;
       let hayTipos = false;
@@ -328,9 +328,11 @@ export class FiltrosComponent {
       if (this.productos[i].producto.valoracion >= this.valoracion) {
         valoracionValido = true;
       }
-
+      
       this.filtrosTotales.forEach((f: { filtros: any[] }) => {
-        var filtroParcial=false
+        hayFiltros = false;
+        var filtrosParcial=false;
+        
         f.filtros.forEach((filtro) => {
           if (filtro.check) {
             hayFiltros = true;
@@ -339,14 +341,17 @@ export class FiltrosComponent {
                 this.productos[i].producto.id_producto
               ) != -1
             ) {
-              filtrosValido = true;
+              filtrosParcial = true;
             }
           }
         });
+        if (!hayFiltros) {
+          filtrosParcial = true;
+        }
+        filtrosValido=filtrosParcial&&filtrosValido
       });
-      if (!hayFiltros) {
-        filtrosValido = true;
-      }
+      
+      
 
       if (tipoValido && marcaValido && valoracionValido && filtrosValido) {
         productosFiltrados.push(this.productos[i]);
