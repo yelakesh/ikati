@@ -257,8 +257,6 @@ export class PaginaProductoComponent {
 
   async avisarStock() {
 
-    console.log(this.datosAvisarStock)
-
     this.AvisarStockService.anadiraAvisar(this.datosAvisarStock).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
