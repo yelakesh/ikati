@@ -125,15 +125,31 @@
                                     </div>
 
                                 </div>
-                                <button type="submit" class="btn btn-danger text-white fw-bold mt-3" (click)="aLaCesta()"
-                                    [disabled]="rolUsuario=='admin'">Añadir a la
+                                <button type="submit" class="btn btn-danger text-white fw-bold mt-3"
+                                    (click)="aLaCesta()" [disabled]="rolUsuario=='admin'" id="liveToastBtn">Añadir a la
                                     cesta</button>
 
                             </div>
 
-                            
+                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                <div id="liveToast" class="toast hide" role="alert" aria-live="assertive"
+                                    aria-atomic="true">
+                                    <div class="toast-header">
+                                        <img src="..." class="rounded me-2" alt="...">
+                                        <strong class="me-auto">Bootstrap</strong>
+                                        <small>11 mins ago</small>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Hello, world! This is a toast message.
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div *ngIf="stock==0" class="d-flex flex-column align-items-baseline" style="font-size: small;">
+
+                            <div *ngIf="stock==0" class="d-flex flex-column align-items-baseline"
+                                style="font-size: small;">
                                 <p class="fw-bold fs-4">¡Producto Agotado!</p>
                                 <button class="btn btn-warning py-2 shadow" style="font-size:medium;"
                                     [disabled]="rolUsuario=='admin'" (click)="avisarStock()">Avísame cuando

@@ -7,6 +7,13 @@ ON DUPLICATE KEY UPDATE cantidad = cantidad + VALUES(cantidad);`;
  const resultados = await db.query(sql, [id_usuario, id_variante, cantidad])
  return resultados;
 }
+
+async function obtenerVariantesCarritoPorIdUsuario(id_usuario) {
+  const sql = `SELECT * FROM carro where id_usuario=?`;
+  const resultados = await db.query(sql, [id_usuario]);
+  return resultados;
+}
  module.exports = {
-   anadiraCarro
+   anadiraCarro,
+   obtenerVariantesCarritoPorIdUsuario
  };

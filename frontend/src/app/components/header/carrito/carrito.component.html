@@ -1,14 +1,21 @@
-<div 
-  class="carrito-overlay" 
-  *ngIf="visible"
-  (click)="toogleCarrito()">
+<div class="carrito-overlay" *ngIf="visible" (click)="toogleCarrito()">
 </div>
-<div 
-  class="carrito-panel"
-  *ngIf="visible"
-  (click)="$event.stopPropagation()">
+<div class="carrito-panel" *ngIf="visible" (click)="$event.stopPropagation()">
   <button class="btn btn-danger btn-sm float-end" (click)="toogleCarrito()">X</button>
-  <h4>Tu carrito</h4>
-  <!-- Aquí puedes poner la lista de productos del carrito -->
-  <p>(Aquí va el contenido del carrito)</p>
+
+  
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="card" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-footer">
+        Card footer
+      </div>
+    </div>
+  </div>
+  
 </div>
+

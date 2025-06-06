@@ -112,7 +112,6 @@ export class ProductoFormComponent {
       nombre: '',
     });
     this.filtrarTipos_Filtro(this.filtros.length - 1);
-    console.log(this.filtros);
   }
 
   eliminarFiltro(i: number) {

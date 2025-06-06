@@ -8,6 +8,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { AvisarStockService } from '../../services/avisarStock.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -23,11 +24,11 @@ export class PaginaProductoComponent {
 
   constructor(private route: ActivatedRoute, private ProductoService: ProductoService,
     private CarroService: CarroService, private usuarioService: UsuarioService,
-    private AvisarStockService: AvisarStockService) { }
+    private AvisarStockService: AvisarStockService, private snackBar: MatSnackBar) { }
 
   id_usuario: any
   producto: any
-  imagenes: any=[]
+  imagenes: any = []
   valoracion = 0;
   id_variante: any
   variantes: any
@@ -39,6 +40,8 @@ export class PaginaProductoComponent {
   unidades: number = 1
   stock: any
   rolUsuario: any
+
+  CantidadTotalProductos: number = 0
 
 
 
@@ -56,12 +59,12 @@ export class PaginaProductoComponent {
 
   pageLoad() {
     document.addEventListener("load", this.cambiarPrecio)
-    
+
   }
 
-   ngOnInit() {
+  ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    
+
     if (id) {
       this.cargarProducto(id);
     }
@@ -72,17 +75,9 @@ export class PaginaProductoComponent {
       const usuarioObj = JSON.parse(usuarioSesion)
       this.rolUsuario = usuarioObj.rol
 
-
-
-
       if (this.rolUsuario != "admin") {
         this.cargarDatosUsuario();
       }
-
-
-
-
-
 
     }
   }
@@ -129,7 +124,7 @@ export class PaginaProductoComponent {
   }
 
   async cargarProducto(id: string) {
-    this.ProductoService.obtenerProductoPorId({ id_producto:id }).subscribe({
+    this.ProductoService.obtenerProductoPorId({ id_producto: id }).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
           this.producto = respuesta.producto.producto;
@@ -225,8 +220,31 @@ export class PaginaProductoComponent {
     this.CarroService.anadiraCarro(this.productoAlCarro).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          alert(respuesta.mensaje)
 
+
+          this.CarroService.obtenerProductosCarritoPorIdUsuario({ id_usuario: this.productoAlCarro.id_usuario }).subscribe({
+            next: (res) => {
+              if (res.ok) {
+
+                this.snackBar.open('Producto añadido al carrito', 'Cerrar', {
+                  duration: 3000, // milisegundos
+                  panelClass: ['custom-snackbar'] // opcional: clases CSS
+                });
+
+                const productos = res.productos
+
+                this.CantidadTotalProductos = 0
+
+                for (const producto of productos) {
+
+                  this.CantidadTotalProductos += parseInt(producto.cantidad)
+                }
+
+                this.CarroService.setCantidad(this.CantidadTotalProductos)
+
+              }
+            }
+          })
         }
 
       },
@@ -238,8 +256,6 @@ export class PaginaProductoComponent {
   }
 
   async avisarStock() {
-
-    console.log(this.datosAvisarStock)
 
     this.AvisarStockService.anadiraAvisar(this.datosAvisarStock).subscribe({
       next: (respuesta) => {

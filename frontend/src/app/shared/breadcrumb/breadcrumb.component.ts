@@ -25,7 +25,6 @@ export class BreadcrumbComponent implements OnInit {
   ngOnInit() {
     // Obtén la ruta actual inmediatamente cuando el componente se inicia
     const currentUrl = this.router.url;
-    console.log('Current URL:', currentUrl);
     
     // Construye el breadcrumb basado en la URL actual
     this.breadcrumbs = this.buildBreadCrumbFromUrl(currentUrl);
