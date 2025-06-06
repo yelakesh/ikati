@@ -119,15 +119,18 @@ export class CarritoComponent implements OnInit {
   }
 
  sumarProductos(){
-
-
-  let totalProd=0
-for (const producto of this.productosTablaCarro) {
+ 
+  var cont=0
   
-  totalProd += parseInt(producto.cantidad)
+  this.productosTablaCarro.forEach((producto: { variantes: any[]; }) => {
+    producto.variantes.forEach((variante: { cantidad: number; }) => {
+      cont += variante.cantidad; 
+    });
 
-}
-return totalProd
+    
+   });
+   
+return cont
   }
     
 

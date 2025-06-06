@@ -44,16 +44,16 @@ async function obtenerVariantesPorIdProducto(id_producto) {
   return resultados;
 }
 async function obtenerVariantePorIdVariante(id_variante) {
-  const sql = "SELECT * FROM variantes WHERE variante=?";
+  const sql = "SELECT * FROM variantes WHERE id=?";
   const resultados = await db.query(sql, [id_variante]);
   return resultados;
 }
 
-async function obtenerProductoPorIdVariante(id_variante){
-  const sql = "SELECT * FROM productos WHERE id_producto= (SELECT id_producto FROM variantes where id=?)"
-  const resultados = await db.query(sql, [id_variante])
-  return resultados;
-}
+// async function obtenerProductoPorIdVariante(id_variante){
+//   const sql = "SELECT * FROM productos WHERE id_producto= (SELECT id_producto FROM variantes where id=?)"
+//   const resultados = await db.query(sql, [id_variante])
+//   return resultados;
+// }
 
 async function registrarProducto(objProducto) {
   const sql = `INSERT INTO productos 
@@ -196,7 +196,7 @@ module.exports = {
   buscarPorNombre,
   obtenerEnOferta,
   obtenerRecomendados,
-  obtenerProductoPorIdVariante,
+  //obtenerProductoPorIdVariante,
   modificarVariante,
   obtenerVariantePorIdVariante
 };

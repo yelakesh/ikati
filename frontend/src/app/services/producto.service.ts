@@ -56,10 +56,10 @@ export class ProductoService {
     return this.http.post(this.apiUrl + '/buscarPorNombre', {textoBusqueda:textoBusqueda});
   }
 
-    obtenerProductoPorIdVariante(objCarro: object): Observable<any>{
-    return this.http.post(this.apiUrl + '/obtenerProductoPorIdVariante', objCarro)
-  }
-    obtenerVariantePorIdVariante(id_variante: object): Observable<any>{
-    return this.http.post(this.apiUrl + '/obtenerProductoPorIdVariante', id_variante)
-  }
+  //   obtenerProductoPorIdVariante(objCarro: object): Observable<any>{
+  //   return this.http.post(this.apiUrl + '/obtenerProductoPorIdVariante', objCarro)
+  // }
+  //   obtenerVariantePorIdVariante(id_variante: object): Observable<any>{
+  //   return this.http.post(this.apiUrl + '/obtenerProductoPorIdVariante', id_variante)
+  // }
 }
