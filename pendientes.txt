@@ -1,16 +1,11 @@
 ARREGLAR
-Validar Inputs de Formularios en administrador,servicio
-Validar Formularios en administrador,servicio
-Desplegable de administradores y servicios en administracion, cupon
-Tablas de Tipo de Variacion, Tipo de producto
+Validar Inputs de Formularios en servicio
+Validar Formularios en servicio
+Desplegable y servicios en administracion, cupon
 confirmar contraseña de usuario al registrar
 
-
 HACER
-Filtro de productos
-Buscador de productos
-Inicio (Grid con todos los productos)
-Inicio con Filtro
 Perfil de usuario
 Carrito
 Pasarela de compra y PDF
+email aviso de stock

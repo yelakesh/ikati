@@ -277,7 +277,7 @@ export class FiltrosComponent {
       });
   }
 
-  filtrar(check:string) {
+  filtrar(check: string) {
     let productosFiltrados: any[] = [];
 
     for (let i = 0; i < this.productos.length; i++) {
@@ -330,6 +330,7 @@ export class FiltrosComponent {
       }
 
       this.filtrosTotales.forEach((f: { filtros: any[] }) => {
+        var filtroParcial=false
         f.filtros.forEach((filtro) => {
           if (filtro.check) {
             hayFiltros = true;
@@ -351,7 +352,7 @@ export class FiltrosComponent {
         productosFiltrados.push(this.productos[i]);
       }
     }
-    this.ocultarFiltros(productosFiltrados,check);
+    this.ocultarFiltros(productosFiltrados, check);
     this.productosChange.emit(productosFiltrados);
   }
 
@@ -394,6 +395,42 @@ export class FiltrosComponent {
             });
           });
         }
+      }
+    );
+
+    const algunaMarcaSeleccionada = this.marcas.some((m: { check: any; }) => m.check);
+    const algunTipoSeleccionado = this.tipos.some((t: { check: any; }) => t.check);
+    const algunFiltroSeleccionado = this.filtrosTotales.some((fg: { filtros: any[]; }) =>
+      fg.filtros.some((f: { check: any; }) => f.check)
+    );
+
+    if (
+      !algunaMarcaSeleccionada &&
+      !algunTipoSeleccionado &&
+      !algunFiltroSeleccionado
+    ) {
+      this.mostrarTodos();
+    }
+  }
+
+  mostrarTodos() {
+    this.marcas.forEach(
+      (marca: { visible: boolean; productos: string | any[] }) => {
+        marca.visible = true;
+      }
+    );
+
+    this.tipos.forEach(
+      (tipo: { visible: boolean; productos: string | any[] }) => {
+        tipo.visible = true;
+      }
+    );
+
+    this.filtrosTotales.forEach(
+      (filtroGeneral: { filtros: any[]; tipoFiltro: string }) => {
+        filtroGeneral.filtros.forEach((filtro) => {
+          filtro.visible = true;
+        });
       }
     );
   }
