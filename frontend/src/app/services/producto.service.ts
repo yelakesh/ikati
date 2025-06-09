@@ -52,8 +52,13 @@ export class ProductoService {
     return this.http.post(this.apiUrl + '/obtenerPorAnimalYTipo', objs);
   }
 
-  buscarPorNombre(textoBusqueda: string): Observable<any> {    
-    return this.http.post(this.apiUrl + '/buscarPorNombre', {textoBusqueda:textoBusqueda});
+  buscarPorNombre(textoBusqueda: string): Observable<any> {
+    return this.http.post(this.apiUrl + '/buscarPorNombre', {
+      textoBusqueda: textoBusqueda,
+    });
+  }
+  obtenerEmailsAvisoStock(): Observable<any> {
+    return this.http.post(this.apiUrl + '/obtenerEmailsAvisoStock', {});
   }
 
   //   obtenerProductoPorIdVariante(objCarro: object): Observable<any>{

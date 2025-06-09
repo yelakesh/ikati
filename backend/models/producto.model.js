@@ -177,6 +177,22 @@ async function buscarPorNombre(textoBusqueda) {
   return resultados;
 }
 
+async function obtenerEmailsAvisoStock() {
+  const sql = "SELECT a.*, v.valor_variacion, p.nombre from aviso_stock a join variantes v on a.id_variante=v.id join productos p on p.id_producto=v.id_producto where v.stock>0";
+  const resultados = await db.query(sql, []);
+  await eliminarEmailsAvisoStock()
+  return resultados;
+}
+
+async function eliminarEmailsAvisoStock() {
+  const sql = "delete from aviso_stock where id_variante in (select id from variantes where stock>0)";
+  const resultados = await db.query(sql, []);
+
+  return resultados;
+}
+
+
+
 module.exports = {
   obtenerProductoPorNombre,
   obtenerFiltrosPorIdProducto,
@@ -198,5 +214,6 @@ module.exports = {
   obtenerRecomendados,
   //obtenerProductoPorIdVariante,
   modificarVariante,
-  obtenerVariantePorIdVariante
+  obtenerVariantePorIdVariante,
+  obtenerEmailsAvisoStock,
 };

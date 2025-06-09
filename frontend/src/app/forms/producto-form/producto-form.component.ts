@@ -14,6 +14,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AnimalInputComponent } from './inputs/animal/animal-input.component';
 import { MarcaInputComponent } from './inputs/marca/marca-input.component';
+import { firstValueFrom } from 'rxjs';
+import { EmailService } from '../../services/email.service';
 
 @Component({
   selector: 'app-producto-form',
@@ -39,7 +41,9 @@ export class ProductoFormComponent {
     private productoService: ProductoService,
     private tipoProductoService: TipoProductoService,
     private tipoVarianteService: TipoVarianteService,
-    private tipoFiltroService: TipoFiltroService
+    private tipoFiltroService: TipoFiltroService,
+    private emailService:EmailService,
+
   ) {}
 
   public Editor: any = ClassicEditor;
@@ -393,13 +397,35 @@ export class ProductoFormComponent {
       this.productoService.modificarProducto(formData).subscribe({
         next: (respuesta) => {
           alert(respuesta.mensaje);
+          this.enviarEmailStock()
         },
         error: (err) => {
           console.log(err);
           alert(err.error.mensaje);
         },
       });
+
     }
+  }
+
+  async enviarEmailStock(){
+    
+    try {
+      const emailsVariante = await firstValueFrom(
+        this.productoService.obtenerEmailsAvisoStock()
+      );
+      emailsVariante.resultado.forEach((fila: { nombre: string; valor_variacion: string; email: string; }) => {
+        this.emailService.avisoStock(fila.nombre+" - "+fila.valor_variacion,fila.email)
+        
+      });
+           
+      
+       
+
+    } catch (error) {
+      console.error('Error al obtener emails', error);
+    }
+
   }
 
   eliminar() {

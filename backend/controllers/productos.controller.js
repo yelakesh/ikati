@@ -470,6 +470,32 @@ async function obtenerVariantePorIdVarianteController(req, res) {
   }
 }
 
+async function obtenerEmailsAvisoStockController(req, res) {
+
+  try {
+    const resultado = await ProductoModel.obtenerEmailsAvisoStock();
+    if (!resultado || resultado.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        mensaje: "No hay avisos pendientes",
+        resultado: [],
+      });
+    }
+
+    res.json({
+      ok: true,
+      mensaje: "Avisos encontrados",
+      resultado: resultado,
+    });
+  } catch (error) {
+    console.error("Error en la búsqueda de avisos:", error);
+    res.status(500).json({
+      ok: false,
+      mensaje: "Error del servidor",
+      resultado: [],
+    });
+  }
+}
 
 async function obtenerDatosProducto(producto) {
   try {
@@ -557,4 +583,5 @@ export {
   //obtenerProductoPorIdVarianteController,
   obtenerVariantePorIdVarianteController,
   obtenerDatosProducto,
+  obtenerEmailsAvisoStockController,
 };

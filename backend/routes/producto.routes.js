@@ -37,11 +37,24 @@ router.post(
 router.post("/eliminarProducto", productoController.eliminarProductoController);
 router.post("/obtenerNombres", productoController.obtenerNombresController);
 router.post("/obtenerPorAnimal", productoController.obtenerPorAnimalController);
-router.post("/obtenerPorAnimalYTipo", productoController.obtenerPorAnimalYTipoController);
+router.post(
+  "/obtenerPorAnimalYTipo",
+  productoController.obtenerPorAnimalYTipoController
+);
 router.post("/buscarPorNombre", productoController.buscarPorNombreController);
 router.post("/obtenerEnOferta", productoController.obtenerEnOfertaController);
-router.post("/obtenerRecomendados", productoController.obtenerRecomendadosController);
+router.post(
+  "/obtenerRecomendados",
+  productoController.obtenerRecomendadosController
+);
 //router.post("/obtenerProductoPorIdVariante", productoController.obtenerProductoPorIdVarianteController);
-router.post("/obtenerVariantePorIdVariante", productoController.obtenerVariantePorIdVarianteController);
+router.post(
+  "/obtenerVariantePorIdVariante",
+  productoController.obtenerVariantePorIdVarianteController
+);
+router.post(
+  "/obtenerEmailsAvisoStock",
+  productoController.obtenerEmailsAvisoStockController
+);
 
 module.exports = router;

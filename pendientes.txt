@@ -8,4 +8,3 @@ HACER
 Perfil de usuario
 Carrito
 Pasarela de compra y PDF
-email aviso de stock
