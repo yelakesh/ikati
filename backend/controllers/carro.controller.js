@@ -7,6 +7,7 @@ async function anadiraCarroController(req, res) {
 
   try {
     await CarroModel.anadiraCarro(objCarro);
+    await CarroModel.restarStockVariante(objCarro);
 
     return res.json({
       ok: true,

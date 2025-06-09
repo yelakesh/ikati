@@ -23,7 +23,7 @@ export class PaginaProductoComponent {
 
 
   constructor(private route: ActivatedRoute, private ProductoService: ProductoService,
-    private CarroService: CarroService, private usuarioService: UsuarioService,
+    private carroService: CarroService, private usuarioService: UsuarioService,
     private AvisarStockService: AvisarStockService, private snackBar: MatSnackBar) { }
 
   id_usuario: any
@@ -130,6 +130,7 @@ export class PaginaProductoComponent {
           this.producto = respuesta.producto.producto;
           this.imagenes = respuesta.producto.imagenes;
           this.variantes = respuesta.producto.variantes;
+          
 
           this.valoracion = 100 - (this.producto.valoracion * 20);
 
@@ -216,13 +217,15 @@ export class PaginaProductoComponent {
   async aLaCesta() {
 
     this.productoAlCarro.cantidad = this.unidades
-
-    this.CarroService.anadiraCarro(this.productoAlCarro).subscribe({
+    this.carroService.sumarCantidad(this.unidades);
+    this.stock -= this.unidades;
+    this.unidades = this.unidades > this.stock ? this.stock : this.unidades;
+    this.carroService.anadiraCarro(this.productoAlCarro).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
 
 
-          this.CarroService.obtenerProductosCarritoPorIdUsuario({ id_usuario: this.productoAlCarro.id_usuario }).subscribe({
+          this.carroService.obtenerProductosCarritoPorIdUsuario({ id_usuario: this.productoAlCarro.id_usuario }).subscribe({
             next: (res) => {
               if (res.ok) {
 
@@ -240,7 +243,7 @@ export class PaginaProductoComponent {
                   this.CantidadTotalProductos += parseInt(producto.cantidad)
                 }
 
-                this.CarroService.setCantidad(this.CantidadTotalProductos)
+                this.carroService.setCantidad(this.CantidadTotalProductos)
 
               }
             }

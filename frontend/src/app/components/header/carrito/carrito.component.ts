@@ -107,7 +107,7 @@ export class CarritoComponent implements OnInit {
       next: (respuesta) => {
         if (respuesta.ok) {
           this.productosTablaCarro = respuesta.productos;
-          this.cantidadProductos = this.sumarProductos();
+          this.cantidadProductos = this.productosTotales();
           
           this.cantidadProductosChange.emit(this.cantidadProductos);
           this.arrayProductosFinales = [];
@@ -118,7 +118,7 @@ export class CarritoComponent implements OnInit {
     })
   }
 
- sumarProductos(){
+ productosTotales(){
  
   var cont=0
   
@@ -132,6 +132,12 @@ export class CarritoComponent implements OnInit {
    
 return cont
   }
+
+  sumarProductos(){
+    
+  }
+
+
     
 
   // traerProductosCarrito() {

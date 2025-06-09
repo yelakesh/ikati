@@ -6,27 +6,32 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-
 export class CarroService {
-
   private apiUrl = `${environment.apiUrl}/carro`;
 
   private cantidadSubject = new BehaviorSubject<number>(0);
-  cantidad$ = this.cantidadSubject.asObservable();
+  private cantidadSumar = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) { }
+  cantidad$ = this.cantidadSubject.asObservable();
+  cantidadSumar$ = this.cantidadSumar.asObservable();
+
+  constructor(private http: HttpClient) {}
 
   anadiraCarro(objCarro: object): Observable<any> {
     return this.http.post(this.apiUrl + '/anadiraCarro', objCarro);
   }
 
   obtenerProductosCarritoPorIdUsuario(objCarro: object): Observable<any> {
-    return this.http.post(this.apiUrl + '/obtenerProductosCarritoPorIdUsuario', objCarro)
+    return this.http.post(
+      this.apiUrl + '/obtenerProductosCarritoPorIdUsuario',
+      objCarro
+    );
   }
 
-    setCantidad(nuevaCantidad: number) {
+  setCantidad(nuevaCantidad: number) {
     this.cantidadSubject.next(nuevaCantidad);
   }
-
-
+  sumarCantidad(cantidad: number) {
+    this.cantidadSumar.next(cantidad);
+  }
 }

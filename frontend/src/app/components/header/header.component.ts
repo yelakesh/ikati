@@ -53,9 +53,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.usuario = this.usuarioService.usuario;
-    this.sub = this.carroService.cantidad$.subscribe(cantidad => {
-      this.cantidadEnCarrito = cantidad;
-    });
+    // this.sub = this.carroService.cantidad$.subscribe(cantidad => {
+    //   this.cantidadEnCarrito = cantidad;
+    // });
+    this.carroService.cantidadSumar$.subscribe(cantidad=>{this.cantidadEnCarrito += cantidad;})
     this.cargarAnimales();
   }
 
@@ -120,7 +121,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   actualizarCantidadCarrito(nuevaCantidad: number) {
-    this.cantidadEnCarrito = nuevaCantidad;
+    this.cantidadEnCarrito += nuevaCantidad;
   }
 
   // filtrarPorAnimal(objAnimal: object) {
