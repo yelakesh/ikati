@@ -30,4 +30,7 @@ export class CuponService {
   obtenerTodos(): Observable<any> {
     return this.http.post(this.apiUrl + '/obtenerTodos', null);
   }
+  aplicarCupon(objCupon: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/aplicarCupon', objCupon);
+  }
 }

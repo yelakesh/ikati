@@ -21,6 +21,13 @@ async function restarStockVariante(objVariante) {
   ]);
   return resultados;
 }
+async function sumarStockVariante(objVariante) {
+  const sql = `UPDATE variantes set stock=(stock+?) where id = ?;`;
+  const resultados = db.query(sql, [
+    objVariante.cantidad, objVariante.id
+  ]);  
+  return resultados;
+}
 
 async function obtenerVariantesCarritoPorIdUsuario(id_usuario) {
   const sql = `SELECT * FROM carro where id_usuario=?`;
@@ -31,5 +38,6 @@ async function obtenerVariantesCarritoPorIdUsuario(id_usuario) {
    anadiraCarro,
    obtenerVariantesCarritoPorIdUsuario,
    restarStockVariante,
+   sumarStockVariante,
    eliminarDeCarroPorIdVariante
  };

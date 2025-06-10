@@ -79,6 +79,45 @@ async function modificarPorCodigoController(req,res){
       }
     }
 
+        async function aplicarCuponController(req, res) {
+      const objCupon = req.body;
+
+      console.log( "objetoCupon",objCupon);
+      
+
+      try {
+    
+        const resultado = await CuponModel.obtenerPorCodigo(objCupon.codigo);
+        const fechaHoy = new Date()
+        
+
+        const fechaCupon = new Date(resultado[0].fecha_expiracion)
+        const esActivo = resultado[0].activo
+        
+        
+        
+        
+        
+    
+        if (resultado.length === 0) {
+          return res.status(404).json({ ok: false, mensaje: 'Cupón no encontrado', cupon: {} });
+        }
+        if (fechaCupon < fechaHoy) {
+          return res.status(404).json({ ok: false, mensaje: 'Este cupón está caducado', cupon: {} });
+          
+        }
+        
+        if (esActivo===0) {
+          return res.status(404).json({ ok: false, mensaje: 'Este cupón no está activo', cupon: {} });
+        }
+    
+        res.json({ ok: true, mensaje: "Cupón encontrado", cupon: resultado[0] });
+      } catch (err) {
+        console.error('Error en la busqueda del cupón:', err);
+        res.status(500).json({ ok: false, mensaje: 'Error del servidor', cupon: {} });
+      }
+    }
+
     async function eliminarPorCodigoController(req, res) {
       const objCupon = req.body
       try {
@@ -122,6 +161,7 @@ async function modificarPorCodigoController(req,res){
       obtenerPorCodigoController,
       eliminarPorCodigoController,
       obtenerTodosController,
+      aplicarCuponController
     };
   
 

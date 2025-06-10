@@ -1,6 +1,6 @@
-<div class="carrito-overlay" *ngIf="visible" @fadeOverlay  (click)="toogleCarrito()">
+<div class="carrito-overlay" *ngIf="visible" @fadeOverlay (click)="toogleCarrito()">
 </div>
-<div class="carrito-panel" *ngIf="visible" @slideInOut  (click)="$event.stopPropagation()">
+<div class="carrito-panel" *ngIf="visible" @slideInOut (click)="$event.stopPropagation()">
   <button class="btn btn-danger btn-sm float-end" (click)="toogleCarrito()">x</button>
 
 
@@ -15,7 +15,7 @@
     <div *ngIf="cantidadProductos==0">
 
       <h4 class="alert alert-warning text-primary text-center" style="font-size: medium;">Ups... no tienes productos en
-        tu cesta  :(</h4>
+        tu cesta :(</h4>
 
     </div>
 
@@ -44,44 +44,44 @@
     </div>
 
 
-    <div *ngIf="tengoCupon" class="d-flex flex-row justify-content-between gap-3 mt-2 mb-3 mx-3">
-      <input class="rounded-2 border-1 w-75" id="cupones" type="text" placeholder="Código de cupón" (click)="aplicarCupon()">
-      <button class="btn btn-primary w-25">Aplicar</button>
+    <div *ngIf="!cuponAplicado">
+      <div *ngIf="tengoCupon" class="d-flex flex-row align-items-center gap-4">
+        <div class="input-group w-75">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-ticket-perforated text-primary"></i>
+          </span>
+          <input class="form-control form-control-lg border-start-0" id="cupones" type="text"
+            placeholder="Código de cupón" [(ngModel)]="codigoCupon" data-bs-toggle="tooltip" data-bs-placement="top"
+            title="Introduce tu código de cupón aquí">
+        </div>
+        <button class="btn btn-outline-primary" (click)="aplicarCupon()" data-bs-toggle="tooltip"
+          data-bs-placement="top" title="Aplicar cupón">
+          <i class="bi bi-check-circle"></i> Aplicar
+        </button>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div *ngIf="cantidadProductos!=0" class="card shadow-sm rounded-4 p-4 mb-5">
+      <div class="d-flex flex-row justify-content-between align-items-center mb-4">
+        <h4 class="mb-0 fw-semibold text-dark">Importe Total:</h4>
+        <h4 class="mb-0 fw-bold text-success">{{importeFinal.toFixed(2)}}€</h4>
+      </div>
+      <button class="btn btn-danger btn-lg w-100 mb-3 text-white d-flex align-items-center justify-content-center gap-2"
+        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Completa el pago" style="font-size: large;">
+        <img src="imagenes/recursos/paypal.svg" alt="PayPal" style="height: 28px;">
+        Pagar con PayPal
+      </button>
+      <div *ngIf="cuponAplicado" class="d-flex justify-content-center">
+        <span
+          class="badge bg-primary-subtle text-primary-emphasis py-2 px-4 fs-5 shadow-sm animate__animated animate__fadeIn">
+          <i class="bi bi-check-circle-fill"></i> Cupón Canjeado
+        </span>
+      </div>
     </div>
 
   </div>
-  <hr>
 
-  <div *ngIf="cantidadProductos!=0" >
-  <div class=" mx-3 d-flex flex-row justify-content-between mt-4">
-    <div>
-      <h4>Importe Total:</h4>
-    </div>
-
-    <div>
-      <h4 class="fw-bold">{{importeFinal.toFixed(2)}}€ </h4>
-    </div>
-
-
-
-  </div>
-  <div data-bs-toogle="tooltip" data-bs-placement="bottom" title="Completa el pago"
-   class=" text-white fw-bold btn btn-danger w-100 mt-4 mb-5 mx-1" style="font-size: large;" >Compra Ya</div>
-</div>
-
-
-
-
-
-  <!-- <ul>
-    <li *ngFor="let item of cartItems; trackBy: trackByProductId">
-      <app-product-card [product]="item"></app-product-card>
-    </li>
-  </ul>
-  <div class="cart-summary">
-    
-    <span>Total: {{ total | currency }}</span>
-    <button (click)="checkout()">Finalizar compra</button>
-  </div> -->
 
 </div>

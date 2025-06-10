@@ -8,5 +8,6 @@ router.post('/modificarPorCodigo', cuponesController.modificarPorCodigoControlle
 router.post('/obtenerPorCodigo', cuponesController.obtenerPorCodigoController);
 router.post("/obtenerTodos", cuponesController.obtenerTodosController);
 router.post('/eliminarPorCodigo', cuponesController.eliminarPorCodigoController);
+router.post('/aplicarCupon', cuponesController.aplicarCuponController);
 
 module.exports = router;

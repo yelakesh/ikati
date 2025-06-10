@@ -110,11 +110,14 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
 
  async function eliminarDeCarroController(req, res) {
    const id = req.body.id_variante;
+   const cantidad = req.body.unidades
 
-   console.log(id);
+   console.log(req.body);
    
    try {
      const resultado = await CarroModel.eliminarDeCarroPorIdVariante(id);
+     await CarroModel.sumarStockVariante({id:id,cantidad:cantidad});
+
      if (resultado.affectedRows == 0) {
        return res
          .status(404)

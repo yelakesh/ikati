@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { CardProductocestaComponent } from "./card-productocesta/card-productocesta.component";
 import { trigger, transition, style, animate } from '@angular/animations';
+import { CuponService } from '../../../services/cupon.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -43,7 +45,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 
 export class CarritoComponent implements OnInit {
 
-  constructor(private ProductoService: ProductoService, private CarroService: CarroService, private usuarioService: UsuarioService) { }
+  constructor(private ProductoService: ProductoService, private CarroService: CarroService, private usuarioService: UsuarioService, 
+    private cuponService: CuponService, private snackBar: MatSnackBar) { }
 
   @Input() visible = false;
   @Output() cerrado = new EventEmitter<void>();
@@ -60,10 +63,14 @@ export class CarritoComponent implements OnInit {
   variantes: any
   tengoCupon: boolean = false
   importeFinal: number = 0
+  codigoCupon: string =""
+  descuento: number =0
+  tipoDescuento: string=""
+  cuponAplicado:boolean=false
 
 
 
-  arrayProductosFinales: any[] = []
+
 
   toogleCarrito() {
     this.importeFinal = 0
@@ -177,8 +184,69 @@ export class CarritoComponent implements OnInit {
 
 
 aplicarCupon(){
+
+  const codCupon= this.codigoCupon
+   
+  this.cuponService.aplicarCupon({codigo:codCupon}).subscribe({
+    next: (respuesta)=>{
+
+      if (respuesta.ok) {
+          
+        this.descuento = parseInt(respuesta.cupon.descuento)
+        this.tipoDescuento = respuesta.cupon.tipo_descuento
+
+        console.log(this.descuento, this.tipoDescuento);
+        
+        if(this.tipoDescuento == "fijo" && this.importeFinal>=50){
+          this.importeFinal-=this.descuento
+
+          this.snackBar.open('Descuento aplicado', 'Cerrar', {
+            duration: 3000,
+            panelClass: []
+          });
+          this.cuponAplicado = true
+        }else{
+          this.snackBar.open('No cumples los requisitos', 'Cerrar', {
+            duration: 3000,
+            panelClass: []
+          });
+          
+        }
+
+        if(this.tipoDescuento == "porcentaje"){
+
+
+          this.importeFinal=this.precioConDescuento()
+          this.cuponAplicado = true
+
+          this.snackBar.open('Descuento aplicado', 'Cerrar', {
+            duration: 3000,
+            panelClass: []
+            });
+
+        }
+
+
+
+        }
+    }
+  })
   
 }
+
+precioConDescuento() {
+
+  
+
+
+    const descuentoCalculado = this.importeFinal * (this.descuento / 100)
+
+
+    const resultado = this.importeFinal - descuentoCalculado
+
+    return Math.floor(resultado * 100) / 100
+
+  }
 }
 
 
