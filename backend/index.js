@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const puerto = process.env.PORT || 3000;
+const path = require('path');
 
 const allowedOrigins = [
   'https://ikati.vercel.app',
@@ -46,9 +47,8 @@ app.use("/api/tipo_producto", tipo_productoRoutes);
 app.use("/api/tipo_servicio", tipo_servicioRoutes);
 app.use("/api/tipo_variante", tipo_VarianteRoutes);
 app.use("/api/tipo_filtro", tipo_FiltroRoutes);
-app.use("/imagenesProductos", express.static("imagenesProductos"));
-app.use("/imagenesMarcas", express.static("imagenesMarcas"));
-app.use("/imagenesMarcas", express.static("imagenesMarcas"));
+app.use("/imagenesProductos", express.static(path.join(__dirname, "imagenesProductos")));
+app.use("/imagenesMarcas", express.static(path.join(__dirname, "imagenesMarcas")));
 app.use("/api/carro", carroRoutes);
 app.use("/api/avisarStock", avisar_stockRoutes);
 app.use("/api/filtros", filtros);
