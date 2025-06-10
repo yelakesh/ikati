@@ -10,12 +10,13 @@ export class CarroService {
   private apiUrl = `${environment.apiUrl}/carro`;
 
   private cantidadSubject = new BehaviorSubject<number>(0);
-  private cantidadSumar = new BehaviorSubject<number>(0);
 
   cantidad$ = this.cantidadSubject.asObservable();
-  cantidadSumar$ = this.cantidadSumar.asObservable();
 
   constructor(private http: HttpClient) {}
+  private carritoActualizado = new BehaviorSubject<void>(undefined);
+carritoActualizado$ = this.carritoActualizado.asObservable();
+
 
   anadiraCarro(objCarro: object): Observable<any> {
     return this.http.post(this.apiUrl + '/anadiraCarro', objCarro);
@@ -31,7 +32,13 @@ export class CarroService {
   setCantidad(nuevaCantidad: number) {
     this.cantidadSubject.next(nuevaCantidad);
   }
-  sumarCantidad(cantidad: number) {
-    this.cantidadSumar.next(cantidad);
+
+  notificarActualizacionCarrito() {
+  this.carritoActualizado.next();
+}
+
+  eliminarDeCarro(objCarro: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/eliminarDeCarro', objCarro);
   }
+
 }

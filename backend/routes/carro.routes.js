@@ -4,6 +4,7 @@ const router = express.Router();
 const carroController = require('../controllers/carro.controller');
 
 router.post('/anadiraCarro', carroController.anadiraCarroController);
+router.post('/eliminarDeCarro', carroController.eliminarDeCarroController);
 router.post('/obtenerProductosCarritoPorIdUsuario', carroController.obtenerProductosCarritoPorIdUsuarioController);
 
 

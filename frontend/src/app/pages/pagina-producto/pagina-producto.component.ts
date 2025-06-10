@@ -217,7 +217,6 @@ export class PaginaProductoComponent {
   async aLaCesta() {
 
     this.productoAlCarro.cantidad = this.unidades
-    this.carroService.sumarCantidad(this.unidades);
     this.stock -= this.unidades;
     this.unidades = this.unidades > this.stock ? this.stock : this.unidades;
     this.carroService.anadiraCarro(this.productoAlCarro).subscribe({
@@ -226,22 +225,35 @@ export class PaginaProductoComponent {
 
 
           this.carroService.obtenerProductosCarritoPorIdUsuario({ id_usuario: this.productoAlCarro.id_usuario }).subscribe({
+
             next: (res) => {
               if (res.ok) {
-
+                this.carroService.notificarActualizacionCarrito()
                 this.snackBar.open('Producto añadido al carrito', 'Cerrar', {
-                  duration: 3000, // milisegundos
-                  panelClass: ['custom-snackbar'] // opcional: clases CSS
+                  duration: 3000,
+                  panelClass: ['custom-snackbar'] 
                 });
 
-                const productos = res.productos
+                const productos = res.productos 
+
+                console.log("prod",productos);
+                
+                
 
                 this.CantidadTotalProductos = 0
 
                 for (const producto of productos) {
 
-                  this.CantidadTotalProductos += parseInt(producto.cantidad)
+                  for (const variante of producto.variantes) {
+
+                    this.CantidadTotalProductos += parseInt(variante.cantidad)
+
+                  }
+
+                  
                 }
+                console.log(this.CantidadTotalProductos);
+                
 
                 this.carroService.setCantidad(this.CantidadTotalProductos)
 

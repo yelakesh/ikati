@@ -57,6 +57,7 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
         cantidad: carro[i].cantidad,
       });
     }
+    
     var resultados = [];
 
     
@@ -107,7 +108,35 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
   }
 }
 
+ async function eliminarDeCarroController(req, res) {
+   const id = req.body.id_variante;
+
+   console.log(id);
+   
+   try {
+     const resultado = await CarroModel.eliminarDeCarroPorIdVariante(id);
+     if (resultado.affectedRows == 0) {
+       return res
+         .status(404)
+         .json({ ok: true, mensaje: "Producto no encontrado", carro: {} });
+     }
+ 
+     res.json({
+       ok: true,
+       mensaje: "El producto se ha eliminado del carrito con éxito",
+       carro: {},
+     });
+   } catch (err) {
+     
+     res
+       .status(500)
+       .json({ ok: true, mensaje: "Error en el servidor", carro: {} });
+   }
+ }
+
+
 module.exports = {
   anadiraCarroController,
   obtenerProductosCarritoPorIdUsuarioController,
+  eliminarDeCarroController,
 };

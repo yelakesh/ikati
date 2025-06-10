@@ -1,0 +1,48 @@
+<div class="d-flex card border-0">
+
+
+    <div class="d-flex flex-row align-items-center justify-content-between m-2">
+        <img class="me-2" width="15%" [src]="'http://localhost:3000/imagenesProductos/' + miniatura" alt="imagen">
+        <div>
+            <h5 class="text-primary" style="font-size: smaller;">{{ nombreProducto }}</h5>
+            <p class=" justify-content-end fw-bold" style="font-size: smaller;">{{ nombreVariante}}</p>
+        </div>
+        
+        <img style="cursor: pointer;" width="5%" data-bs-toogle="tooltip" data-bs-placement="top" title="Elimina este producto" src="imagenes/recursos/basura.svg" alt="Eliminar" (click)="borrarProductoCarrito()">
+    </div>
+
+
+
+
+    <div class="d-flex flex-row align-items-center justify-content-between m-2">
+        <p tooltip="A ver" class="ms-4" style="font-size: smaller;">Unidades: <strong>{{ cantidad }}</strong></p>
+        <p *ngIf="!tieneDto; else precioDto" style="font-size: smaller;">Precio: <strong>{{precio}}€ </strong>x {{cantidad}}</p>
+        <ng-template #precioDto>
+            <p style="font-size: smaller;">Precio: <strong>{{precioConDto}}€</strong> x {{cantidad}}</p>
+        </ng-template>
+        <div>
+            <ng-container *ngIf="tieneDto === true; else SinDto">
+                <p class="badge text-white fw-bold" style="font-size: medium; background-color: red;">{{ precioFinal.toFixed(2)
+                    }}€</p>
+
+
+            </ng-container>
+            <ng-template #SinDto>
+                <p class=" badge bg-warning fw-bold text-primary" style="font-size: medium;">{{ precioFinal.toFixed(2) }}€</p>
+                
+            </ng-template>
+            
+        </div>
+
+        
+
+
+    </div>
+
+
+
+    <div class="align-content-center">
+        <img width="30%" src="imagenes/recursos/linea.png" alt="linea">
+    </div>
+
+</div>

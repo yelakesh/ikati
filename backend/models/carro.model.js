@@ -7,6 +7,11 @@ ON DUPLICATE KEY UPDATE cantidad = cantidad + VALUES(cantidad);`;
  const resultados = db.query(sql, [id_usuario, id_variante, cantidad])
  return resultados;
 }
+async function eliminarDeCarroPorIdVariante(id_variante) {
+   const sql = 'DELETE FROM carro WHERE id_variante=?';
+   const resultados = await db.query(sql, [id_variante]);
+   return resultados;
+ }
 
 async function restarStockVariante(objVariante) {
   const sql = `UPDATE variantes set stock=(stock-?) where id = ?;`;
@@ -26,4 +31,5 @@ async function obtenerVariantesCarritoPorIdUsuario(id_usuario) {
    anadiraCarro,
    obtenerVariantesCarritoPorIdUsuario,
    restarStockVariante,
+   eliminarDeCarroPorIdVariante
  };
