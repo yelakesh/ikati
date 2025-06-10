@@ -67,6 +67,11 @@ export class PaginaProductoComponent {
 
     if (id) {
       this.cargarProducto(id);
+
+      this.carroService.carritoActualizado$.subscribe(() => {
+      
+      this.cargarProducto(id);
+    });
     }
 
     const usuarioSesion = sessionStorage.getItem('usuario');
