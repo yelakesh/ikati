@@ -14,7 +14,7 @@
                 <div class="carousel-inner">
                     <div *ngFor="let imagen of imagenes; let i = index" class="carousel-item" [class.active]="i===0">
                         <img class="d-block w-100 h-100 imagen-carrusel"
-                            [src]="'http://localhost:3000/imagenesProductos/' + imagen?.nombre" alt="'Imagen ' + (i+1)"
+                            [src]="'http://localhost:3000/imagenesProductos/' + imagen?.nombre" [alt]="'Imagen ' + (i+1)"
                             style="object-fit: contain; background: #f8f9fa;">
                     </div>
                 </div>
@@ -36,11 +36,11 @@
                 <div>
                     <span class="fw-bold">Valoración ({{producto.valoracion}})</span>
                     <div class="mb-3" style="width: 20%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" />
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" alt="huellaPerroAzul"/>
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
 
                     </div>
 

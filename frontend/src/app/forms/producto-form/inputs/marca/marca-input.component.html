@@ -14,7 +14,7 @@
     <mat-autocomplete #autoMarca="matAutocomplete" class="bg-white">
       @for (marca of marcasFiltrados; track marca) {
       <mat-option (click)="cambiarIdMarca(marca.id_marca)" [value]="marca.nombre">
-        <span><img [src]="'http://localhost:3000/imagenesMarcas/'+marca.imagen" alt="" width="45px"></span><span>{{marca.nombre}}</span>
+        <span><img [src]="'http://localhost:3000/imagenesMarcas/'+marca.imagen" [alt]="'Marca-'+marca.nombre" width="45px"></span><span>{{marca.nombre}}</span>
         
       </mat-option>
       }
