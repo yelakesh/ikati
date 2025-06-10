@@ -27,13 +27,13 @@ async function obtenerPorId(id) {
 
 async function modificar(objMarca) {
   const sql = ` UPDATE marcas set nombre=?,imagen=? WHERE id_marca=?`;
-  const resultados = await db.query(sql, [objMarca.nombre,objMarca.imagen, objMarca.id]);
+  const [resultados] = await db.query(sql, [objMarca.nombre,objMarca.imagen, objMarca.id]);
   return resultados;
 }
 
 async function eliminarPorId(id) {
   const sql = "DELETE FROM marcas WHERE id_marca=?";
-  const resultados = await db.query(sql, [id]);
+  const [resultados] = await db.query(sql, [id]);
   return resultados;
 }
 

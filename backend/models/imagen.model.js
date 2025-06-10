@@ -16,7 +16,7 @@ async function registrarImagen(id_producto, nombre) {
   const sql = `INSERT INTO imagenes 
       (id_producto,nombre) 
       VALUES (?, ?)`;
-  const resultados = await db.query(sql, [id_producto, nombre]);
+  const [resultados] = await db.query(sql, [id_producto, nombre]);
   return resultados;
 }
 

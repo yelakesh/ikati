@@ -4,18 +4,18 @@ async function anadiraCarro({id_usuario, id_variante, cantidad}){
 const sql =`INSERT INTO carro (id_usuario, id_variante, cantidad)
 VALUES (?, ?, ?)
 ON DUPLICATE KEY UPDATE cantidad = cantidad + VALUES(cantidad);`;
- const resultados = db.query(sql, [id_usuario, id_variante, cantidad])
+ const [resultados] = await db.query(sql, [id_usuario, id_variante, cantidad]);
  return resultados;
 }
 async function eliminarDeCarroPorIdVariante(id_variante) {
    const sql = 'DELETE FROM carro WHERE id_variante=?';
-   const resultados = await db.query(sql, [id_variante]);
+   const [resultados] = await db.query(sql, [id_variante]);
    return resultados;
  }
 
 async function restarStockVariante(objVariante) {
   const sql = `UPDATE variantes set stock=(stock-?) where id = ?;`;
-  const resultados = db.query(sql, [
+  const [resultados] = await db.query(sql, [
     objVariante.cantidad,
     objVariante.id_variante,
   ]);
@@ -23,7 +23,7 @@ async function restarStockVariante(objVariante) {
 }
 async function sumarStockVariante(objVariante) {
   const sql = `UPDATE variantes set stock=(stock+?) where id = ?;`;
-  const resultados = db.query(sql, [
+  const [resultados] = await db.query(sql, [
     objVariante.cantidad, objVariante.id
   ]);  
   return resultados;
@@ -31,7 +31,7 @@ async function sumarStockVariante(objVariante) {
 
 async function obtenerVariantesCarritoPorIdUsuario(id_usuario) {
   const sql = `SELECT * FROM carro where id_usuario=?`;
-  const resultados = await db.query(sql, [id_usuario]);
+  const [resultados] = await db.query(sql, [id_usuario]);
   return resultados;
 }
  module.exports = {
