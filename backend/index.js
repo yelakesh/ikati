@@ -6,7 +6,7 @@ const path = require('path');
 
 const allowedOrigins = [
   'https://ikati.vercel.app',
-  'http://localhost:4200', // o 3000, según el puerto de tu frontend local
+  'http://localhost:4200',
 ];
 
 app.use(cors({
@@ -14,10 +14,13 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log('CORS bloqueado para origen:', origin); 
       callback(new Error('No permitido por CORS'));
     }
-  }
+  },
+  credentials: true, 
 }));
+
 
 app.use(express.json()); 
 
