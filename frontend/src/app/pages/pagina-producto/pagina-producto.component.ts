@@ -63,6 +63,8 @@ export class PaginaProductoComponent {
   }
 
   ngOnInit() {
+
+    window.scrollTo(0, 0);
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
