@@ -3,7 +3,21 @@ const cors = require('cors');
 const app = express();
 const puerto = process.env.PORT || 3000;
 
-app.use(cors());
+const allowedOrigins = [
+  'https://ikati.vercel.app',
+  'http://localhost:4200', // o 3000, según el puerto de tu frontend local
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  }
+}));
+
 app.use(express.json()); 
 
 const usuarioRoutes = require('./routes/usuario.routes');
