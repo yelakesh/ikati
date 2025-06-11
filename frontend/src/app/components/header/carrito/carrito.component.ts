@@ -313,7 +313,7 @@ export class CarritoComponent implements OnInit {
     this.CarroService.completarCompra(objCompra).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-
+            /************************************************************ */
           this.productosTablaCarro = null;
           this.importeFinal = 0;
           this.cantidadProductos=0
