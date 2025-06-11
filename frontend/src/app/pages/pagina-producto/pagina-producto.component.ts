@@ -67,8 +67,13 @@ export class PaginaProductoComponent {
     window.scrollTo(0, 0);
     const id = this.route.snapshot.paramMap.get('id');
 
-    if (id) {
+    if (id) {    this.cargarProducto(id);
+
+    
+    this.carroService.carritoActualizado$.subscribe(() => {
+      
       this.cargarProducto(id);
+    });
     }
 
     const usuarioSesion = sessionStorage.getItem('usuario');

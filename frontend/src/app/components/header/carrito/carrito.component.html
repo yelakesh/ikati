@@ -1,7 +1,7 @@
 <div class="carrito-overlay" *ngIf="visible" @fadeOverlay (click)="toogleCarrito()">
 </div>
-<div class="carrito-panel" *ngIf="visible" @slideInOut (click)="$event.stopPropagation()">
-  <button class="btn btn-danger btn-sm float-end" (click)="toogleCarrito()">x</button>
+<div class="carrito-panel p-0" *ngIf="visible" @slideInOut (click)="$event.stopPropagation()">
+  <button class="btn btn-danger btn-sm float-end m-2" (click)="toogleCarrito()">x</button>
 
 
   <div class="container">
@@ -44,9 +44,9 @@
     </div>
 
 
-    <div *ngIf="!cuponAplicado">
-      <div *ngIf="tengoCupon" class="d-flex flex-row align-items-center gap-4">
-        <div class="input-group w-75">
+    <div *ngIf="!cuponAplicado" >
+      <div *ngIf="tengoCupon" class="d-flex flex-row align-items-center gap-4 mx-3">
+        <div class="input-group w-75 ">
           <span class="input-group-text bg-white border-end-0">
             <i class="bi bi-ticket-perforated text-primary"></i>
           </span>
@@ -63,7 +63,7 @@
 
     <hr class="my-4">
 
-    <div *ngIf="cantidadProductos!=0" class="card shadow-sm rounded-4 p-4 mb-5">
+    <div *ngIf="cantidadProductos!=0" class="card shadow-sm rounded-4 p-4 mb-5 mx-3">
       <div class="d-flex flex-row justify-content-between align-items-center mb-4">
         <h4 class="mb-0 fw-semibold text-dark">Importe Total:</h4>
         <h4 class="mb-0 fw-bold text-success">{{importeFinal.toFixed(2)}}€</h4>
