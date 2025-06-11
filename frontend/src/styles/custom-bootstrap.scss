@@ -288,6 +288,17 @@ nav[aria-label="breadcrumb"] {
   /* No pongas aquí transform ni opacity, lo maneja la animación */
 }
 
+@media (max-width: 768px) {
+  .carrito-panel {
+    width: 100vw;
+    min-width: unset;
+    max-width: unset;
+    left: 0;
+    border-radius: 0;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+  }
+}
+
 // .carrito-overlay {
 //   position: fixed;
 //   top: 0; left: 0; right: 0; bottom: 0;
