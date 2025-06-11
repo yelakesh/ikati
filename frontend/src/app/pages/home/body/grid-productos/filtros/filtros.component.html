@@ -1,38 +1,48 @@
-<div>
-  <H5>Marcas</H5>
-  <ul *ngFor="let marca of marcas; let i = index" style="margin: 0%">
-    <ng-container *ngIf="marca.visible">
-      <mat-checkbox [(ngModel)]="marca.check" (change)="filtrar('marca')">{{ marca.marca }}</mat-checkbox>
-    </ng-container>
-    
-  </ul>
-</div>
+<div class="card rounded-pill mb-4 shadow border-0">
+  <div class="card-header fw-bold bg-primary text-white">Personaliza tu búsqueda</div>
+  <div class="card-body bg-secondary-subtle ">
+    <div>
+      <h5 class="mb-3">Marcas</h5>
+      <ul *ngFor="let marca of marcas; let i = index" class="list-unstyled mb-2">
+        <ng-container *ngIf="marca.visible">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="marca.check" (change)="filtrar('marca')" id="marca-{{i}}">
+            <label class="form-check-label" for="marca-{{i}}">{{ marca.marca }}</label>
+          </div>
+        </ng-container>
+      </ul>
+    </div>
 
-<div *ngIf="tipos">
-  <h5 *ngIf="!tipo">Tipo de producto</h5>
-  <ul *ngFor="let tipo of tipos; let i = index" >
-    <ng-container *ngIf="tipo.visible">
-      <mat-checkbox [(ngModel)]="tipo.check" (change)="filtrar('tipo')">{{ tipo.tipo }}</mat-checkbox>
-    </ng-container>
-  </ul>
-</div>
+    <div *ngIf="tipos">
+      <h5 class="mb-3 mt-3" *ngIf="!tipo">Tipo de producto</h5>
+      <ul *ngFor="let tipo of tipos; let i = index" class="list-unstyled mb-2">
+        <ng-container *ngIf="tipo.visible">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="tipo.check" (change)="filtrar('tipo')" id="tipo-{{i}}">
+            <label class="form-check-label" for="tipo-{{i}}">{{ tipo.tipo }}</label>
+          </div>
+        </ng-container>
+      </ul>
+    </div>
 
-<div *ngIf="marcas">
-  <h5>Valoración mínima</h5>
-  <mat-slider min="0" max="5" step="0.1" discrete (change)="filtrar('valoracion')">
-    <input matSliderThumb [(ngModel)]="valoracion" />
-  </mat-slider>
-</div>
+    <div class="mb-3" *ngIf="marcas">
+      <h5 class="mt-3">Valoración mínima</h5>
+      
+      <mat-slider min="0" max="5" step="0.1" discrete (change)="filtrar('valoracion')">
+        <input matSliderThumb [(ngModel)]="valoracion" />
+      </mat-slider>
+    </div>
 
-<div *ngFor="let filtros of filtrosTotales">
-  <h5>
-    {{ filtros.tipoFiltro }}
-  </h5>
-  <ul *ngFor="let filtro of filtros.filtros">
-    <ng-container *ngIf="filtro.visible">
-      <mat-checkbox [(ngModel)]="filtro.check" (change)="filtrar(filtros.tipoFiltro)">{{ filtro.filtro }}</mat-checkbox>
-    </ng-container>
-    
-  </ul>
+    <div *ngFor="let filtros of filtrosTotales">
+      <h5 class="mb-2 mt-3">{{ filtros.tipoFiltro }}</h5>
+      <ul *ngFor="let filtro of filtros.filtros" class="list-unstyled mb-2">
+        <ng-container *ngIf="filtro.visible">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="filtro.check" (change)="filtrar(filtros.tipoFiltro)" id="{{filtros.tipoFiltro}}-{{filtro.filtro}}">
+            <label class="form-check-label" for="{{filtros.tipoFiltro}}-{{filtro.filtro}}">{{ filtro.filtro }}</label>
+          </div>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
 </div>
-

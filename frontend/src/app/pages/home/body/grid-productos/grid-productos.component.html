@@ -1,17 +1,32 @@
-
-<div class="container mb-5 d-flex flex-row">
-  <aside class="me-5"><app-filtros *ngIf="accion" [productos]="productos" (productosChange)="filtrar($event)"></app-filtros></aside>
-
-  <div>
-    <div class="mb-3 mx-auto" *ngIf="accion == null"><h3>Productos Recomendados</h3></div>
-
-    <div id="grid-productos" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 mx-3">
-      <div class="col d-flex" *ngFor="let producto of productosFiltrados">
-        <app-card-producto
-          class="w-100 h-100"
-          [producto]="producto"
-        ></app-card-producto>
-      </div>
+<div class="container mb-5">
+  <div class="d-flex justify-content-center row flex-column flex-md-row">
+    <!-- Botón solo visible en móvil -->
+    <div *ngIf="accion != null" class="d-md-none mb-3">
+      <button class="btn btn-danger w-100" (click)="toggleFiltros()">
+        {{ mostrarFiltros ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
+      </button>
     </div>
+    <!-- Filtros: visible en escritorio o en móvil si mostrarFiltros es true -->
+    <aside 
+      class="col-12 col-md-3 mb-3 mb-md-0" 
+      *ngIf="accion && (tamanoEscritorio || mostrarFiltros)">
+      <app-filtros [productos]="productos" (productosChange)="filtrar($event)"></app-filtros>
+    </aside>
+    <!-- Productos -->
+    <main [ngClass]="{
+            'col-12': true,
+            'col-md-9': tamanoEscritorio || mostrarFiltros
+          }">
+      <div class="mb-3 mx-auto" *ngIf="accion == null">
+        <h3>Productos Recomendados</h3>
+      </div>
+     <div class="d-flex justify-content-center">
+  <div id="grid-productos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 grid-productos-centrado">
+    <div class="col d-flex" *ngFor="let producto of productosFiltrados">
+      <app-card-producto class="w-100 h-100" [producto]="producto"></app-card-producto>
+    </div>
+  </div>
+</div>
+    </main>
   </div>
 </div>

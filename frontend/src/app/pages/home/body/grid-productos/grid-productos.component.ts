@@ -7,7 +7,8 @@ import {
   input,
   Output,
   signal,
-  AfterViewInit
+  AfterViewInit,
+  HostListener
 } from '@angular/core';
 import { CardProductoComponent } from './card-producto/card-producto.component';
 import { NgFor } from '@angular/common';
@@ -22,18 +23,23 @@ import { FiltrosComponent } from './filtros/filtros.component';
   templateUrl: './grid-productos.component.html',
   styleUrl: './grid-productos.component.css',
 })
-export class GridProductosComponent{
+export class GridProductosComponent {
   constructor(
     private productoService: ProductoService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
   productos: any = [];
   productosFiltrados: any = [];
   accion: string | null = '';
+  mostrarFiltros = false;
+  tamanoEscritorio = window.innerWidth >= 768;
 
-  
+
 
   ngOnInit(): void {
+
+    this.actualizarModo();
+
     this.route.paramMap.subscribe(() => {
       this.accion = this.route.snapshot.paramMap.get('accion');
       const filtro1 = this.route.snapshot.paramMap.get('filtro1');
@@ -49,40 +55,60 @@ export class GridProductosComponent{
         this.obtenerProductosEnOferta();
       } else {
         this.obtenerProductosRecomendados();
-        
-      }
-    });
-  
-  }
-  private hacerScroll() {
-    setTimeout(() => { 
-      if (this.accion) {
-        const grid = document.getElementById('grid-productos');
-      if (grid) {
-        grid.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest' 
-        });
-      }
-        
-      }
-      else{
-        const body = document.getElementsByTagName('body')[0];
-      if (body) {
-        body.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest' 
-        });
-      }
 
       }
-      
+    });
+
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.actualizarModo();
+  }
+
+  private hacerScroll() {
+    setTimeout(() => {
+      if (this.accion) {
+        const grid = document.getElementById('grid-productos');
+        if (grid) {
+          grid.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+
+      }
+      else {
+        const body = document.getElementsByTagName('body')[0];
+        if (body) {
+          body.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+
+      }
+
     }, 10);
   }
 
-  
+  actualizarModo() {
+    this.tamanoEscritorio = window.innerWidth >= 768;
+
+    if (this.tamanoEscritorio) {
+      this.mostrarFiltros = true;
+    } else {
+      this.mostrarFiltros = false;
+    }
+  }
+
+  toggleFiltros() {
+    this.mostrarFiltros = !this.mostrarFiltros;
+  }
+
+
   obtenerProductosRecomendados() {
     this.productoService.obtenerRecomendados().subscribe({
       next: (res) => {
@@ -169,7 +195,9 @@ export class GridProductosComponent{
       },
     });
   }
-  filtrar(productosFiltrados: any){
-    this.productosFiltrados=productosFiltrados
+  filtrar(productosFiltrados: any) {
+    this.productosFiltrados = productosFiltrados
   }
+
+
 }
