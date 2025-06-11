@@ -42,7 +42,7 @@ export class CardProductocestaComponent implements OnInit {
     this.descuento = this.producto.producto.producto.descuento
     this.precio = this.variante.precio
 
-    this.miniatura = this.producto.producto.imagenes[0].nombre
+    this.miniatura = this.producto.producto.imagenes[0][0].nombre
     this.nombreProducto = this.producto.producto.producto.nombre
     this.nombreVariante = this.variante.valor_variacion
     this.id_variante = this.variante.id
