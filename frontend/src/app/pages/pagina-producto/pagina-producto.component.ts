@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
+
 @Component({
   selector: 'app-pagina-producto',
   imports: [HeaderComponent, CommonModule, FormsModule],
@@ -42,6 +43,11 @@ export class PaginaProductoComponent {
   rolUsuario: any
 
   CantidadTotalProductos: number = 0
+
+  showVerano = false;
+  showVacaciones = false;
+
+ 
 
 
 
@@ -137,6 +143,9 @@ export class PaginaProductoComponent {
           this.producto = respuesta.producto.producto;
           this.imagenes = respuesta.producto.imagenes;
           this.variantes = respuesta.producto.variantes;
+
+          
+          
           
 
           this.valoracion = 100 - (this.producto.valoracion * 20);
@@ -295,6 +304,21 @@ export class PaginaProductoComponent {
     });
   }
 
+   toggleVerano() {
+    this.showVerano = !this.showVerano;
+  }
+
+  toggleVacaciones() {
+    this.showVacaciones = !this.showVacaciones;
+  }
+
+  copiarAlPortapapeles(codigo: string) {
+  navigator.clipboard.writeText(codigo);
+  this.snackBar.open('Cupón copiado al Portapapeles', 'Cerrar', {
+            duration: 3000,
+            panelClass: []
+          });
+}
 
 }
 

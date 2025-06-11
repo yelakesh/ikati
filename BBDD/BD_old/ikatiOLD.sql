@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 30-05-2025 a las 11:00:41
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 02-06-2025 a las 20:21:26
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -97,6 +97,7 @@ CREATE TABLE `carro` (
 --
 
 INSERT INTO `carro` (`id_usuario`, `id_variante`, `cantidad`) VALUES
+(41, 124, 2),
 (69, 79, 1),
 (69, 108, 1);
 
@@ -161,22 +162,24 @@ CREATE TABLE `filtros` (
 --
 
 INSERT INTO `filtros` (`id`, `id_producto`, `id_filtro`, `valor`) VALUES
-(65, 103, 2, 'pequeño'),
+(65, 103, 2, 'Pequeño'),
 (67, 104, 5, 'Gris'),
-(79, 105, 2, 'grande'),
-(80, 105, 5, 'amarillo'),
+(79, 105, 2, 'Grande'),
+(80, 105, 5, 'Amarillo'),
 (82, 98, 3, 'Salmón'),
 (85, 102, 2, 'Grande'),
-(87, 99, 2, 'pequeño'),
+(87, 99, 2, 'Pequeño'),
 (89, 106, 5, 'Negro'),
 (90, 106, 4, 'Metal'),
 (91, 106, 1, 'Novedad'),
-(92, 107, 3, 'Vacuno, pollo, conejo y salmón'),
+(92, 107, 3, 'Conejo'),
 (93, 101, 3, 'Frutas'),
 (96, 109, 4, 'Madera'),
 (97, 109, 6, 'Ecológico'),
 (98, 111, 1, 'Novedad'),
-(100, 100, 5, 'Gris');
+(100, 100, 5, 'Gris'),
+(101, 107, 3, 'Vacuno'),
+(102, 107, 3, 'Pollo');
 
 -- --------------------------------------------------------
 
@@ -238,7 +241,7 @@ INSERT INTO `imagenes` (`id`, `id_producto`, `nombre`) VALUES
 --
 
 CREATE TABLE `marcas` (
-  `id` int(11) NOT NULL,
+  `id_marca` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `imagen` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -247,7 +250,7 @@ CREATE TABLE `marcas` (
 -- Volcado de datos para la tabla `marcas`
 --
 
-INSERT INTO `marcas` (`id`, `nombre`, `imagen`) VALUES
+INSERT INTO `marcas` (`id_marca`, `nombre`, `imagen`) VALUES
 (1, 'Seresto', 'Seresto.png'),
 (2, 'Frontline', 'Frontline.png'),
 (3, 'Acana Classic', 'Acana_Classic.png'),
@@ -277,7 +280,7 @@ INSERT INTO `marcas` (`id`, `nombre`, `imagen`) VALUES
 --
 
 CREATE TABLE `productos` (
-  `id` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `activo` tinyint(4) DEFAULT NULL,
@@ -292,7 +295,7 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `activo`, `id_animal`, `id_marca`, `id_tipo`, `descuento`, `valoracion`) VALUES
+INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `activo`, `id_animal`, `id_marca`, `id_tipo`, `descuento`, `valoracion`) VALUES
 (98, 'True Origins Wild Adult Pacific Salmón pienso para perros', '<p>Pienso con prebioticos, sin cereales y sabor a salmón para perros adultos.</p><p>Comida seca rica en salmón para mantener a tu perro adulto saludable</p><p>El <strong>pienso para perros </strong>Pacific Adult ha sido formulado para cubrir todas las necesidades de los perros adultos y contribuir a su óptimo desarrollo para que crezcan sanos y fuertes.<br>Alimento completo para perros adultos, rico en salmón, un pescado que cuenta con cantidad de propiedades beneficiosas para el organismo. Es una fuente excepcional de proteínas y un aporte de ácidos grasos Omega 3 y Omega 6, que ayudan a reducir los niveles de colesterol y al fortalecimiento de huesos y articulaciones. El consumo de alimentos ricos en Omega 3, como el salmón, ayudan al fortalecimiento del sistema inmunológico y favorecen el mantenimiento de la piel y el pelo sanos.<br>La fruta y verdura son una excelente fuente de minerales y vitaminas, actuando como antioxidantes naturales y ayudando a conservar el sistema inmunitario de tu perro en pleno funcionamiento.</p><p>•&nbsp;&nbsp; &nbsp;La combinación de<strong> fuentes naturales de proteínas</strong> y favorece una alta digestibilidad.<br>•&nbsp;&nbsp; &nbsp;<strong>Prebioticos</strong>: Estimulación de la microflora intestinal.&nbsp;<br>•&nbsp;&nbsp; &nbsp;<strong>Cáscaras de crustáceos </strong>y extracto de cartílago: Ayudan a mantener fuertes los huesos, las articulaciones y los tendones y favorecen a la movilidad.<br>•&nbsp;&nbsp;&nbsp;<strong> Garbanzos</strong>: Fuente natural de proteínas y minerales, como sodio, magnesio, hierro, calcio, los cuales, son necesarios para fortalecer los huesos.<br>•&nbsp;&nbsp; &nbsp;<strong>Omega 3: </strong>Incluye aceite de salmón, rico en omega 3, para el cuidado de la piel y el pelaje.</p><p><strong>Composición</strong><i><strong>:&nbsp;</strong></i>Salmón deshidratado (25 %), pescado blanco deshidratado (18 %), aceite de salmón (12 %), salmón fresco (10 %), patatas (10 %), guisantes (10 %), proteína de salmón hidrolizada (3 %), pulpa de manzana deshidratada (3%), calabaza (3%), huevos hidrolizados (2%), zanahorias (1%), linaza (1%), garbanzos (1%), cáscaras de crustáceos hidrolizados (fuente de glucosamina, 0,026%) , extracto de cartílago (fuente de condroitina, 0,016%), levadura de cerveza (fuente de manano-oligosacáridos, 0,015%), raíz de achicoria seca (fuente de fructo-oligosacáridos, 0,01%), yucca schidigera (0,01%) , algas secas (0,01%), romero seco (0,01%)</p>', 1, 1, 11, 5, 0.00, 3.5),
 (99, 'Greenies Teenie Snacks Dentales Naturales para perros pequeños', '<p>Snacks para perros de razas pequeñas de 2 a 7kg, elaborado para lograr una salud dental completa de tu mascota.</p><p>Deliciosos snacks dentales para perros</p><p>Greenies actúa eficazmente en cuatro frentes clave para la higiene oral: el sarro, la placa, el mal aliento y la salud de las encías. El Consejo de la Salud oral veterinaria en USA lo aprueba como el complemento para controlar el sarro y la placa.</p><p><strong>Características:</strong></p><ul><li>Proporciona unas encías sanas.&nbsp;</li><li>Gran palatabilidad, altamente soluble y digestible.&nbsp;</li><li>Reduce el sarro, la placa bacteriana y el mal aliento.&nbsp;</li><li>Creados en base a la forma de la mandíbula y la mordida.&nbsp;</li><li>Fabricado para ajustarse a los hábitos de masticación de los perros.&nbsp;</li></ul>', 1, 1, 12, 7, 0.00, 4.0),
 (100, 'Catshion Pole Rascador Gris para gatos', '<p>Rascador gris en varios tamaños de color gris de la marca Catshion.</p><p>Rascador para gatos Catshion Pole</p><p>El Rascador para Gatos Catshion es un accesorio esencial que tu gato amará. Este poste rascador no solo permite a tu felino afilar sus uñas de forma segura, sino que también le brinda diversión y estimula sus instintos naturales. Además, protege tus muebles, cortinas, alfombras y paredes de posibles daños causados por las afiladas garras de tu compañero peludo.</p><p>&nbsp;</p><p>El Rascador Catshion combina un diseño elegante con colores neutros que se integran armoniosamente en tu hogar. Su tamaño compacto garantiza que ocupe muy poco espacio, y su facilidad de limpieza lo convierte en la elección perfecta para mantener tu casa en orden.</p>', 1, 2, 13, 14, 20.00, 3.0),
@@ -323,6 +326,47 @@ CREATE TABLE `servicios` (
   `direccion` varchar(150) NOT NULL,
   `web` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`id`, `nombre`, `id_tipo`, `latitud`, `longitud`, `direccion`, `web`) VALUES
+(1, 'Hospital veterinario Retiro', 1, 40.42178441, -3.67966495, 'Av. de Menéndez Pelayo, 9', 'https://hospitalveterinarioretiro.com/'),
+(2, 'WagWag', 3, 40.45116945, -3.67756645, 'Calle del Dr. Marco Corera', 'https://www.wagwag.es/'),
+(3, 'EncantaDogs', 2, 40.50571260, -3.69057079, 'Pl. Tres Olivos, 2, local posterior', 'http://www.encantadogs.es/'),
+(4, 'CityDog Madrid', 3, 40.62489868, -3.69443582, 'Rda. de Valdecarrizo, 5', 'https://citydogmadrid.com/'),
+(5, 'Canhotel residencia canina', 3, 40.50578571, -3.65282973, 'Cam. Arroyo de Valdebebas, 13', 'https://www.canhotel.es/'),
+(6, 'Medivet 24H Delicias', 1, 40.40815796, -3.69007371, 'Calle de las Delicias, 35', 'https://www.medivetgroup.com/es-es/'),
+(7, 'Villamascota Hotel', 3, 40.30558388, -3.69231571, 'Autovía del Sur, 13, km 14', 'https://www.villamascota.es/'),
+(8, 'DogMadrid', 3, 40.43970877, -3.81590579, 'C. Campomanes, 53', 'https://www.dogmadrid.es/'),
+(9, 'Residencia Canina Malilupus', 3, 40.37722927, -3.81762240, 'Km 10,700 A-5 dirección', 'https://www.malilupus.com/'),
+(10, 'La Petucasa', 3, 40.50693643, -3.66946409, 'C. Quintanapalla, 5', 'https://www.lapetucasa.com/'),
+(11, 'Centro Canino Gufy', 3, 40.50463322, -3.73097421, 'Carretera Fuencarral-El Pardo, Km. 3,5', 'https://www.centrocaninogufy.com/'),
+(12, 'Centro Canino Vallecan', 3, 40.50667059, -3.72029122, 'Carr. de El Pardo a Fuencarral, Km. 2, 200', 'https://www.vallecan.es/'),
+(13, 'Residencia Canina Solycan', 3, 40.57388514, -3.58856074, 'Salida 20 A-1, Km 22.300', 'https://residenciacaninamadridsolycan.com/'),
+(14, 'Cans College', 3, 40.58183500, -3.58048621, 'C. del Abedul', 'https://canscollege.com/'),
+(15, 'Perro Suertudo', 2, 40.51927544, -3.65645757, ' CC Moraleja Green Edificio Norte, Av. de Europa, 13', 'https://perrosuertudo.es/'),
+(16, 'Amor Perruno', 2, 40.48395432, -3.72897796, 'C. de Ramón Gómez de la Serna, 81', 'https://www.amorperruno.es/'),
+(17, 'RíoPets', 2, 40.38185293, -3.69524439, ' C. Añafil, 3', 'https://riopets.es/'),
+(18, 'Gentlecan - Perros estilosos', 2, 40.41965832, -3.67896058, ' C. de Menorca, 1', 'https://gentlecan.es/'),
+(19, 'Medivet Ginzo de Limia', 1, 40.47819253, -3.70418346, 'C. de Ginzo de Limia, 33', 'https://www.medivetgroup.com/es-es/'),
+(20, 'Medivet Puerta de Toledo', 1, 40.40802841, -3.71293983, ' Gran Vía de San Francisco, 9', 'https://www.medivetgroup.com/es-es/'),
+(21, 'Medivet Madrid', 1, 40.43543130, -3.67311860, 'C. de Alonso Heredia, 11', 'https://www.medivetgroup.com/es-es/'),
+(22, 'Medivet Sur Vallecas', 1, 40.38142227, -3.65104400, 'Av. de Pablo Neruda, 69', 'https://www.medivetgroup.com/es-es/'),
+(23, 'Medivet La Estrella', 1, 40.41086089, -3.66832320, 'C. de la Cruz del Sur, 7', 'https://www.medivetgroup.com/es-es/'),
+(25, 'Barbudogs', 2, 40.49064266, -3.64978006, 'C. del Alcalde Redondo Aceña', 'https://www.barbudogs.es/'),
+(26, 'Washcotas', 2, 40.51948086, -3.65347350, 'Calle Cuestablanca, 2', 'https://booksy.com/es-es/'),
+(27, 'Happy Doggies', 2, 40.43465241, -3.70846901, 'C. de Vallehermoso, 40', 'https://happydoggies.es/'),
+(28, 'Medivet 24H Los Sauces', 1, 40.43401424, -3.69857200, 'Calle de Sta Engracia, 63', 'https://www.medivetgroup.com/es-es/'),
+(29, 'Quevedog', 1, 40.43514550, -3.70766081, 'C. de Fernández de los Ríos, 32', 'http://www.quevedog.es/'),
+(30, 'Vive Pets', 3, 40.55525655, -3.61088546, 'Av. del Camino de lo Cortao, 37', 'https://vivepetresort.com/reservas/'),
+(31, 'Medivet 24H La Vaguada', 1, 40.47236294, -3.72806156, 'Calle del Dr. Juan José López Ibor, 30', 'https://www.medivetgroup.com/es-es/'),
+(32, 'Clínica Veterinaria Caramuel', 1, 40.41017159, -3.72795360, 'C. de Caramuel, 36', 'https://veterinarios-madrid.es/'),
+(33, 'ANIMALIA', 1, 40.42517034, -3.65752860, 'C. de Ricardo Ortiz, 51', 'https://veterinarios-madrid.es/'),
+(34, 'Centro Veterinario Alcalá Norte', 1, 40.43675464, -3.63818810, 'C. Alcalá, 414', 'https://veterinarios-madrid.es/'),
+(35, 'Clínica Veterinaria Parque Berlín', 1, 40.45101934, -3.67695623, 'Calle del Príncipe de Vergara, 210', 'https://veterinarios-madrid.es/'),
+(36, ' Mundo Mascota', 1, 40.43351527, -3.64786860, 'C. Alcalá, 339', 'https://veterinarios-madrid.es/');
 
 -- --------------------------------------------------------
 
@@ -397,6 +441,22 @@ INSERT INTO `tipo_producto` (`id`, `tipo`) VALUES
 (14, 'Rascadores'),
 (7, 'Snacks'),
 (8, 'Transportín');
+
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `tipo_servicio`
+--
+CREATE TABLE `tipo_servicio` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+-- Volcado de datos para la tabla `tipo_servicio`
+--
+INSERT INTO `tipo_servicio` (`id`, `nombre`) VALUES
+(1, 'Veterinaria'),
+(2, 'Peluquería'),
+(3, 'Guardería');
 
 -- --------------------------------------------------------
 
@@ -550,14 +610,14 @@ ALTER TABLE `imagenes`
 -- Indices de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_marca`),
   ADD UNIQUE KEY `nombre` (`nombre`);
 
 --
 -- Indices de la tabla `productos`
 --
 ALTER TABLE `productos`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_producto`),
   ADD UNIQUE KEY `nombre` (`nombre`),
   ADD KEY `id_animal` (`id_animal`,`id_marca`,`id_tipo`),
   ADD KEY `id_tipo` (`id_tipo`),
@@ -567,7 +627,8 @@ ALTER TABLE `productos`
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tipo_servicio` (`id_tipo`);
 
 --
 -- Indices de la tabla `tipos_filtro`
@@ -588,6 +649,12 @@ ALTER TABLE `tipos_variacion`
 ALTER TABLE `tipo_producto`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `tipo` (`tipo`);
+
+--
+-- Indices de la tabla `tipo_servicio`
+--
+ALTER TABLE `tipo_servicio`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -638,7 +705,7 @@ ALTER TABLE `cupones`
 -- AUTO_INCREMENT de la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes`
@@ -650,19 +717,19 @@ ALTER TABLE `imagenes`
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos_filtro`
@@ -681,6 +748,12 @@ ALTER TABLE `tipos_variacion`
 --
 ALTER TABLE `tipo_producto`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_servicio`
+--
+ALTER TABLE `tipo_servicio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -723,20 +796,20 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `compra_producto`
   ADD CONSTRAINT `compra_producto_ibfk_1` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_variante`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_variante`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  ADD CONSTRAINT `filtros_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `filtros_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE,
   ADD CONSTRAINT `filtros_ibfk_2` FOREIGN KEY (`id_filtro`) REFERENCES `tipos_filtro` (`id`);
 
 --
 -- Filtros para la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  ADD CONSTRAINT `imagenes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `imagenes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `productos`
@@ -744,13 +817,13 @@ ALTER TABLE `imagenes`
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_animal`) REFERENCES `animales` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_producto` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id_marca`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `variantes`
 --
 ALTER TABLE `variantes`
-  ADD CONSTRAINT `variantes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `variantes_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE,
   ADD CONSTRAINT `variantes_ibfk_2` FOREIGN KEY (`id_variacion`) REFERENCES `tipos_variacion` (`id`);
 COMMIT;
 

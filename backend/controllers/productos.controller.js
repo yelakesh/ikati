@@ -138,7 +138,7 @@ async function registrarProductoCompletoController(req, res) {
       await ProductoModel.obtenerProductoPorNombre(
         JSON.parse(objProducto.producto).nombre
       )
-    )[0].id;
+    )[0].id_producto;
 
     try {
       let filtros = JSON.parse(objProducto.filtros);
