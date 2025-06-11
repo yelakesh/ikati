@@ -12,7 +12,7 @@
 
 
 
-    <div *ngIf="cantidadProductos==0">
+    <div *ngIf="cantidadProductos==0 && !exitoCompra">
 
       <h4 class="alert alert-warning text-primary text-center" style="font-size: medium;">Ups... no tienes productos en
         tu cesta :(</h4>
@@ -44,7 +44,7 @@
     </div>
 
 
-    <div *ngIf="!cuponAplicado" >
+    <div *ngIf="!cuponAplicado">
       <div *ngIf="tengoCupon" class="d-flex flex-row align-items-center gap-4 mx-3">
         <div class="input-group w-75 ">
           <span class="input-group-text bg-white border-end-0">
@@ -73,7 +73,8 @@
         <img src="imagenes/recursos/paypal.svg" alt="PayPal" style="height: 28px;" >
         Pagar con PayPal
       </button>  -->
-      <ngx-paypal [config]="payPalConfig"></ngx-paypal>      <div *ngIf="cuponAplicado" class="d-flex justify-content-center">
+      <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+      <div *ngIf="cuponAplicado" class="d-flex justify-content-center">
         <span
           class="badge bg-primary-subtle text-primary-emphasis py-2 px-4 fs-5 shadow-sm animate__animated animate__fadeIn">
           <i class="bi bi-check-circle-fill"></i> Cupón Canjeado
@@ -81,7 +82,24 @@
       </div>
     </div>
 
+
+
   </div>
+
+
+
+<div *ngIf="exitoCompra" class="alert alert-success shadow-lg border-0 rounded-4 px-4 py-3 d-flex align-items-center gap-3 animate__animated animate__fadeInDown" role="alert" style="font-size: 1.1rem;">
+  <div class="d-flex align-items-center justify-content-center rounded-circle me-2" style="width: 48px; height: 48px;">
+    <i class="bi bi-check-circle-fill text-danger" style="font-size: 2rem;"></i>
+  </div>
+  <div class="flex-grow-1">
+    <strong>¡Compra completada con éxito!</strong>
+    <div class="text-success-emphasis" style="font-size: 0.95rem;">
+      Gracias por confiar en Ikati. Entra en tu perfil para ver los detalles de este pedido.
+    </div>
+  </div>
+  <button type="button" class="btn-close ms-2" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+</div>
 
 
 </div>

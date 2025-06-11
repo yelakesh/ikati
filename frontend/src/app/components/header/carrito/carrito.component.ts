@@ -53,7 +53,7 @@ export class CarritoComponent implements OnInit {
     private usuarioService: UsuarioService,
     private cuponService: CuponService,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   public payPalConfig?: IPayPalConfig;
 
@@ -76,6 +76,7 @@ export class CarritoComponent implements OnInit {
   tipoDescuento: string = '';
   cuponAplicado: boolean = false;
   id_cupon: number | null = null;
+  exitoCompra = false
 
   toogleCarrito() {
     this.importeFinal = 0;
@@ -91,12 +92,15 @@ export class CarritoComponent implements OnInit {
       if (this.rolUsuario != 'admin') {
         this.cargarDatosUsuario();
 
+        
         this.CarroService.carritoActualizado$.subscribe(() => {
           this.cargarDatosUsuario();
+          
         });
       }
     }
     setTimeout(() => this.initConfig());
+    
   }
 
   cargarDatosUsuario() {
@@ -136,6 +140,8 @@ export class CarritoComponent implements OnInit {
 
           this.cantidadProductos = this.sumarProductos();
           this.cantidadProductosChange.emit(this.cantidadProductos);
+
+          
         }
       },
     });
@@ -296,7 +302,7 @@ export class CarritoComponent implements OnInit {
   }
 
   completarCompra() {
-    var arrayVariantes: any[]=[]
+    var arrayVariantes: any[] = []
     this.productosTablaCarro.forEach((producto: { variantes: any[]; }) => {
       producto.variantes.forEach((variante: any) => {
         arrayVariantes.push(variante)
@@ -309,19 +315,23 @@ export class CarritoComponent implements OnInit {
       importe: this.importeFinal,
       variantes: arrayVariantes,
     };
-    
+
     this.CarroService.completarCompra(objCompra).subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-            /************************************************************ */
+
+
+          /************************************************************ */
           this.productosTablaCarro = null;
           this.importeFinal = 0;
-          this.cantidadProductos=0
+          this.cantidadProductos = 0
           this.CarroService.notificarActualizacionCarrito();
+          this.exitoCompra = true
+          
         }
       },
     });
 
-    
+
   }
 }
