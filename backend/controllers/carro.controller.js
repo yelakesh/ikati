@@ -111,8 +111,6 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
  async function eliminarDeCarroController(req, res) {
    const id = req.body.id_variante;
    const cantidad = req.body.unidades
-
-   console.log(req.body);
    
    try {
      const resultado = await CarroModel.eliminarDeCarroPorIdVariante(id);
@@ -138,8 +136,39 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
  }
 
 
+ async function completarCompraController(req,res){
+  
+  const objCompra = req.body;
+
+  try {
+    const idCompra=await CarroModel.insertarCompra(objCompra)
+  
+  objCompra.variantes.forEach(variante => {    
+    CarroModel.insertarCompra_producto(idCompra,variante)
+  });
+
+  CarroModel.eliminarDeCarroPorIdUsuario(objCompra.idUsuario)
+
+  res.json({
+    ok: true,
+    mensaje: "Compra realizada con éxito",
+    carro: {},
+  });
+  } catch (error) {
+    res.json({
+      ok: false,
+      mensaje: "Error en la compra",
+      carro: {},
+    });
+  }
+  
+
+ }
+
+
 module.exports = {
   anadiraCarroController,
   obtenerProductosCarritoPorIdUsuarioController,
   eliminarDeCarroController,
+  completarCompraController,
 };

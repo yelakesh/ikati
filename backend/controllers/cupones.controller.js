@@ -81,8 +81,6 @@ async function modificarPorCodigoController(req,res){
 
         async function aplicarCuponController(req, res) {
       const objCupon = req.body;
-
-      console.log( "objetoCupon",objCupon);
       
 
       try {
@@ -93,9 +91,6 @@ async function modificarPorCodigoController(req,res){
 
         const fechaCupon = new Date(resultado[0].fecha_expiracion)
         const esActivo = resultado[0].activo
-        
-        
-        
         
         
     

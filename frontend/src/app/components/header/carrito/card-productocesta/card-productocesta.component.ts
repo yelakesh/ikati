@@ -81,10 +81,7 @@ export class CardProductocestaComponent implements OnInit {
 
   borrarProductoCarrito() {
     const idVariante = this.id_variante
-    const cantidad = this.cantidad
-
-    console.log("canti",cantidad);
-    
+    const cantidad = this.cantidad   
 
     this.CarroService.eliminarDeCarro({ id_variante: idVariante, unidades: cantidad }).subscribe({
 

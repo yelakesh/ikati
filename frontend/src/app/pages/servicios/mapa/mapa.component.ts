@@ -42,7 +42,7 @@ export class MapaComponent implements AfterViewInit {
     this.servicioService.obtenerTodos().subscribe({
       next: (res) => {
         if (res.ok) {
-          this.servicios = res.servicios;
+          this.servicios = res.servicios[0];
           this.filtrarMarcadores();
         } else {
           console.warn("No se encontraron servicios");

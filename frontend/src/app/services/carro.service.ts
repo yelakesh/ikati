@@ -15,8 +15,7 @@ export class CarroService {
 
   constructor(private http: HttpClient) {}
   private carritoActualizado = new BehaviorSubject<void>(undefined);
-carritoActualizado$ = this.carritoActualizado.asObservable();
-
+  carritoActualizado$ = this.carritoActualizado.asObservable();
 
   anadiraCarro(objCarro: object): Observable<any> {
     return this.http.post(this.apiUrl + '/anadiraCarro', objCarro);
@@ -34,11 +33,15 @@ carritoActualizado$ = this.carritoActualizado.asObservable();
   }
 
   notificarActualizacionCarrito() {
-  this.carritoActualizado.next();
-}
+    this.carritoActualizado.next();
+  }
 
   eliminarDeCarro(objCarro: object): Observable<any> {
     return this.http.post(this.apiUrl + '/eliminarDeCarro', objCarro);
   }
 
+  completarCompra(objCompra: object): Observable<any> {
+        
+    return this.http.post(this.apiUrl + '/completarCompra', objCompra);
+  }
 }
