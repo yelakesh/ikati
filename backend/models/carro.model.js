@@ -37,7 +37,7 @@ async function obtenerVariantesCarritoPorIdUsuario(id_usuario) {
 
 async function insertarCompra(objCompra) {
   const sql = `INSERT INTO compra (id_usuario,fecha,id_cupon,importe) VALUES (?,?,?,?) `;
-  const resultado = await db.query(sql, [objCompra.idUsuario,new Date(),objCompra.idCupon,objCompra.importe]);
+  const [resultado] = await db.query(sql, [objCompra.idUsuario,new Date(),objCompra.idCupon,objCompra.importe]);
   
   return resultado[0].insertId;
 }
@@ -45,14 +45,14 @@ async function insertarCompra(objCompra) {
 async function insertarCompra_producto(idCompra,variante) {
   const sql = `INSERT INTO compra_producto (id_compra,id_variante,cantidad,descuento,precio) VALUES (?,?,?,?,?) `;
 
-  const resultado = await db.query(sql, [idCompra,variante.id,variante.cantidad,0,variante.precio]);
+  const [resultado] = await db.query(sql, [idCompra,variante.id,variante.cantidad,0,variante.precio]);
   return resultado;
 }
 
 async function eliminarDeCarroPorIdUsuario(idUsuario){
   const sql = `DELETE from carro where id_usuario=? `;
 
-  const resultado = await db.query(sql, [idUsuario ]);
+  const [resultado] = await db.query(sql, [idUsuario ]);
   return resultado;
 }
 

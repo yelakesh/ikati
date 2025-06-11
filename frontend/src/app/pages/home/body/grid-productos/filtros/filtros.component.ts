@@ -119,7 +119,7 @@ export class FiltrosComponent {
         .subscribe({
           next: (respuesta) => {
             if (respuesta.ok) {
-              respuesta.marcas[0].forEach(
+              respuesta.marcas.forEach(
                 (a: {
                   id_marca: number;
                   nombre: string;

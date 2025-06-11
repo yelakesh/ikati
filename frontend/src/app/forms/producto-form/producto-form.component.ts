@@ -201,7 +201,7 @@ export class ProductoFormComponent {
             this.obtenerTipos_Variante();
             this.obtenerTipos_Filtro();
             
-            for (const imagen of respuesta.producto.imagenes[0]) {
+            for (const imagen of respuesta.producto.imagenes) {
               
               
               if (imagen.nombre) {

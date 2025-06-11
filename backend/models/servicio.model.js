@@ -2,7 +2,7 @@ const db= require('../database')
 
 async function obtenerTodos() {
   const sql = "SELECT * FROM servicios";
-  const resultados = await db.query(sql);
+  const [resultados] = await db.query(sql);
   return resultados;
 }
 async function nuevoServicio({nombre, tipo, latitud, longitud, direccion, web}){

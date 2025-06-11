@@ -70,7 +70,7 @@ export class MarcaInputComponent {
         if (respuesta.ok) {
           console.log(respuesta.marcas);
           
-          respuesta.marcas[0].forEach(
+          respuesta.marcas.forEach(
             (a: { id_marca: number; nombre: string; imagen: string }) => {
               this.marcasSelect.push({
                 id_marca: a.id_marca,

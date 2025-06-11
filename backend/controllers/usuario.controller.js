@@ -1,4 +1,5 @@
 const UsuarioModel = require('../models/usuario.model');
+const ProductoModel = require('../models/producto.model');
 
 
 async function loginController(req, res) {
@@ -171,6 +172,83 @@ async function modificarPorUsuarioController(req, res) {
   }
 }
 
+async function obtenerComprasConProductosPorIdUsuarioController(req, res) {
+  const { id_usuario } = req.body;
+  const resultado = [];
+
+  try {
+    const compras = await UsuarioModel.obtenerComprasPorIdUsuario(id_usuario);
+
+    for (let i = 0; i < compras.length; i++) {
+      const compra = compras[i];
+      const variantesRaw = await UsuarioModel.obtenerVariantesPorIdCompra(
+        compra.id
+      );
+
+      const variantes = await Promise.all(
+        variantesRaw.map(async (v) => {
+          const variante = (
+            await ProductoModel.obtenerVariantePorIdVariante(v.id_variante)
+          )[0];
+          return {
+            id: variante.id,
+            id_producto: variante.id_producto,
+            precio: variante.precio,
+            stock: variante.stock,
+            id_variacion: variante.id_variacion,
+            valor_variacion: variante.valor_variacion,
+            cantidad: v.cantidad,
+          };
+        })
+      );
+
+      const productos = [];
+
+      for (let variante of variantes) {
+        const existente = productos.find(
+          (p) => p.producto.producto.id_producto === variante.id_producto
+        );
+        if (existente) {
+          existente.variantes.push(variante);
+        } else {
+          let producto = (
+            await ProductoModel.obtenerProductoPorId(variante.id_producto)
+          )[0];
+          producto = (await ProductoController.obtenerDatosProducto(producto))
+            .datos;
+
+          productos.push({
+            producto: producto,
+            variantes: [variante],
+          });
+        }
+      }
+
+      const compraConProductos = {
+        ...compra,
+        productos: productos,
+      };
+
+      resultado.push({
+        compra: compraConProductos,
+      });
+    }
+
+    res.json({
+      ok: true,
+      mensaje: "Compras con productos obtenidas correctamente",
+      resultado: resultado,
+    });
+  } catch (error) {
+    console.error("Error al obtener las compras con productos:", error);
+    res.status(500).json({
+      ok: false,
+      mensaje: "Error del servidor",
+      resultado: [],
+    });
+  }
+}
+
 module.exports = {
   loginController,
   obtenerPorUsuarioController,
@@ -178,5 +256,6 @@ module.exports = {
   eliminarPorUsuarioController,
   modificarPorUsuarioController,
   obtenerTodosController,
-  comprobarPassController
+  comprobarPassController,
+  obtenerComprasConProductosPorIdUsuarioController,
 };
