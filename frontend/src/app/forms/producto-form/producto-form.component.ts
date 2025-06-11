@@ -194,11 +194,14 @@ export class ProductoFormComponent {
             this.variantes = respuesta.producto.variantes;
             this.filtros = respuesta.producto.filtros;
             
+            
+            
+
             this.obtenerTipos_Producto();
             this.obtenerTipos_Variante();
             this.obtenerTipos_Filtro();
             
-            for (const imagen of respuesta.producto.imagenes) {
+            for (const imagen of respuesta.producto.imagenes[0]) {
               
               
               if (imagen.nombre) {
