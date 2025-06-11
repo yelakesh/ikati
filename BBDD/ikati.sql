@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2025 a las 20:21:26
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Servidor: localhost
+-- Tiempo de generación: 11-06-2025 a las 23:17:17
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,9 +58,9 @@ CREATE TABLE `animales` (
 
 INSERT INTO `animales` (`id`, `nombre`) VALUES
 (4, 'Conejos y Roedores'),
-(2, 'Gato'),
-(3, 'Pájaro'),
-(1, 'Perro');
+(2, 'Gatos'),
+(3, 'Pájaros'),
+(1, 'Perros');
 
 -- --------------------------------------------------------
 
@@ -97,9 +97,7 @@ CREATE TABLE `carro` (
 --
 
 INSERT INTO `carro` (`id_usuario`, `id_variante`, `cantidad`) VALUES
-(41, 124, 2),
-(69, 79, 1),
-(69, 108, 1);
+(41, 86, 9);
 
 -- --------------------------------------------------------
 
@@ -115,6 +113,25 @@ CREATE TABLE `compra` (
   `importe` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `compra`
+--
+
+INSERT INTO `compra` (`id`, `id_usuario`, `fecha`, `id_cupon`, `importe`) VALUES
+(1, 69, '2025-06-11', NULL, 61.78),
+(2, 69, '2025-06-11', 3, 42.59),
+(3, 69, '2025-06-11', 3, 42.59),
+(4, 69, '2025-06-11', 3, 60.980000000000004),
+(5, 69, '2025-06-11', 3, 55.44),
+(6, 69, '2025-06-11', NULL, 7.49),
+(7, 69, '2025-06-11', NULL, 5.69),
+(8, 69, '2025-06-11', NULL, 5.69),
+(9, 69, '2025-06-11', NULL, 5.69),
+(10, 69, '2025-06-11', NULL, 24.87),
+(11, 69, '2025-06-11', NULL, 53.98),
+(12, 69, '2025-06-11', NULL, 6.99),
+(13, 69, '2025-06-11', NULL, 6.99);
+
 -- --------------------------------------------------------
 
 --
@@ -128,6 +145,22 @@ CREATE TABLE `compra_producto` (
   `descuento` double DEFAULT NULL,
   `precio` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `compra_producto`
+--
+
+INSERT INTO `compra_producto` (`id_compra`, `id_variante`, `cantidad`, `descuento`, `precio`) VALUES
+(5, 106, 2, 0, 13.49),
+(6, 86, 1, 0, 7.49),
+(7, 105, 1, 0, 5.69),
+(8, 105, 1, 0, 5.69),
+(9, 105, 1, 0, 5.69),
+(10, 105, 2, 0, 5.69),
+(10, 106, 1, 0, 13.49),
+(11, 95, 2, 0, 26.99),
+(12, 88, 1, 0, 6.99),
+(13, 88, 1, 0, 6.99);
 
 -- --------------------------------------------------------
 
@@ -143,6 +176,14 @@ CREATE TABLE `cupones` (
   `tipo_descuento` enum('porcentaje','fijo') DEFAULT NULL,
   `fecha_expiracion` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `cupones`
+--
+
+INSERT INTO `cupones` (`id`, `codigo`, `activo`, `descuento`, `tipo_descuento`, `fecha_expiracion`) VALUES
+(2, 'verano25', 1, 25, 'porcentaje', '2025-06-30'),
+(3, 'vacaciones10', 1, 10, 'fijo', '2025-06-30');
 
 -- --------------------------------------------------------
 
@@ -162,7 +203,6 @@ CREATE TABLE `filtros` (
 --
 
 INSERT INTO `filtros` (`id`, `id_producto`, `id_filtro`, `valor`) VALUES
-(65, 103, 2, 'Pequeño'),
 (67, 104, 5, 'Gris'),
 (79, 105, 2, 'Grande'),
 (80, 105, 5, 'Amarillo'),
@@ -174,12 +214,24 @@ INSERT INTO `filtros` (`id`, `id_producto`, `id_filtro`, `valor`) VALUES
 (91, 106, 1, 'Novedad'),
 (92, 107, 3, 'Conejo'),
 (93, 101, 3, 'Frutas'),
-(96, 109, 4, 'Madera'),
-(97, 109, 6, 'Ecológico'),
 (98, 111, 1, 'Novedad'),
-(100, 100, 5, 'Gris'),
 (101, 107, 3, 'Vacuno'),
-(102, 107, 3, 'Pollo');
+(102, 107, 3, 'Pollo'),
+(103, 109, 4, 'Madera'),
+(104, 109, 6, 'Ecológico'),
+(106, 118, 4, 'Cuerda'),
+(107, 118, 4, 'Plástico'),
+(108, 119, 1, 'Novedades'),
+(110, 121, 2, ''),
+(111, 103, 2, 'Pequeño'),
+(112, 122, 6, 'Ecológico'),
+(113, 122, 4, 'Soja'),
+(114, 123, 1, 'Novedad'),
+(115, 124, 3, 'Huevo/Albaricoque/Miel'),
+(116, 124, 3, 'Sésamo/Hierbas/Kiwi'),
+(117, 125, 4, 'Madera'),
+(118, 125, 4, 'Metal'),
+(119, 126, 4, 'Madera');
 
 -- --------------------------------------------------------
 
@@ -223,16 +275,35 @@ INSERT INTO `imagenes` (`id`, `id_producto`, `nombre`) VALUES
 (149, 108, 'imagenes-1748424427373-477653405.jpg'),
 (150, 108, 'imagenes-1748424427373-778214564.jpg'),
 (151, 101, 'imagenes-1748450384638-963097369.jpg'),
-(154, 109, 'imagenes-1748452967403-939162021.jpg'),
-(155, 109, 'imagenes-1748452967404-225232856.jpg'),
 (156, 110, 'imagenes-1748463539081-679051207.jpg'),
 (157, 110, 'imagenes-1748463539083-994364073.webp'),
 (158, 110, 'imagenes-1748463539086-16343157.jpg'),
 (159, 110, 'imagenes-1748463539086-538056308.webp'),
 (160, 111, 'imagenes-1748465167870-25869792.jpg'),
-(164, 100, 'imagenes-1748585127094-620423462.webp'),
-(165, 100, 'imagenes-1748585127095-315921725.jpg'),
-(166, 100, 'imagenes-1748585127095-746978574.jpg');
+(167, 109, 'imagenes-1749593415692-481035651.jpg'),
+(168, 109, 'imagenes-1749593415694-990356878.jpg'),
+(172, 118, 'imagenes-1749662979933-267890576.webp'),
+(173, 119, 'imagenes-1749669342132-688077612.webp'),
+(174, 119, 'imagenes-1749669342134-224986053.webp'),
+(175, 119, 'imagenes-1749669342136-49796286.webp'),
+(176, 119, 'imagenes-1749669342136-780817026.webp'),
+(177, 120, 'imagenes-1749669918594-674285176.webp'),
+(178, 120, 'imagenes-1749669918595-661450823.webp'),
+(179, 120, 'imagenes-1749669918596-464777046.webp'),
+(180, 121, 'imagenes-1749670480034-370799482.webp'),
+(181, 122, 'imagenes-1749671832330-717566885.webp'),
+(182, 122, 'imagenes-1749671832331-180891410.webp'),
+(183, 122, 'imagenes-1749671832332-592882163.webp'),
+(184, 123, 'imagenes-1749674580469-187133740.webp'),
+(185, 123, 'imagenes-1749674580471-444766019.webp'),
+(186, 123, 'imagenes-1749674580471-223569680.webp'),
+(187, 123, 'imagenes-1749674580472-982504571.webp'),
+(188, 124, 'imagenes-1749675079392-634995863.jpg'),
+(189, 124, 'imagenes-1749675079393-949086031.jpg'),
+(190, 124, 'imagenes-1749675079394-530283194.jpg'),
+(191, 125, 'imagenes-1749675899972-58225451.jpg'),
+(192, 125, 'imagenes-1749675899972-977499658.jpg'),
+(193, 126, 'imagenes-1749676364198-975679881.jpg');
 
 -- --------------------------------------------------------
 
@@ -271,7 +342,13 @@ INSERT INTO `marcas` (`id_marca`, `nombre`, `imagen`) VALUES
 (18, 'Caesar', ''),
 (19, 'Purina', 'purina.png'),
 (20, 'Anibest', ''),
-(21, 'Orijen', 'orijen.png');
+(21, 'Orijen', 'orijen.png'),
+(22, 'Pawise', 'pawise.png'),
+(23, 'Ferplast', 'ferplast.png'),
+(24, 'Bunny', 'bunny.jpg'),
+(25, 'Kit Cat', 'kitcat.jpg'),
+(26, 'Tiaki', ''),
+(27, 'Trixie', 'trixie.jpg');
 
 -- --------------------------------------------------------
 
@@ -298,7 +375,6 @@ CREATE TABLE `productos` (
 INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `activo`, `id_animal`, `id_marca`, `id_tipo`, `descuento`, `valoracion`) VALUES
 (98, 'True Origins Wild Adult Pacific Salmón pienso para perros', '<p>Pienso con prebioticos, sin cereales y sabor a salmón para perros adultos.</p><p>Comida seca rica en salmón para mantener a tu perro adulto saludable</p><p>El <strong>pienso para perros </strong>Pacific Adult ha sido formulado para cubrir todas las necesidades de los perros adultos y contribuir a su óptimo desarrollo para que crezcan sanos y fuertes.<br>Alimento completo para perros adultos, rico en salmón, un pescado que cuenta con cantidad de propiedades beneficiosas para el organismo. Es una fuente excepcional de proteínas y un aporte de ácidos grasos Omega 3 y Omega 6, que ayudan a reducir los niveles de colesterol y al fortalecimiento de huesos y articulaciones. El consumo de alimentos ricos en Omega 3, como el salmón, ayudan al fortalecimiento del sistema inmunológico y favorecen el mantenimiento de la piel y el pelo sanos.<br>La fruta y verdura son una excelente fuente de minerales y vitaminas, actuando como antioxidantes naturales y ayudando a conservar el sistema inmunitario de tu perro en pleno funcionamiento.</p><p>•&nbsp;&nbsp; &nbsp;La combinación de<strong> fuentes naturales de proteínas</strong> y favorece una alta digestibilidad.<br>•&nbsp;&nbsp; &nbsp;<strong>Prebioticos</strong>: Estimulación de la microflora intestinal.&nbsp;<br>•&nbsp;&nbsp; &nbsp;<strong>Cáscaras de crustáceos </strong>y extracto de cartílago: Ayudan a mantener fuertes los huesos, las articulaciones y los tendones y favorecen a la movilidad.<br>•&nbsp;&nbsp;&nbsp;<strong> Garbanzos</strong>: Fuente natural de proteínas y minerales, como sodio, magnesio, hierro, calcio, los cuales, son necesarios para fortalecer los huesos.<br>•&nbsp;&nbsp; &nbsp;<strong>Omega 3: </strong>Incluye aceite de salmón, rico en omega 3, para el cuidado de la piel y el pelaje.</p><p><strong>Composición</strong><i><strong>:&nbsp;</strong></i>Salmón deshidratado (25 %), pescado blanco deshidratado (18 %), aceite de salmón (12 %), salmón fresco (10 %), patatas (10 %), guisantes (10 %), proteína de salmón hidrolizada (3 %), pulpa de manzana deshidratada (3%), calabaza (3%), huevos hidrolizados (2%), zanahorias (1%), linaza (1%), garbanzos (1%), cáscaras de crustáceos hidrolizados (fuente de glucosamina, 0,026%) , extracto de cartílago (fuente de condroitina, 0,016%), levadura de cerveza (fuente de manano-oligosacáridos, 0,015%), raíz de achicoria seca (fuente de fructo-oligosacáridos, 0,01%), yucca schidigera (0,01%) , algas secas (0,01%), romero seco (0,01%)</p>', 1, 1, 11, 5, 0.00, 3.5),
 (99, 'Greenies Teenie Snacks Dentales Naturales para perros pequeños', '<p>Snacks para perros de razas pequeñas de 2 a 7kg, elaborado para lograr una salud dental completa de tu mascota.</p><p>Deliciosos snacks dentales para perros</p><p>Greenies actúa eficazmente en cuatro frentes clave para la higiene oral: el sarro, la placa, el mal aliento y la salud de las encías. El Consejo de la Salud oral veterinaria en USA lo aprueba como el complemento para controlar el sarro y la placa.</p><p><strong>Características:</strong></p><ul><li>Proporciona unas encías sanas.&nbsp;</li><li>Gran palatabilidad, altamente soluble y digestible.&nbsp;</li><li>Reduce el sarro, la placa bacteriana y el mal aliento.&nbsp;</li><li>Creados en base a la forma de la mandíbula y la mordida.&nbsp;</li><li>Fabricado para ajustarse a los hábitos de masticación de los perros.&nbsp;</li></ul>', 1, 1, 12, 7, 0.00, 4.0),
-(100, 'Catshion Pole Rascador Gris para gatos', '<p>Rascador gris en varios tamaños de color gris de la marca Catshion.</p><p>Rascador para gatos Catshion Pole</p><p>El Rascador para Gatos Catshion es un accesorio esencial que tu gato amará. Este poste rascador no solo permite a tu felino afilar sus uñas de forma segura, sino que también le brinda diversión y estimula sus instintos naturales. Además, protege tus muebles, cortinas, alfombras y paredes de posibles daños causados por las afiladas garras de tu compañero peludo.</p><p>&nbsp;</p><p>El Rascador Catshion combina un diseño elegante con colores neutros que se integran armoniosamente en tu hogar. Su tamaño compacto garantiza que ocupe muy poco espacio, y su facilidad de limpieza lo convierte en la elección perfecta para mantener tu casa en orden.</p>', 1, 2, 13, 14, 20.00, 3.0),
 (101, 'Small Life Barritas de Frutas para conejos', '<p>Golosinas en forma de barras hechas de frutas para tus conejos de la marca Small Life.</p><p>Tentempié para conejos de Small Life</p><p>Este<strong> snack para conejos</strong> de <strong>Small Life</strong> está elaborado con un rico<strong> sabor a frutas</strong> para que tu mascota pueda obtener todos los nutrientes y vitaminas que necesita para mantenerse estable y sano en su vida.</p><p><strong>Tiene forma de barras</strong> para que se le resulte mucho más<strong> fácil de digerir</strong> a la hora de morderlo. Además,<strong> posee unos ganchos</strong> para que puedas colgarlo en la jaula de tu gran amigo para que se le complique la acción de masticarlos.</p>', 1, 4, 14, 7, 50.00, 5.0),
 (102, 'Royal Canin Maxi Adult pienso para perros', '<p>Pienso para perros adultos de razas grandes que minimiza los efectos del envejecimiento y mejora la salud articular.</p><p>Pienso para perros de&nbsp;Royal Canin</p><p>Royal Canin Maxi Adult es el alimento indicado para aquellos perros que en edad adulta alcanzan más de 25 kg gracias a su receta, creada especialmente para mantener su organismo en un estado óptimo.</p>', 1, 1, 6, 5, 0.00, 2.7),
 (103, 'Versele-Laga Prestige Premium Mix African pienso para loros pequeños', '<p>Alimento para loros pequeños. Se ha elaborado con una mezcla de ingredientes de la mejor calidad.</p><p>El alimento de Versele Laga es perfecto para loros pequeños.<br><br><strong>Características:</strong></p><ul><li>Mezcla de ingredientes desarollada por expertos veterinarios y nutricionistas.</li><li>Alimento de excelente calidad.</li><li>Envasado en atmósfera modificada libre de oxígeno.</li></ul>', 1, 3, 15, 13, 0.00, 4.9),
@@ -309,7 +385,16 @@ INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `activo`, `id_a
 (108, 'Versele-Laga Cuni Adult Complete para conejos', '<p>Comida para conejos de Versele-Laga. Extruidos de fibras largas sin moler. Alto contenido en fibras y bajo contenido en almidón. <strong>Sin grano de cereal.</strong></p><p>&nbsp;</p><p>Esta comida con extruidos de fibras largas sin moler, está especialmente adaptada a las necesidades de los conejos. Los productos extruidos permiten una dieta sana y equilibrada, ya que al contener cada croqueta la misma mezcla de ingredientes, tu mascota no seleccionará solamente los que le gustan, dejando de lado los que contienen nutrientes esenciales. Además están elaboradas conforme a las necesidades nutricionales de los conejos, ya que no se incluyen granos. El tratamiento especial extruido hace que las croquetas sean más fáciles de digerir y tienen una gran aceptabilidad. Las fibras son retenidas más tiempo para garantizar una digestión saludable y proporcionar el cuidado dental necesario.</p>', 1, 4, 15, 13, 0.00, 4.0),
 (109, 'Anibest Pellets de Madera Natural', '<p>Lecho muy absorbente para animales pequeños, granulado de madera natural prensada, absorbe los olores, bajo polvo y gérmenes, respetuoso con el medio ambiente y con certificado PEFC, de Alemania</p><p>&nbsp;</p><p>Los pellets de madera natural de Anibest son un producto natural especialmente sostenible y puro, con impresionantes propiedades funcionales como lecho para animales pequeños. Los pellets consisten en<strong> virutas de madera prensadas y no tratadas</strong>. La estructura celular única de la celulosa, así como la densidad óptima de los pellets, garantizan una unión rápida y fiable de líquidos y olores.<br><br>Debido a la absorción de líquidos, los gránulos forman grumos sólidos que pueden retirarse fácilmente del lecho para garantizar un llenado higiénico en todo momento. Gracias al valor de pH naturalmente bajo y a las esencias especiales de la madera, el lecho para animales pequeños también permanece<strong> prácticamente libre de gérmenes</strong>. La materia prima de los Pellets de Madera Natural Anibest de bajo contenido en polvo con certificación PEFC se obtiene <strong>de una gestión forestal sostenible</strong>.</p>', 1, 4, 20, 9, 0.00, 2.1),
 (110, 'Frontline Tri-Act Pipetas Antiparasitarias para perros', '<p>Las pipetas Frontline Tri-Act protegen a los perros de diversas razas y tamaños contra pulgas, garrapatas, mosquitos y más, durante hasta un mes. Apta para cachorros desde las 8 semanas, es ideal para su uso durante la lactancia o gestación.</p><p>&nbsp;</p><p>Las <strong>pipetas Frontline Tri-Ac</strong>t ofrecen un eficaz <strong>tratamiento </strong>y <strong>prevención </strong>de <strong>infestaciones parasitarias </strong>en <strong>perros</strong>, proporcionando protección integral contra <strong>pulgas</strong>, <strong>garrapatas</strong>, <strong>moscas picadoras </strong>y <strong>mosquitos</strong>. Este producto se adapta a perros de diversas razas y tamaños, desde los<strong> 2 hasta los 60 kg</strong>, asegurando una cobertura amplia y efectiva.</p><p>De uso <strong>mensual</strong>, Frontline Tri-Act no solo elimina pulgas y garrapatas, sino que también tiene un potente<strong> efecto repelente</strong> contra el <strong>mosquito transmisor de la leishmaniosis</strong>, así como contra <strong>flebotomos </strong>y <strong>moscas </strong>de los <strong>establos</strong>. Es seguro para su utilización en <strong>cachorros mayores de 8 semanas </strong>y con un peso superior a <strong>2 kg,</strong> además de ser apto para hembras en periodo de <strong>lactancia </strong>o <strong>gestación</strong>.</p>', 1, 1, 2, 4, 5.00, 4.7),
-(111, 'Orijen Original pienso para gatos y gatitos', '<p>Pienso natural para gatos de todas las edades, sin cereales, con un gran aporte de proteínas y elaborado con ingredientes frescos de primera calidad.</p><p>Pienso para gatos Orijen Cat &amp; Kitten</p><p>El <strong>alimento para gatos Orijen Cat &amp; Kitten</strong> es un pienso con pollo para gatos y gatitos. Está producido en Canadá con ingredientes de origen natural.&nbsp;</p><p>Incluye un <strong>extra de hígado en su formato liofilizado</strong>, uno de los<strong> ingredientes favoritos de los gatos</strong> que hará que conviertan Orijen en su alimento favorito.</p><p>La receta del pienso para gatos Orijen Cat &amp; Kitten incluye <strong>carne fresca o cruda en 2/3 de la receta</strong>, que añade los 10 ingredientes principales a la correcta nutrición de nuestro gato. El tercio restante se añade en forma de <strong>carne y pescado deshidratado a 90º</strong> y que incluye una fuente concentrada de proteína nutritiva.</p>', 1, 2, 21, 5, 0.00, 4.2);
+(111, 'Orijen Original pienso para gatos y gatitos', '<p>Pienso natural para gatos de todas las edades, sin cereales, con un gran aporte de proteínas y elaborado con ingredientes frescos de primera calidad.</p><p>Pienso para gatos Orijen Cat &amp; Kitten</p><p>El <strong>alimento para gatos Orijen Cat &amp; Kitten</strong> es un pienso con pollo para gatos y gatitos. Está producido en Canadá con ingredientes de origen natural.&nbsp;</p><p>Incluye un <strong>extra de hígado en su formato liofilizado</strong>, uno de los<strong> ingredientes favoritos de los gatos</strong> que hará que conviertan Orijen en su alimento favorito.</p><p>La receta del pienso para gatos Orijen Cat &amp; Kitten incluye <strong>carne fresca o cruda en 2/3 de la receta</strong>, que añade los 10 ingredientes principales a la correcta nutrición de nuestro gato. El tercio restante se añade en forma de <strong>carne y pescado deshidratado a 90º</strong> y que incluye una fuente concentrada de proteína nutritiva.</p>', 1, 2, 21, 5, 0.00, 4.2),
+(118, 'Pawise Langosta Juguete con Dispensador de Snacks Para Perros de Cuerda', '<p>¡Haz que tu perro disfrute de un verano lleno de alegría con el <strong>Pawise Dog Langosta Dispensador Snack Cuerda</strong>! Este juguete único combina la diversión de un juguete interactivo con la sorpresa de un <strong>dispensador de snacks</strong>, lo que lo convierte en la opción perfecta para mantener a tu perro entretenido y activo durante los días soleados.</p>', 1, 1, 22, 12, 5.00, 4.9),
+(119, 'Frontline Combo Pipetas Antiparasitarias para gatos', '<p><strong>Frontline Combo Spot-On Gato</strong> es un eficaz <strong>antiparasitario</strong> externo en<strong> formato de pipeta</strong> diseñado para <strong>brindar</strong> a tu <strong>gato</strong> una <strong>protección óptima contra pulgas, sus huevos y larvas, así como piojos y garrapatas.</strong> Su avanzada fórmula, compuesta por<strong> fipronil y s-metopreno</strong>, <strong>ataca las pulgas en sus primeras etapas de desarrollo</strong>, previniendo posibles reinfestaciones tanto en tu animal como en el entorno que compartís. Este método no solo actúa de <strong>manera preventiva,</strong> sino que también funciona como <strong>tratamiento</strong>.</p>', 1, 2, 2, 4, 0.00, 4.7),
+(120, 'Jaula Conejo Cavie 80 Gris Ferplast', '<p>Cavie 80 es una jaula para cobayas que está equipado con un reciente diseño de apertura y cierre de clips, para garantizar una mayor seguridad para su mascota. El hábitat cuenta con una gran base plástica con una estructura de malla de alambre barnizado. Dentro, usted encontrará una cómoda casa de cobayas, un bebedero y un comedero plástico. Las jaulas Cavie 80 son fáciles de cuidar y limpias, tienen una puerta que puede abrirse completamente. Cuando sea necesario, la base también puede desmontarse completamente. Cavie 80 también viene en una caja de “ahorro de espacio”. Tiene un soporte de metal con ruedas, que está disponible como accesorio opcional.<br>Si usted está interesado en una versión más original y colorida, Cavie 80 Decor puede ser lo que busca.</p>', 1, 4, 23, 10, 0.00, 4.0),
+(121, 'Bunny Pienso Sueño Joven 4 Kg Para Conejo', '<p>El alimento natural Sueño Básico es un pienso único para conejos enanos hasta los 6 meses de edad. Como animales herbívoros su dieta se compone de una amplia variedad de plantas verdes. Bunny Sueño Joven proporciona esta selección de alimentos con raíces, verduras y frutas.</p><p><strong>Características:</strong></p><ul><li>Biodiversidad: 42 diferentes plantas de prados sin tratar</li><li>Crecimiento saludable: Contenido de calcio adecuado que fomenta el correcto desarrollo</li><li>Tamaño TriMello® óptimo: Absorción ligera para conejos jóvenes</li></ul>', 1, 4, 24, 13, 10.00, 0.0),
+(122, 'Kit Cat Arena Eco SoyaClump Original', '<p><strong>Kit Cat Arena Eco SoyaClump Original</strong> es una arena para gatos 100% biodegradable, elaborada a base de soja, con un suave aroma natural. Este innovador producto se crea a partir de las partes insolubles de la soja que se generan durante la producción de leche de soja. Mientras que normalmente estas partes se desechan, Kit Cat aprovecha este material reutilizándolos para crear una arena ecológica, ayudando al medio ambiente y proporcionando un excelente cuidado para tu mascota.</p>', 1, 2, 25, 15, 0.00, 4.2),
+(123, 'Seresto collar antiparasitario para perros', '<p>El <strong>collar Seresto</strong>, es un <strong>collar antiparasitario para perros</strong> que actúa como antiparasitario externo para perros y combate los parásitos que pueden contagiar al perro con su picadura.. Este collar posee una gran formulación, elaborada por la marca&nbsp;Elanco, previene la infección de enfermedades producidas por la <strong>pulga, la garrapata</strong>&nbsp;o el <strong>mosquito</strong>, entre otros parásitos.</p><p>Elanco&nbsp;es una de las marcas líderes en el mercado de salud veterinaria, ya que está especializada en productos para el control de los parásitos para perros, gatos, caballos y ganado, contando con un amplio espectro de productos para prevenir las diferentes situaciones con las que nos podemos encontrar, en cuanto a parásitos.</p><p>Seresto es adecuado para la <strong>prevención y tratamiento de la infestación por pulgas</strong>&nbsp;durante 7-8 meses. También protege el hogar del animal, pues inhibe durante 10 semanas el desarrollo de las larvas de pulga. Es eficaz contra las infestaciones por garrapatas durante 8 meses por su efecto repelente en perros, (Ixodes ricinus). Es eficaz contra <strong>larvas, ninfas y garrapatas</strong> adultas. La eficacia contra las pulgas comienza inmediatamente después de la aplicación del collar.</p><p>Además, los resultados de dos estudios clínicos de campo efectuados en zonas endémicas, muestran una disminución significativa del riesgo de transmisión de Leishmania en perros tratados respecto a los no tratados.</p>', 1, 1, 1, 3, 0.00, 0.0),
+(124, 'Vitakraft Kräcker galletas Trio-Mix para periquitos', '<p>Las galletas Vitakraft Kräcker son puro sabor y entretenimiento, todo en uno. Los periquitos tienen que esforzarse para conseguir su alimento. Las deliciosas mezclas están especialmente diseñadas para periquitos y contienen las vitaminas eseciales para que tengan una vida sana.</p><p>El horneado en tres fases en el horno casero de Vitakraft garantiza que los animales se diviertan durante más tiempo picoteando las galletas. El palo duro del interior favorece el desgaste del pico.</p>', 1, 3, 9, 7, 0.00, 3.2),
+(125, 'TIAKI Columpio para pájaros con forma de noria', '<p>¡Deja volar a tu amigo con plumas con este columpio para pájaros con forma de noria TIAKI! Este colorido juguete para pájaros no solo será la estrella de cualquier casa para pájaros, sino que también ofrecerá a los periquitos y a otros pájaros una actividad lúdica que estimula y promueve sus instintos naturales. Hecho de madera <strong>robusta y de colores vivos</strong>, este columpio para pájaros promete juego, diversión y entretenimiento.<br><br>Lo más destacado es el <strong>rodillo de snacks integrado</strong>, que gira y se convierte en un cofre del tesoro para pájaros. Llénalo con golosinas o fruta fresca y observa cómo lo picotean o juegan con él con entusiasmo. El montaje no tiene ninguna complicación gracias a los mosquetones metálicos que se instalan fácilmente. Los demás <strong>ganchos metálicos </strong>de este juguete sirven para colgar más golosinas o juegos; así mantendrás el interés de tus pájaros en todo momento. El columpio para pájaros con forma de noria TIAKI no es solo un juguete, sino también una mejora para la vida diaria de tus amigos con plumas.</p>', 1, 3, 26, 12, 15.00, 0.0),
+(126, 'Trixie Nido para agapornis, canarios y periquitos', '<p>Este nido para canarios, agapornis y periquitos, de la marca Trixie, está fabricado con madera no tratada y se adapta perfectamente a las necesidades de estas aves. En la parte frontal, justo delante del orificio de entrada, se encuentra una percha para que los pájaros puedan sentarse. El techo se puede abrir hacia arriba, de manera que el nido resulta muy fácil de limpiar.</p>', 1, 3, 27, 16, 50.00, 0.0);
 
 -- --------------------------------------------------------
 
@@ -389,7 +474,8 @@ INSERT INTO `tipos_filtro` (`id`, `nombre`) VALUES
 (3, 'Sabores'),
 (4, 'Material'),
 (5, 'Color'),
-(6, 'Ecológico');
+(6, 'Ecológico'),
+(7, 'Edad');
 
 -- --------------------------------------------------------
 
@@ -429,6 +515,8 @@ CREATE TABLE `tipo_producto` (
 --
 
 INSERT INTO `tipo_producto` (`id`, `tipo`) VALUES
+(16, 'Accesorios para jaulas'),
+(15, 'Arena'),
 (3, 'Collar Antiparasitario'),
 (11, 'Comedero/bebedero'),
 (6, 'Comida húmeda'),
@@ -443,16 +531,20 @@ INSERT INTO `tipo_producto` (`id`, `tipo`) VALUES
 (8, 'Transportín');
 
 -- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `tipo_servicio`
 --
+
 CREATE TABLE `tipo_servicio` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Volcado de datos para la tabla `tipo_servicio`
 --
+
 INSERT INTO `tipo_servicio` (`id`, `nombre`) VALUES
 (1, 'Veterinaria'),
 (2, 'Peluquería'),
@@ -483,7 +575,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido1`, `apellido2`, `usuario`, `contrasena`, `email`, `telefono`, `cp`, `direccion`) VALUES
 (41, 'Juan', 'Lopez', 'Herrero', 'JLH', '123', 'JLH@gmail.com', '666666666', '28050', 'General Margallo'),
-(69, 'David', 'Sampalo', '', 'dav', '111', 'da@da.com', '00000000', '28000', 'Calle no sé');
+(69, 'David', 'Sampal', '', 'dav', '111', 'davidsampalo@gmail.com', '00000000', '28001', 'Calle no sé');
 
 -- --------------------------------------------------------
 
@@ -507,26 +599,26 @@ CREATE TABLE `variantes` (
 INSERT INTO `variantes` (`id`, `id_producto`, `precio`, `stock`, `id_variacion`, `valor_variacion`) VALUES
 (79, 103, 6.49, 20, 5, '1 kg'),
 (81, 104, 2.99, 100, 5, '1 unidad'),
-(86, 105, 7.49, 50, 5, '2 uds'),
-(88, 98, 6.99, 50, 2, '500gr'),
+(86, 105, 7.49, 40, 5, '2 uds'),
+(88, 98, 6.99, 48, 2, '500gr'),
 (89, 98, 24.99, 40, 2, '3kg'),
 (90, 98, 67.99, 20, 2, '12kg'),
-(95, 102, 26.99, 12, 2, '4 kg'),
+(95, 102, 26.99, 10, 2, '4 kg'),
 (96, 102, 62.49, 20, 2, '15 kg'),
 (100, 99, 5.69, 40, 5, '11 barritas'),
 (101, 99, 9.99, 34, 5, '22 barritas'),
 (102, 99, 15.89, 23, 5, '43 barritas'),
 (104, 106, 227.99, 0, 3, '123 x 82 x 178 cm (L x An x Al)'),
-(105, 107, 5.69, 10, 5, '8 x 85 g'),
-(106, 108, 13.49, 5, 2, '1.75 kg'),
-(107, 108, 47.49, 5, 2, '8 kg'),
-(108, 101, 2.29, 35, 5, '2 barritas'),
+(105, 107, 5.69, 2, 5, '8 x 85 g'),
+(106, 108, 13.49, 1, 2, '1.75 kg'),
+(107, 108, 47.49, 4, 2, '8 kg'),
+(108, 101, 2.29, 0, 5, '2 barritas'),
 (109, 101, 12.64, 54, 5, '12 barritas'),
 (112, 109, 5.79, 10, 5, '10 l'),
 (113, 109, 15.49, 0, 5, '20 l'),
-(114, 110, 22.99, 3, 5, ' 2-5 kg (3 uds)'),
-(115, 110, 40.49, 6, 5, ' 2-5 kg (6 uds)'),
-(116, 110, 24.99, 1, 5, '5-10 kg (3 uds)'),
+(114, 110, 22.99, 0, 5, ' 2-5 kg (3 uds)'),
+(115, 110, 40.49, 5, 5, ' 2-5 kg (6 uds)'),
+(116, 110, 24.99, 0, 5, '5-10 kg (3 uds)'),
 (117, 110, 43.99, 3, 5, '5-10 kg (6 uds)'),
 (118, 110, 26.49, 0, 5, '10-20 kg (3 uds)'),
 (119, 110, 44.99, 8, 5, '10-20 kg (3 uds)'),
@@ -534,9 +626,27 @@ INSERT INTO `variantes` (`id`, `id_producto`, `precio`, `stock`, `id_variacion`,
 (121, 110, 52.49, 5, 5, '20-40 kg (6 uds)'),
 (122, 110, 32.49, 4, 5, '40-60 kg (3 uds)'),
 (123, 110, 52.49, 0, 5, '40-60 kg (6 uds)'),
-(124, 111, 30.89, 2, 2, '1.8kg'),
-(125, 111, 52.59, 5, 2, '5.4kg'),
-(127, 100, 19.99, 1, 3, 'Mediano');
+(124, 111, 30.89, 0, 2, '1.8kg'),
+(125, 111, 52.59, 3, 2, '5.4kg'),
+(128, 118, 6.99, 15, 3, '38cm'),
+(129, 119, 22.49, 10, 5, '3 uds'),
+(130, 119, 39.59, 5, 5, '6 uds'),
+(131, 119, 104.99, 20, 5, '18 uds'),
+(132, 120, 56.99, 5, 4, 'Morado'),
+(133, 120, 56.99, 3, 4, 'Gris'),
+(134, 121, 9.95, 20, 3, '750g'),
+(135, 121, 14.95, 20, 3, '1.5kg'),
+(136, 121, 32.95, 10, 3, '4kg'),
+(137, 122, 12.99, 10, 5, '7l'),
+(138, 123, 40.65, 20, 1, '70cm'),
+(139, 123, 37.69, 20, 1, '38cm'),
+(140, 124, 2.99, 23, 5, 'Huevo/Albaricoque/Miel'),
+(141, 124, 1.69, 20, 5, 'Sésamo/Hierbas/Kiwi'),
+(142, 125, 4.19, 12, 1, 'Talla S: 20 x 15 x 6,3 cm (L x An x Al)'),
+(143, 125, 5.29, 12, 1, 'Talla M: 28 x 17,8 x 8,9 cm (L x An x Al)'),
+(144, 125, 8.19, 20, 1, 'Talla L: 30,5 x 23 x 15 cm (L x An x Al)'),
+(145, 126, 5.79, 5, 3, '21 x 12,5 x 13 cm'),
+(146, 126, 10.40, 2, 3, 'Nido de 30 x 20 x 20 cm (L x An x Al)');
 
 --
 -- Índices para tablas volcadas
@@ -693,37 +803,37 @@ ALTER TABLE `animales`
 -- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `cupones`
 --
 ALTER TABLE `cupones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `filtros`
 --
 ALTER TABLE `filtros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
@@ -735,7 +845,7 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `tipos_filtro`
 --
 ALTER TABLE `tipos_filtro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos_variacion`
@@ -747,7 +857,7 @@ ALTER TABLE `tipos_variacion`
 -- AUTO_INCREMENT de la tabla `tipo_producto`
 --
 ALTER TABLE `tipo_producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_servicio`
@@ -765,7 +875,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `variantes`
 --
 ALTER TABLE `variantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- Restricciones para tablas volcadas
@@ -796,7 +906,8 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `compra_producto`
   ADD CONSTRAINT `compra_producto_ibfk_1` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `compra_producto_ibfk_2` FOREIGN KEY (`id_variante`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE;
+  ADD CONSTRAINT `compra_producto_ibfk_3` FOREIGN KEY (`id_variante`) REFERENCES `variantes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_compra_producto_variante` FOREIGN KEY (`id_variante`) REFERENCES `variantes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `filtros`

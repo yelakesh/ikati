@@ -14,11 +14,11 @@
                 <div class="carousel-inner">
                     <div *ngFor="let imagen of imagenes; let i = index" class="carousel-item" [class.active]="i===0">
                         <img class="d-block w-100 h-100 imagen-carrusel"
-                            [src]="'http://localhost:3000/imagenesProductos/' + imagen?.nombre" [alt]="'Imagen ' + (i+1)"
-                            style="object-fit: contain; background: #f8f9fa;">
+                            [src]="'http://localhost:3000/imagenesProductos/' + imagen?.nombre"
+                            [alt]="'Imagen ' + (i+1)" style="object-fit: contain; background: #f8f9fa;">
                     </div>
                 </div>
-                <div *ngIf="imagenes.length>1">
+                <div *ngIf="imagenes.length-1>=1">
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
@@ -36,11 +36,16 @@
                 <div>
                     <span class="fw-bold">Valoración ({{producto.valoracion}})</span>
                     <div class="mb-3" style="width: 20%;" [style.clip-path]="'inset(0 '+valoracion+'% 0 0)'">
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;" alt="huellaPerroAzul"/>
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
-                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;" alt="huellaPerroAzul"/>
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block ;"
+                            alt="huellaPerroAzul" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;"
+                            alt="huellaPerroAzul" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;"
+                            alt="huellaPerroAzul" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;"
+                            alt="huellaPerroAzul" />
+                        <img src="imagenes/recursos/huellaPerroAzul.png" style="width: 20%; display: inline-block;"
+                            alt="huellaPerroAzul" />
 
                     </div>
 
@@ -57,6 +62,59 @@
 
         <div class="col-md-5">
             <form>
+
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-black">
+                        <h5 class="fw-bold">CUPONES JUNIO 2025</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-around mb-3">
+                            <button class="btn btn-secondary fw-bold me-2" type="button" (click)="toggleVerano()">
+                                -25% VERANO25
+                            </button>
+                            <button class="btn btn-secondary fw-bold" type="button" (click)="toggleVacaciones()">
+                                -10€ VACACIONES10
+                            </button>
+                        </div>
+
+
+                        <div class="row">
+                            <!-- Columna izquierda: Verano -->
+                            <div class="col-md-6 d-flex justify-content-start">
+                                <div *ngIf="showVerano" class="w-100">
+                                    <div class="card card-body" style="font-size: small;">
+                                        25% de descuento en todas tus compras, válido hasta el 30/06/2025.
+                                        La promoción se aplicará en el carrito introduciendo el código de cupón:
+                                        <strong>VERANO25</strong>
+                                        <button class="btn btn-sm btn-secondary ms-2 py-0"
+                                            style="max-width: 50px;" (click)="copiarAlPortapapeles('VERANO25')"
+                                            title="Copiar código">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Columna derecha: Vacaciones -->
+                            <div class="col-md-6 d-flex justify-content-end">
+                                <div *ngIf="showVacaciones" class="w-100">
+                                    <div class="card card-body" style="font-size: small;">
+                                        10€ de descuento en compras superiores a 50€, válido hasta el 30/06/2025.
+                                        La promoción se aplicará en el carrito introduciendo el código de cupón:
+                                        <strong>VACACIONES10</strong>
+                                        <button class="btn btn-sm btn-secondary ms-2 py-0"
+                                            style="max-width: 50px;" (click)="copiarAlPortapapeles('VACACIONES10')"
+                                            title="Copiar código">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
 
                 <div class="card shadow p-3 mt-5">
                     <div class="card-body">
