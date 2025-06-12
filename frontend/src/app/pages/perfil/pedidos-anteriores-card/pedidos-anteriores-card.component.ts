@@ -32,7 +32,6 @@ export class PedidosAnterioresCardComponent {
         next: (res: any) => {
           if (res.ok) {
             this.compras = res.resultado;
-            console.log(this.compras);
             
           }
         },

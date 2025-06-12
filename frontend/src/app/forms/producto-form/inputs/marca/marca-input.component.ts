@@ -68,7 +68,6 @@ export class MarcaInputComponent {
     this.marcaService.obtenerTodas().subscribe({
       next: (respuesta) => {
         if (respuesta.ok) {
-          console.log(respuesta.marcas);
           
           respuesta.marcas.forEach(
             (a: { id_marca: number; nombre: string; imagen: string }) => {

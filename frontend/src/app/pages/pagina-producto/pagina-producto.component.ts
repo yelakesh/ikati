@@ -251,9 +251,7 @@ export class PaginaProductoComponent {
                 });
 
                 const productos = res.productos 
-
-                console.log("prod",productos);
-                
+               
                 
 
                 this.CantidadTotalProductos = 0
@@ -268,7 +266,6 @@ export class PaginaProductoComponent {
 
                   
                 }
-                console.log(this.CantidadTotalProductos);
                 
 
                 this.carroService.setCantidad(this.CantidadTotalProductos)

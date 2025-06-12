@@ -68,11 +68,11 @@
         <h4 class="mb-0 fw-semibold text-dark">Importe Total:</h4>
         <h4 class="mb-0 fw-bold text-success">{{importeFinal.toFixed(2)}}€</h4>
       </div>
-      <!-- <button (click)="pagarPayPal()" class="btn btn-danger btn-lg w-100 mb-3 text-white d-flex align-items-center justify-content-center gap-2"
+      <button (click)="completarCompra()" class="btn btn-danger btn-lg w-100 mb-3 text-white d-flex align-items-center justify-content-center gap-2"
         data-bs-toggle="tooltip" data-bs-placement="bottom" title="Completa el pago" style="font-size: large;">
         <img src="imagenes/recursos/paypal.svg" alt="PayPal" style="height: 28px;" >
         Pagar con PayPal
-      </button>  -->
+      </button> 
       <ngx-paypal [config]="payPalConfig"></ngx-paypal>
       <div *ngIf="cuponAplicado" class="d-flex justify-content-center">
         <span

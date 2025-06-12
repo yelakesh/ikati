@@ -32,7 +32,6 @@ export class ServicioFormComponent {
   ngOnInit(): void {
     this.tipoServicioService.obtenerTodos().subscribe({
       next: (res) => {
-              console.log('Respuesta de obtenerTodos:', res); 
 
         if (res.ok) {
           this.listaTipos = res.tipo_servicio;

@@ -9,7 +9,7 @@
     <!-- Filtros: visible en escritorio o en móvil si mostrarFiltros es true -->
     <aside 
       class="col-12 col-md-3 mb-3 mb-md-0" 
-      *ngIf="accion && (tamanoEscritorio || mostrarFiltros)">
+      *ngIf="accion&&accion!='ofertas'&&accion!='buscar' && (tamanoEscritorio || mostrarFiltros)">
       <app-filtros [productos]="productos" (productosChange)="filtrar($event)"></app-filtros>
     </aside>
     <!-- Productos -->

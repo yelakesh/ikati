@@ -139,11 +139,12 @@ async function obtenerProductosCarritoPorIdUsuarioController(req, res) {
  async function completarCompraController(req,res){
   
   const objCompra = req.body;
-
+  
+  
   try {
     const idCompra=await CarroModel.insertarCompra(objCompra)
-  
-  objCompra.variantes.forEach(variante => {    
+    
+  objCompra.variantes.forEach(variante => {
     CarroModel.insertarCompra_producto(idCompra,variante)
   });
 

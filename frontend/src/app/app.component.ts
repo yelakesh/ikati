@@ -28,7 +28,6 @@ export class AppComponent {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.mostrarFooter = event.urlAfterRedirects !== '/administracion';
-        console.log(event.urlAfterRedirects);
         
       });
   }

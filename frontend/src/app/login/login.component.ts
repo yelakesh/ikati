@@ -37,7 +37,6 @@ export class LoginComponent {
       next: (respuesta) => {
         if (respuesta.ok) {
 
-          console.log(respuesta)
 
           this.usuarioService.setUsuario(respuesta.usuario);
           
@@ -59,7 +58,6 @@ export class LoginComponent {
       next: (respuesta) => {
         if (respuesta.ok) {
 
-          console.log(respuesta)
           this.usuarioService.setUsuario(respuesta.usuario)
           
           

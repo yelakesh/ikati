@@ -172,7 +172,6 @@ async function buscarPorNombre(textoBusqueda) {
  
   const sql = "SELECT * FROM productos where nombre like ? and activo=1";
   const [resultados] = await db.query(sql, [textoBusqueda.textoBusqueda]);
-  console.log(resultados);
   
   return resultados;
 }

@@ -179,7 +179,6 @@ async function obtenerComprasConProductosPorIdUsuarioController(req, res) {
 
   try {
     const compras = await UsuarioModel.obtenerComprasPorIdUsuario(id_usuario);
-    console.log(compras);
     
     for (let i = 0; i < compras.length; i++) {
       const compra = compras[i];
@@ -241,7 +240,6 @@ async function obtenerComprasConProductosPorIdUsuarioController(req, res) {
       mensaje: "Compras con productos obtenidas correctamente",
       resultado: resultado,
     });
-    console.log(resultado);
   } catch (error) {
     console.error("Error al obtener las compras con productos:", error);
     res.status(500).json({
