@@ -38,14 +38,20 @@ export class UsuarioService {
     return this.http.post(this.apiUrl + '/modificarPorUsuario', objUsuario);
   }
 
-  cambiarPass(objUsuario: object): Observable<any>{
-    return this.http.post(this.apiUrl+"/cambiarPass", objUsuario);
-
+  cambiarPass(objUsuario: object): Observable<any> {
+    return this.http.post(this.apiUrl + '/cambiarPass', objUsuario);
   }
 
   private leerUsuario() {
     const usuarioSesion = sessionStorage.getItem('usuario');
     return usuarioSesion ? JSON.parse(usuarioSesion) : null;
+  }
+
+  obtenerComprasConProductosPorIdUsuario(idUsuario: number) {
+    return this.http.post(
+      this.apiUrl + '/obtenerComprasConProductosPorIdUsuario',
+      {idUsuario}
+    );
   }
 
   setUsuario(usuario: any) {

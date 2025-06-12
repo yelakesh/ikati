@@ -10,4 +10,8 @@ router.post('/eliminarPorUsuario', usuarioController.eliminarPorUsuarioControlle
 router.post('/modificarPorUsuario', usuarioController.modificarPorUsuarioController);
 router.post("/obtenerTodos", usuarioController.obtenerTodosController);
 router.post('/cambiarPass', usuarioController.comprobarPassController);
+router.post(
+  "/obtenerComprasConProductosPorIdUsuario",
+  usuarioController.obtenerComprasConProductosPorIdUsuarioController
+);
 module.exports = router;

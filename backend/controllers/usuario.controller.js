@@ -1,5 +1,6 @@
 const UsuarioModel = require('../models/usuario.model');
 const ProductoModel = require('../models/producto.model');
+const ProductoController  = require('./productos.controller')
 
 
 async function loginController(req, res) {
@@ -173,12 +174,13 @@ async function modificarPorUsuarioController(req, res) {
 }
 
 async function obtenerComprasConProductosPorIdUsuarioController(req, res) {
-  const { id_usuario } = req.body;
+  const  id_usuario  = req.body.idUsuario;
   const resultado = [];
 
   try {
     const compras = await UsuarioModel.obtenerComprasPorIdUsuario(id_usuario);
-
+    console.log(compras);
+    
     for (let i = 0; i < compras.length; i++) {
       const compra = compras[i];
       const variantesRaw = await UsuarioModel.obtenerVariantesPorIdCompra(
@@ -239,6 +241,7 @@ async function obtenerComprasConProductosPorIdUsuarioController(req, res) {
       mensaje: "Compras con productos obtenidas correctamente",
       resultado: resultado,
     });
+    console.log(resultado);
   } catch (error) {
     console.error("Error al obtener las compras con productos:", error);
     res.status(500).json({
