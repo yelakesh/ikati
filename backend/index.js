@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -6,7 +7,7 @@ const path = require('path');
 
 const allowedOrigins = [
   'https://ikati.vercel.app',
-  'http://localhost:4200', // o 3000, según el puerto de tu frontend local
+  'http://localhost:4200',
 ];
 
 app.use(cors({
