@@ -1,40 +1,46 @@
 const db = require("../database");
 
 async function registrar(objMarca) {
-  const sql = `INSERT INTO marcas (nombre,imagen) VALUES (?,?)`;
-  const [resultados] = await db.query(sql, [objMarca.nombre,objMarca.imagen]);
-  return resultados;
+  const sql = `INSERT INTO marcas (nombre, imagen) VALUES ($1, $2)`;
+  const resultados = await db.query(sql, [objMarca.nombre, objMarca.imagen]);
+  return resultados.rows;
 }
 
 async function obtenerTodo() {
   const sql = `SELECT * FROM marcas`;
-  const [resultados] = await db.query(sql);
-  return resultados;
+  const resultados = await db.query(sql);
+  return resultados.rows;
 }
 
 async function obtenerFiltroPorAnimal(idAnimal) {
-  
-  const sql = `SELECT m.*,p.id_producto FROM marcas m join productos p on m.id_marca=p.id_marca where m.id_marca in (select id_marca from productos where id_animal=?)`;
-  const [resultados] = await db.query(sql,[idAnimal]);
-  return resultados;
+  const sql = `
+    SELECT m.*, p.id_producto
+    FROM marcas m
+    JOIN productos p ON m.id_marca = p.id_marca
+    WHERE m.id_marca IN (
+      SELECT id_marca FROM productos WHERE id_animal = $1
+    )
+  `;
+  const resultados = await db.query(sql, [idAnimal]);
+  return resultados.rows;
 }
 
 async function obtenerPorId(id) {
-  const sql = `SELECT * FROM marcas where id_marca=?`;
-  const [resultados] = await db.query(sql,[id]);
-  return resultados;
+  const sql = `SELECT * FROM marcas WHERE id_marca = $1`;
+  const resultados = await db.query(sql, [id]);
+  return resultados.rows;
 }
 
 async function modificar(objMarca) {
-  const sql = ` UPDATE marcas set nombre=?,imagen=? WHERE id_marca=?`;
-  const [resultados] = await db.query(sql, [objMarca.nombre,objMarca.imagen, objMarca.id]);
-  return resultados;
+  const sql = `UPDATE marcas SET nombre = $1, imagen = $2 WHERE id_marca = $3`;
+  const resultados = await db.query(sql, [objMarca.nombre, objMarca.imagen, objMarca.id]);
+  return resultados.rows;
 }
 
 async function eliminarPorId(id) {
-  const sql = "DELETE FROM marcas WHERE id_marca=?";
-  const [resultados] = await db.query(sql, [id]);
-  return resultados;
+  const sql = `DELETE FROM marcas WHERE id_marca = $1`;
+  const resultados = await db.query(sql, [id]);
+  return resultados.rows;
 }
 
 module.exports = {

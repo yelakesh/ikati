@@ -1,24 +1,36 @@
 const db = require("../database");
 
 async function obtenerPorAnimal(id_animal) {
-  const sql = `select f.*, t.nombre from filtros f join tipos_filtro t
-  on f.id_filtro=t.id
-  where id_producto in (select id_producto from productos where id_animal=?)
+  const sql = `
+    SELECT f.*, t.nombre 
+    FROM filtros f 
+    JOIN tipos_filtro t ON f.id_filtro = t.id
+    WHERE id_producto IN (
+      SELECT id_producto 
+      FROM productos 
+      WHERE id_animal = $1
+    );
   `;
-  const [resultados] = await db.query(sql, [id_animal]);
-  return resultados;
+  const resultados = await db.query(sql, [id_animal]);
+  return resultados.rows;
 }
+
 async function obtenerPorAnimalYTipo(id_animal, id_tipo) {
-  const sql = `select f.*, t.nombre from filtros f join tipos_filtro t
-  on f.id_filtro=t.id
-  where id_producto in (select id_producto from productos where id_animal=? and id_tipo=?)
-    `;
-  const [resultados] = await db.query(sql, [id_animal, id_tipo]);
-  return resultados;
+  const sql = `
+    SELECT f.*, t.nombre 
+    FROM filtros f 
+    JOIN tipos_filtro t ON f.id_filtro = t.id
+    WHERE id_producto IN (
+      SELECT id_producto 
+      FROM productos 
+      WHERE id_animal = $1 AND id_tipo = $2
+    );
+  `;
+  const resultados = await db.query(sql, [id_animal, id_tipo]);
+  return resultados.rows;
 }
 
 module.exports = {
   obtenerPorAnimal,
   obtenerPorAnimalYTipo,
-  
 };
