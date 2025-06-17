@@ -206,7 +206,7 @@ export class ProductoFormComponent {
               
               if (imagen.nombre) {
                 fetch(
-                  'http://localhost:3000/imagenesProductos/' + imagen.nombre
+                  'https://ikati-back.onrender.com/imagenesProductos/' + imagen.nombre
                 )
                   .then((response) => response.blob())
                   .then(async (blob) => {

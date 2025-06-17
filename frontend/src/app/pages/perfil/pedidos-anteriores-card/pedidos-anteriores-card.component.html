@@ -22,7 +22,7 @@
               <div class="mt-3" *ngFor="let producto of item.compra.productos" class="d-flex mb-4 gap-3">
                 <div style="min-width: 100px;">
                   <img
-                    [src]="'http://localhost:3000/imagenesProductos/' + producto.producto.imagenes[0]?.nombre"
+                    [src]="'https://ikati-back.onrender.com/imagenesProductos/' + producto.producto.imagenes[0]?.nombre"
                     class="img-fluid rounded"
                     alt="{{ producto.producto.producto.nombre }}"
                     style="max-width: 100px;"

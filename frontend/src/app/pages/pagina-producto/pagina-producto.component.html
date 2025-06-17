@@ -14,7 +14,7 @@
                 <div class="carousel-inner">
                     <div *ngFor="let imagen of imagenes; let i = index" class="carousel-item" [class.active]="i===0">
                         <img class="d-block w-100 h-100 imagen-carrusel"
-                            [src]="'http://localhost:3000/imagenesProductos/' + imagen?.nombre"
+                            [src]="'https://ikati-back.onrender.com/imagenesProductos/' + imagen?.nombre"
                             [alt]="'Imagen ' + (i+1)" style="object-fit: contain; background: #f8f9fa;">
                     </div>
                 </div>
